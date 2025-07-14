@@ -94,7 +94,7 @@ export default function Header() {
   if (!isMounted) {
     return (
       <header
-        className={`absolute w-full flex flex-col items-center z-50 px-6 lg:px-16 pt-4 ${headerBgClass}`}
+        className={`  w-full flex flex-col items-center z-50 px-6 lg:px-16 pt-4 ${headerBgClass}`}
       >
         <div className="w-full h-16 lg:h-24 flex items-center justify-between relative">
           <div>

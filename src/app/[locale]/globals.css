@@ -123,7 +123,7 @@
 }
 
 .defaultGradient {
-  background-image: linear-gradient(90deg, #D52028 0%, #FD9D14 100%);
+  background-image: linear-gradient(90deg, #d52028 0%, #fd9d14 100%);
 }
 
 .image-zoomed {
@@ -138,7 +138,6 @@
   z-index: 10000 !important;
 }
 
-/* Make sure the zoom controls appear above the Sheet */
 .rmiz-btn-zoom,
 .rmiz-btn-unzoom {
   z-index: 10001 !important;
@@ -147,16 +146,11 @@
   font-family: var(--font-geo1), Arial, sans-serif;
 }
 
-
 .font-geo2 {
   font-family: var(--font-geo2), Arial, sans-serif;
 }
 @media (min-width: 1024px) {
-
-
   .PhotoView__Photo {
-
-
     padding-top: 40px !important;
     padding-bottom: 40px !important;
     padding-left: 40px !important;

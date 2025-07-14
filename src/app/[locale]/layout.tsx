@@ -112,9 +112,9 @@ export default async function RootLayout({
         <AuthProvider>
           <QueryProvider>
             <NextIntlClientProvider messages={messages}>
-              <Header />
+              {/* <Header /> */}
               {children}
-              <Footer />
+              {/* <Footer /> */}
 
               <WhatsAppChat
                 phoneNumber="+995557471414"
