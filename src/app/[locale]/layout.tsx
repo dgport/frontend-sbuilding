@@ -9,7 +9,6 @@ import { AuthProvider } from "@/auth/AuthProvider";
 import WhatsAppChat from "@/components/shared/socials/Whatsapp";
 import MessengerChat from "@/components/shared/socials/Messanger";
 import Footer from "@/components/footer/Footer";
- 
 
 const geo1 = localFont({
   src: "../../fonts/geo1.otf",
@@ -112,9 +111,9 @@ export default async function RootLayout({
         <AuthProvider>
           <QueryProvider>
             <NextIntlClientProvider messages={messages}>
-              {/* <Header /> */}
+              <Header />
               {children}
-              {/* <Footer /> */}
+              <Footer />
 
               <WhatsAppChat
                 phoneNumber="+995557471414"
