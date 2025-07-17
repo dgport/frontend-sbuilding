@@ -50,13 +50,9 @@ export default function Header() {
     {
       name: t("projects"),
       href: "/projects",
-      subItems: [
-        { name: t("aisiBatumi"), href: "/aisi-batumi" },
-        { name: t("aisiGoderdzi"), href: "/aisi-goderdzi" },
-        { name: t("aisiStatus"), href: "/aisi-status" },
-      ],
+      subItems: [{ name: t("elisium"), href: "/elisium" }],
     },
-    { name: t("aboutUs"), href: "/about-us" },
+    // { name: t("aboutUs"), href: "/about-us" },
     { name: t("contact"), href: "/contact" },
   ];
 
@@ -81,6 +77,30 @@ export default function Header() {
     closeMenu();
   };
 
+  // Check if we're on contact or about-us pages
+  const isContactOrAboutPage =
+    pathname.includes("/contact") || pathname.includes("/about-us");
+
+  // Function to get header background classes
+  const getHeaderBackgroundClasses = () => {
+    if (isAdmin) {
+      return "bg-blue-900/95 backdrop-blur-xl shadow-2xl shadow-black/20 border-b border-white/10";
+    }
+
+    if (isContactOrAboutPage) {
+      // Always use dark background for contact and about-us pages
+      return "bg-blue-900/95 backdrop-blur-xl shadow-2xl shadow-black/20 border-b border-white/10";
+    }
+
+    if (scrolled) {
+      // Changed scroll background to a darker slate color
+      return "bg-blue-900/95 backdrop-blur-xl shadow-2xl shadow-black/20 border-b border-white/10";
+    }
+
+    // Default transparent background
+    return "bg-blue-900/20 backdrop-blur-md";
+  };
+
   if (!isMounted) {
     return (
       <header className="fixed top-0 left-0 right-0 z-50 h-24 bg-black/20 backdrop-blur-md">
@@ -94,12 +114,8 @@ export default function Header() {
 
   const headerClasses = `
     fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out
-    ${
-      scrolled || isAdmin
-        ? "bg-blue-900/95 backdrop-blur-xl shadow-2xl shadow-black/20 border-b border-white/10"
-        : "bg-blue-900/20 backdrop-blur-md"
-    }
-    ${scrolled ? " h-16 md:h-20" : " h-20 md:h-24"}
+    ${getHeaderBackgroundClasses()}
+    ${scrolled || isContactOrAboutPage ? " h-16 md:h-20" : " h-20 md:h-24"}
   `;
 
   return (
@@ -129,7 +145,7 @@ export default function Header() {
 
               <motion.button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="relative z-[60] p-3 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 shadow-lg shadow-black/20"
+                className="relative z-[60] p-3 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 shadow-lg "
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-expanded={isMenuOpen}
@@ -369,7 +385,9 @@ export default function Header() {
                         src={Logo || "/placeholder.svg"}
                         alt="AISI Logo"
                         className={`transition-all duration-500 ${
-                          scrolled ? "w-36 h-auto" : "w-40 h-auto"
+                          scrolled || isContactOrAboutPage
+                            ? "w-36 h-auto"
+                            : "w-40 h-auto"
                         }`}
                       />
                     </motion.div>
@@ -396,7 +414,7 @@ export default function Header() {
                   </nav>
                 </div>
                 <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
-                  <div className="p-2 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg shadow-black/20">
+                  <div className="p-2 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg ">
                     <LocaleSwitcher />
                   </div>
                 </div>

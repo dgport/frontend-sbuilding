@@ -146,7 +146,7 @@ const CoverSection = () => {
           whileTap={{ scale: 0.95 }}
           className="bg-gradient-to-r from-blue-500 to-blue-600 text-lg text-white px-6 py-3 rounded-xl font-medium shadow-lg border border-blue-400/30 flex items-center gap-3"
         >
-          Current project <ArrowRight size={20} />
+          Current project "Elisium" <ArrowRight size={20} />
         </motion.button>
       </div>
 
@@ -170,20 +170,20 @@ const CoverSection = () => {
               <div className="relative w-full rounded-3xl shadow-2xl border border-white/30 backdrop-blur-xl bg-gradient-to-br from-blue-500/20 via-blue-600/30 to-blue-700/20 p-6 text-white">
                 <div className="text-3xl mb-4">🏗️</div>
                 <h1 className="text-xl font-bold mb-4 text-center tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-                  Current project
+                  Current project "Elisium"
                 </h1>
                 <Image
                   src={img}
                   alt="Project"
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
-                <Link href="/projects">
+                <Link href="/elisium">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-base px-5 py-2 rounded-xl shadow-lg flex items-center gap-3"
                   >
-                    View Our Projects <ArrowRight size={20} />
+                    View Project <ArrowRight size={20} />
                   </motion.button>
                 </Link>
               </div>
@@ -193,44 +193,46 @@ const CoverSection = () => {
       </AnimatePresence>
 
       <div className="hidden absolute inset-0 md:flex items-center justify-between text-white px-12 z-10">
-        <motion.div
-          ref={cardRef}
-          className="w-96 ml-32 relative"
-          style={{ perspective: "1200px" }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-        >
+        <Link href="/elisium">
           <motion.div
-            className="rounded-3xl shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden"
-            style={{
-              rotateX,
-              rotateZ,
-              background:
-                "linear-gradient(135deg, rgba(59,130,246,0.2), rgba(29,78,216,0.3), rgba(30,64,175,0.2))",
-            }}
+            ref={cardRef}
+            className="w-96 ml-32 relative"
+            style={{ perspective: "1200px" }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
           >
-            <div className="p-4 flex flex-col items-center text-white">
-              <div className="text-3xl mb-2">🏗️</div>
-              <h1 className="text-2xl font-bold mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-                Current project
-              </h1>
-              <Image
-                src={img}
-                alt="Project"
-                className="w-full h-[70%] rounded-md"
-              />
-              <Link href="/projects">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white mt-4 text-lg px-5 py-2 rounded-xl flex items-center gap-3 shadow-lg"
-                >
-                  View Our Projects
-                </motion.button>
-              </Link>
-            </div>
+            <motion.div
+              className="rounded-3xl shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden"
+              style={{
+                rotateX,
+                rotateZ,
+                background:
+                  "linear-gradient(135deg, rgba(59,130,246,0.2), rgba(29,78,216,0.3), rgba(30,64,175,0.2))",
+              }}
+            >
+              <div className="p-4 flex flex-col items-center text-white">
+                <div className="text-3xl mb-2">🏗️</div>
+                <h1 className="text-2xl font-bold mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+                  Current project "Elisium"
+                </h1>
+                <Image
+                  src={img}
+                  alt="Project"
+                  className="w-full h-[70%] rounded-md"
+                />
+                <Link href="/elisium">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 text-white mt-4 text-lg px-5 py-2 rounded-xl flex items-center gap-3 shadow-lg"
+                  >
+                    View Project
+                  </motion.button>
+                </Link>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </Link>
 
         {/* Hero Text */}
         <motion.div

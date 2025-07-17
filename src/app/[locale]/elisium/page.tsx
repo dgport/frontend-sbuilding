@@ -1,10 +1,6 @@
-import { Metadata } from "next";
 import SelectFloor from "../elisium/_components/SelectFloor";
 import Cover from "../elisium/_components/Cover";
-import StatusGallery from "../elisium/_components/StatusGallery";
-import StatusFAQ from "../elisium/_components/StatusFAQ";
-import { getTranslations } from "next-intl/server";
-import BuildingCarousel3D from "./_components/ProjectsSection";
+import SelectParking from "./_components/SelectParking";
 
 // export async function generateMetadata(): Promise<Metadata> {
 //   const t = await getTranslations("main");
@@ -64,7 +60,7 @@ export default function Page() {
       <Cover />
 
       <SelectFloor />
-      {/* <SelectParking /> */}
+      <SelectParking />
       {/* <BuildingCarousel3D />
       <StatusFAQ />
       <StatusGallery /> */}
