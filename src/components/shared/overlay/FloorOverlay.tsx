@@ -7,23 +7,32 @@ interface Coordinate {
   y: number;
 }
 
-interface ApartmentAreaProps {
+interface FloorOverlayProps {
   flatId: number;
   flatNumber: number;
   coords: Coordinate[];
   hoveredApartment: number | null;
   setHoveredApartment: (id: number | null) => void;
   handleFloorClick?: (flatId: number, flatNumber: number) => void;
-  scaleFactor: number;
+  scaleX: number;
+  scaleY: number;
+  offsetX: number;
+  offsetY: number;
 }
 
-const getClipPathPolygon = (coords: Coordinate[], scaleFactor: number) => {
+const getClipPathPolygon = (
+  coords: Coordinate[],
+  scaleX: number,
+  scaleY: number,
+  offsetX: number,
+  offsetY: number
+) => {
   return `polygon(${coords
-    .map(({ x, y }) => `${x * scaleFactor}px ${y * scaleFactor}px`)
+    .map(({ x, y }) => `${x * scaleX + offsetX}px ${y * scaleY + offsetY}px`)
     .join(", ")})`;
 };
 
-export const FloorOverlay: React.FC<ApartmentAreaProps> = React.memo(
+export const FloorOverlay: React.FC<FloorOverlayProps> = React.memo(
   ({
     flatId,
     flatNumber,
@@ -31,17 +40,22 @@ export const FloorOverlay: React.FC<ApartmentAreaProps> = React.memo(
     hoveredApartment,
     setHoveredApartment,
     handleFloorClick = () => alert(`Apartment #${flatNumber} clicked`),
-    scaleFactor,
+    scaleX,
+    scaleY,
+    offsetX,
+    offsetY,
   }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [showHint, setShowHint] = useState(false);
     const isHovered = hoveredApartment === flatId;
 
+    // Create clip path with proper scaling
     const clipPath = useMemo(
-      () => getClipPathPolygon(coords, scaleFactor),
-      [coords, scaleFactor]
+      () => getClipPathPolygon(coords, scaleX, scaleY, offsetX, offsetY),
+      [coords, scaleX, scaleY, offsetX, offsetY]
     );
 
+    // Mobile detection
     useEffect(() => {
       const checkMobile = () => {
         setIsMobile(window.innerWidth <= 768 || "ontouchstart" in window);
@@ -62,6 +76,7 @@ export const FloorOverlay: React.FC<ApartmentAreaProps> = React.memo(
       };
     }, []);
 
+    // Hint animation
     useEffect(() => {
       const hintInterval = setInterval(() => {
         setShowHint(true);
@@ -120,6 +135,11 @@ export const FloorOverlay: React.FC<ApartmentAreaProps> = React.memo(
       return `absolute top-0 left-0 w-full h-full bg-gradient-to-br from-slate-100/15 to-slate-200/15 border border-white/40`;
     }, []);
 
+    // Don't render if scaling values are invalid
+    if (scaleX <= 0 || scaleY <= 0) {
+      return null;
+    }
+
     return (
       <>
         <style jsx>{`
@@ -169,7 +189,10 @@ export const FloorOverlay: React.FC<ApartmentAreaProps> = React.memo(
       prevProps.flatId === nextProps.flatId &&
       prevProps.flatNumber === nextProps.flatNumber &&
       prevProps.hoveredApartment === nextProps.hoveredApartment &&
-      prevProps.scaleFactor === nextProps.scaleFactor &&
+      prevProps.scaleX === nextProps.scaleX &&
+      prevProps.scaleY === nextProps.scaleY &&
+      prevProps.offsetX === nextProps.offsetX &&
+      prevProps.offsetY === nextProps.offsetY &&
       JSON.stringify(prevProps.coords) === JSON.stringify(nextProps.coords)
     );
   }

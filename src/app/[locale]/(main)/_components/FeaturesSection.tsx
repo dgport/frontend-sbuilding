@@ -4,11 +4,11 @@ import React, { useState, useEffect } from "react";
 
 const ApartmentSlideshow = () => {
   const backgroundImages = [
-    "/images/8.jpg",
-    "/images/test.png",
-    "/images/8.jpg",
-    "/images/8.jpg",
-    "/images/8.jpg",
+    "/images/elisium/Image1.avif",
+    "/images/elisium/Image1.avif",
+    "/images/elisium/Image1.avif",
+    "/images/elisium/Image1.avif",
+    "/images/elisium/Image1.avif",
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

@@ -18,27 +18,27 @@ const BuildingCarousel3D = () => {
 
   const buildingProjects = [
     {
-      image: "/images/projects/elisium.jpg",
+      image: "/images/elisium/Image1.avif",
       title: "Modern Residential Complex",
       description: "Luxury apartments with sustainable design",
     },
     {
-      image: "/images/projects/house-abashidze.png",
+      image: "/images/elisium/Image1.avif",
       title: "Commercial Office Tower",
       description: "State-of-the-art business center",
     },
     {
-      image: "/images/projects/house-bagrationi.png",
+      image: "/images/elisium/Image1.avif",
       title: "Mixed-Use Development",
       description: "Retail and residential integration",
     },
     {
-      image: "/images/projects/house-sulaberidze.png",
+      image: "/images/elisium/Image1.avif",
       title: "Urban Housing Project",
       description: "Affordable and modern living spaces",
     },
     {
-      image: "/images/projects/your-space.png",
+      image: "/images/elisium/Image1.avif",
       title: "Green Building Initiative",
       description: "Eco-friendly architectural solution",
     },

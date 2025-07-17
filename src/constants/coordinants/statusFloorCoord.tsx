@@ -1,280 +1,55 @@
-export const desktopAreas = [
-  {
-    id: 2,
-    coords: [
-      { x: 553, y: 1078 },
-      { x: 552, y: 1046 },
-      { x: 913, y: 1045 },
-      { x: 912, y: 1082 },
-    ],
-  },
+// Original image dimensions
+const DESKTOP_ORIGINAL_W = 6000;
+const DESKTOP_ORIGINAL_H = 3375;
+const MOBILE_ORIGINAL_W = 2827;
+const MOBILE_ORIGINAL_H = 3375;
+
+// Desktop coordinates (for 6000x3375 image)
+export const DesktopCoordinateAreas = [
   {
     id: 3,
     coords: [
-      { x: 552, y: 1039 },
-      { x: 554, y: 1003 },
-      { x: 912, y: 1003 },
-      { x: 914, y: 1042 },
-    ],
-  },
-  {
-    id: 4,
-    coords: [
-      { x: 554, y: 997 },
-      { x: 554, y: 961 },
-      { x: 914, y: 962 },
-      { x: 913, y: 998 },
-    ],
-  },
-  {
-    id: 5,
-    coords: [
-      { x: 552, y: 956 },
-      { x: 552, y: 921 },
-      { x: 912, y: 921 },
-      { x: 913, y: 958 },
-    ],
-  },
-  {
-    id: 6,
-    coords: [
-      { x: 553, y: 915 },
-      { x: 552, y: 874 },
-      { x: 912, y: 876 },
-      { x: 913, y: 919 },
-    ],
-  },
-  {
-    id: 7,
-    coords: [
-      { x: 553, y: 866 },
-      { x: 553, y: 833 },
-      { x: 909, y: 833 },
-      { x: 909, y: 870 },
-    ],
-  },
-  {
-    id: 8,
-    coords: [
-      { x: 554, y: 827 },
-      { x: 552, y: 789 },
-      { x: 909, y: 791 },
-      { x: 909, y: 830 },
-    ],
-  },
-  {
-    id: 9,
-    coords: [
-      { x: 550, y: 785 },
-      { x: 550, y: 749 },
-      { x: 910, y: 753 },
-      { x: 909, y: 787 },
-    ],
-  },
-  {
-    id: 10,
-    coords: [
-      { x: 550, y: 744 },
-      { x: 550, y: 705 },
-      { x: 912, y: 712 },
-      { x: 912, y: 749 },
-    ],
-  },
-  {
-    id: 11,
-    coords: [
-      { x: 550, y: 698 },
-      { x: 550, y: 665 },
-      { x: 909, y: 665 },
-      { x: 909, y: 708 },
-    ],
-  },
-  {
-    id: 12,
-    coords: [
-      { x: 550, y: 659 },
-      { x: 550, y: 623 },
-      { x: 908, y: 625 },
-      { x: 908, y: 663 },
-    ],
-  },
-  {
-    id: 13,
-    coords: [
-      { x: 552, y: 616 },
-      { x: 550, y: 580 },
-      { x: 908, y: 580 },
-      { x: 909, y: 622 },
-    ],
-  },
-  {
-    id: 14,
-    coords: [
-      { x: 550, y: 574 },
-      { x: 550, y: 538 },
-      { x: 909, y: 539 },
-      { x: 909, y: 576 },
-    ],
-  },
-  {
-    id: 15,
-    coords: [
-      { x: 550, y: 531 },
-      { x: 550, y: 494 },
-      { x: 909, y: 496 },
-      { x: 909, y: 538 },
-    ],
-  },
-  {
-    id: 16,
-    coords: [
-      { x: 552, y: 486 },
-      { x: 553, y: 453 },
-      { x: 908, y: 454 },
-      { x: 909, y: 493 },
-    ],
-  },
-  {
-    id: 17,
-    coords: [
-      { x: 554, y: 448 },
-      { x: 557, y: 411 },
-      { x: 909, y: 413 },
-      { x: 909, y: 451 },
-    ],
-  },
-  {
-    id: 18,
-    coords: [
-      { x: 554, y: 406 },
-      { x: 552, y: 370 },
-      { x: 909, y: 371 },
-      { x: 909, y: 412 },
-    ],
-  },
-  {
-    id: 19,
-    coords: [
-      { x: 554, y: 362 },
-      { x: 553, y: 326 },
-      { x: 910, y: 328 },
-      { x: 909, y: 366 },
-    ],
-  },
-  {
-    id: 20,
-    coords: [
-      { x: 556, y: 319 },
-      { x: 557, y: 281 },
-      { x: 909, y: 283 },
-      { x: 909, y: 324 },
-    ],
-  },
-  {
-    id: 21,
-    coords: [
-      { x: 556, y: 276 },
-      { x: 556, y: 240 },
-      { x: 909, y: 243 },
-      { x: 908, y: 280 },
-    ],
-  },
-  {
-    id: 22,
-    coords: [
-      { x: 554, y: 235 },
-      { x: 554, y: 198 },
-      { x: 908, y: 201 },
-      { x: 909, y: 241 },
-    ],
-  },
-  {
-    id: 23,
-    coords: [
-      { x: 554, y: 190 },
-      { x: 553, y: 156 },
-      { x: 910, y: 159 },
-      { x: 908, y: 197 },
-    ],
-  },
-  {
-    id: 24,
-    coords: [
-      { x: 558, y: 150 },
-      { x: 556, y: 113 },
-      { x: 893, y: 119 },
-      { x: 892, y: 160 },
-      { x: 819, y: 160 },
-      { x: 813, y: 153 },
-    ],
-  },
-  {
-    id: 25,
-    coords: [
-      { x: 558, y: 113 },
-      { x: 560, y: 78 },
-      { x: 892, y: 78 },
-      { x: 893, y: 118 },
-    ],
-  },
-  {
-    id: 26,
-    coords: [
-      { x: 556, y: 78 },
-      { x: 557, y: 59 },
-      { x: 615, y: 59 },
-      { x: 615, y: 31 },
-      { x: 836, y: 34 },
-      { x: 836, y: 62 },
-      { x: 892, y: 62 },
-      { x: 894, y: 79 },
+      { x: 1948, y: 2603 },
+      { x: 1954, y: 688 },
+      { x: 2139, y: 598 },
+      { x: 2573, y: 630 },
+      { x: 3128, y: 80 },
+      { x: 3922, y: 170 },
+      { x: 3895, y: 2867 },
     ],
   },
 ];
 
-// export const mobileAreas = [
-//   {
-//     id: 1,
-//     name: "First Floor",
-//     units: 9,
-//     coords: [
-//       { x: 57, y: 741 },
-//       { x: 60, y: 635 },
-//       { x: 1390, y: 633 },
-//       { x: 1390, y: 740 },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     name: "Second Floor",
-//     units: 9,
-//     coords: [
-//       { x: 60, y: 634 },
-//       { x: 60, y: 535 },
-//       { x: 1390, y: 533 },
-//       { x: 1390, y: 633 },
-//     ],
-//   },
-//   {
-//     id: 3,
-//     name: "Third Floor",
-//     units: 9,
-//     coords: [
-//       { x: 60, y: 534 },
-//       { x: 60, y: 435 },
-//       { x: 1390, y: 433 },
-//       { x: 1390, y: 533 },
-//     ],
-//   },
-//   {
-//     id: 4,
-//     name: "Fourth Floor",
-//     units: 9,
-//     coords: [
-//       { x: 60, y: 434 },
-//       { x: 60, y: 335 },
-//       { x: 1390, y: 333 },
-//       { x: 1390, y: 433 },
-//     ],
-//   },
-// ];
+// Mobile coordinates (for 2827x3375 image)
+// These are your original mobile coordinates - keep them as they are
+export const MobileCoordinateAreas = [
+  {
+    id: 1, // Keep your original ID
+    coords: [
+      { x: 494, y: 2638 },
+      { x: 497, y: 731 },
+      { x: 1147, y: 641 },
+      { x: 1686, y: 117 },
+      { x: 2444, y: 210 },
+      { x: 2416, y: 2737 },
+      { x: 1641, y: 2941 },
+    ],
+  },
+];
+
+// Helper function to get coordinates based on device type
+export const getCoordinateAreas = (isMobile: boolean) => {
+  return isMobile ? MobileCoordinateAreas : DesktopCoordinateAreas;
+};
+
+// Export dimensions for use in components
+export const IMAGE_DIMENSIONS = {
+  DESKTOP: {
+    WIDTH: DESKTOP_ORIGINAL_W,
+    HEIGHT: DESKTOP_ORIGINAL_H,
+  },
+  MOBILE: {
+    WIDTH: MOBILE_ORIGINAL_W,
+    HEIGHT: MOBILE_ORIGINAL_H,
+  },
+} as const;

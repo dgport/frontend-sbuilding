@@ -7,7 +7,7 @@ import Image from "next/image";
 import img from "@/root/public/images/testimg.jpg";
 
 const CoverSection = () => {
-  const backgroundImages = ["/images/8.jpg"];
+  const backgroundImages = ["/images/elisium/Image1.avif"];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showMobileCard, setShowMobileCard] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
