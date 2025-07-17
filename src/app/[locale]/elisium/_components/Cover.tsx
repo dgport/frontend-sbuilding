@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/router";
+
 import {
   Carousel,
   CarouselContent,
@@ -15,6 +15,7 @@ import Image2 from "@/root/public/images/projects/house-abashidze.png";
 import Image3 from "@/root/public/images/projects/house-bagrationi.png";
 import Image4 from "@/root/public/images/projects/house-sulaberidze.png";
 import Image5 from "@/root/public/images/projects/your-space.png";
+import { useRouter } from "next/navigation";
 
 export default function Hotel() {
   const router = useRouter();
