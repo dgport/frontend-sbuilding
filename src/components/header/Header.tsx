@@ -50,7 +50,7 @@ export default function Header() {
     {
       name: t("projects"),
       href: "/projects",
-      subItems: [{ name: t("elisium"), href: "/elisium" }],
+      subItems: [{ name: "elisium", href: "/elisium" }],
     },
     // { name: t("aboutUs"), href: "/about-us" },
     { name: t("contact"), href: "/contact" },
