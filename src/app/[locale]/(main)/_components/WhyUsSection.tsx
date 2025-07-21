@@ -1,4 +1,7 @@
 "use client";
+
+import type React from "react";
+
 import { useState, useRef } from "react";
 import { motion, useSpring } from "framer-motion";
 import { Star } from "lucide-react";
@@ -14,7 +17,8 @@ export default function WhyUsSection() {
       name: "Robert Chen",
       text: "Exceptional construction quality and on-time delivery. Professional team that exceeded our expectations.",
       rating: 5,
-      position: { x: 15, y: 20 },
+      position: { x: 15, y: 20 }, // Original desktop position
+      mobilePosition: { x: 10, y: 5 }, // Mobile specific position
       depth: 0.3,
       delay: 0.2,
     },
@@ -23,7 +27,8 @@ export default function WhyUsSection() {
       name: "Maria Rodriguez",
       text: "Professional team, excellent project management. They transformed our commercial space beautifully.",
       rating: 5,
-      position: { x: 75, y: 15 },
+      position: { x: 75, y: 15 }, // Original desktop position
+      mobilePosition: { x: 70, y: 8 },
       depth: 0.6,
       delay: 0.4,
     },
@@ -32,7 +37,8 @@ export default function WhyUsSection() {
       name: "David Thompson",
       text: "Outstanding attention to detail and craftsmanship. Every aspect was handled with precision and care.",
       rating: 5,
-      position: { x: 10, y: 65 },
+      position: { x: 10, y: 65 }, // Original desktop position
+      mobilePosition: { x: 5, y: 85 },
       depth: 0.8,
       delay: 0.6,
     },
@@ -41,7 +47,8 @@ export default function WhyUsSection() {
       name: "Sarah Johnson",
       text: "Transformed our vision into reality perfectly. Amazing communication throughout the entire process.",
       rating: 5,
-      position: { x: 70, y: 70 },
+      position: { x: 70, y: 70 }, // Original desktop position
+      mobilePosition: { x: 75, y: 90 },
       depth: 0.4,
       delay: 0.8,
     },
@@ -50,7 +57,8 @@ export default function WhyUsSection() {
       name: "Michael Park",
       text: "Reliable, efficient, and high-quality construction. Best investment we made for our property renovation.",
       rating: 5,
-      position: { x: 20, y: 40 },
+      position: { x: 20, y: 40 }, // Original desktop position
+      mobilePosition: { x: 2, y: 35 },
       depth: 0.7,
       delay: 1.0,
     },
@@ -59,7 +67,8 @@ export default function WhyUsSection() {
       name: "Lisa Wilson",
       text: "Best construction company we've worked with. Delivered on time and within budget consistently.",
       rating: 5,
-      position: { x: 65, y: 45 },
+      position: { x: 65, y: 45 }, // Original desktop position
+      mobilePosition: { x: 88, y: 45 },
       depth: 0.5,
       delay: 1.2,
     },
@@ -79,6 +88,7 @@ export default function WhyUsSection() {
 
     rotateX.set(-rotateXValue);
     rotateZ.set(rotateZValue);
+
     setMousePosition({
       x: (e.clientX - centerX) / rect.width,
       y: (e.clientY - centerY) / rect.height,
@@ -95,7 +105,7 @@ export default function WhyUsSection() {
   const handleMouseEnter = () => setIsHovered(true);
 
   return (
-    <div className="min-h-[90vh] relative overflow-hidden bg-blue-50">
+    <div className="min-h-screen py-10 md:py-0 relative overflow-hidden bg-blue-50">
       <div className="absolute inset-0">
         <svg width="100%" height="100%" className="absolute inset-0">
           <defs>
@@ -162,7 +172,6 @@ export default function WhyUsSection() {
               />
             </mask>
           </defs>
-
           <rect
             width="100%"
             height="100%"
@@ -255,10 +264,18 @@ export default function WhyUsSection() {
           {clientTestimonials.map((testimonial) => (
             <motion.div
               key={testimonial.id}
-              className="absolute bg-white/90 border-blue-200/60 text-blue-900 backdrop-blur-sm rounded-lg p-3 border shadow-lg max-w-48"
+              className="absolute bg-white/90 border-blue-200/60 text-blue-900 backdrop-blur-sm rounded-lg border shadow-lg"
               style={{
-                left: `${testimonial.position.x}%`,
-                top: `${testimonial.position.y}%`,
+                left: `${
+                  window.innerWidth >= 768
+                    ? testimonial.position.x
+                    : testimonial.mobilePosition.x
+                }%`,
+                top: `${
+                  window.innerWidth >= 768
+                    ? testimonial.position.y
+                    : testimonial.mobilePosition.y
+                }%`,
                 opacity: testimonial.depth,
               }}
               initial={{ opacity: 0, scale: 0.8, y: 50 }}
@@ -271,25 +288,29 @@ export default function WhyUsSection() {
                 damping: 20,
               }}
             >
-              <div className="flex items-center gap-1 mb-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-2 h-2 fill-yellow-400 text-yellow-400"
-                  />
-                ))}
+              <div className="p-2 md:p-3 max-w-32 md:max-w-48">
+                <div className="flex items-center gap-1 mb-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-1.5 h-1.5 md:w-2 md:h-2 fill-yellow-400 text-yellow-400"
+                    />
+                  ))}
+                </div>
+                <p className="text-[10px] md:text-xs font-medium mb-1 text-blue-800 line-clamp-3">
+                  "{testimonial.text}"
+                </p>
+                <p className="text-[9px] md:text-xs text-blue-600">
+                  - {testimonial.name}
+                </p>
               </div>
-              <p className="text-xs font-medium mb-1 text-blue-800">
-                "{testimonial.text}"
-              </p>
-              <p className="text-xs text-blue-600">- {testimonial.name}</p>
             </motion.div>
           ))}
         </div>
 
         <motion.div
           ref={cardRef}
-          className="relative cursor-pointer select-none w-80 h-96 mx-auto z-10"
+          className="relative cursor-pointer select-none mx-auto z-10 w-64 h-88 md:w-80 md:h-96"
           style={{ perspective: "1200px", transformOrigin: "center center" }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
@@ -299,7 +320,7 @@ export default function WhyUsSection() {
           transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
         >
           <motion.div
-            className="relative w-full h-full rounded-3xl shadow-2xl border border-white/30"
+            className="relative w-full h-full rounded-2xl md:rounded-3xl shadow-2xl border border-white/30"
             style={{
               rotateX: rotateX,
               rotateZ: rotateZ,
@@ -307,9 +328,9 @@ export default function WhyUsSection() {
                 "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%)",
             }}
           >
-            <div className="p-6 h-full flex flex-col justify-center items-center text-white relative overflow-hidden">
+            <div className="p-4 md:p-6 h-full flex flex-col justify-center items-center text-white relative overflow-hidden">
               <motion.div
-                className="text-6xl mb-4"
+                className="text-4xl md:text-6xl mb-3 md:mb-4"
                 animate={{
                   rotateY: mousePosition.x * 15,
                   rotateX: mousePosition.y * 15,
@@ -320,22 +341,26 @@ export default function WhyUsSection() {
                 🏗️
               </motion.div>
 
-              <h2 className="text-3xl font-bold mb-6 text-center tracking-wide">
+              <h2 className="text-xl md:text-3xl font-bold mb-4 md:mb-6 text-center tracking-wide">
                 WHY CHOOSE US?
               </h2>
 
-              <div className="space-y-4 text-center">
+              <div className="space-y-3 md:space-y-4 text-center">
                 <motion.div
-                  className="text-lg font-semibold"
+                  className="text-base md:text-lg font-semibold"
                   animate={{ scale: isHovered ? 1.05 : 1 }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 >
-                  <div className="text-yellow-300 text-2xl font-bold">500+</div>
-                  <div className="text-sm opacity-90">Projects Completed</div>
+                  <div className="text-yellow-300 text-lg md:text-2xl font-bold">
+                    500+
+                  </div>
+                  <div className="text-xs md:text-sm opacity-90">
+                    Projects Completed
+                  </div>
                 </motion.div>
 
                 <motion.div
-                  className="text-lg font-semibold"
+                  className="text-base md:text-lg font-semibold"
                   animate={{ scale: isHovered ? 1.05 : 1 }}
                   transition={{
                     type: "spring",
@@ -344,14 +369,16 @@ export default function WhyUsSection() {
                     delay: 0.1,
                   }}
                 >
-                  <div className="text-yellow-300 text-2xl font-bold">
+                  <div className="text-yellow-300 text-lg md:text-2xl font-bold">
                     10,000+
                   </div>
-                  <div className="text-sm opacity-90">Happy Clients</div>
+                  <div className="text-xs md:text-sm opacity-90">
+                    Happy Clients
+                  </div>
                 </motion.div>
 
                 <motion.div
-                  className="text-lg font-semibold"
+                  className="text-base md:text-lg font-semibold"
                   animate={{ scale: isHovered ? 1.05 : 1 }}
                   transition={{
                     type: "spring",
@@ -360,13 +387,17 @@ export default function WhyUsSection() {
                     delay: 0.2,
                   }}
                 >
-                  <div className="text-yellow-300 text-2xl font-bold">30+</div>
-                  <div className="text-sm opacity-90">Years Experience</div>
+                  <div className="text-yellow-300 text-lg md:text-2xl font-bold">
+                    30+
+                  </div>
+                  <div className="text-xs md:text-sm opacity-90">
+                    Years Experience
+                  </div>
                 </motion.div>
               </div>
 
               <motion.div
-                className="absolute inset-0 pointer-events-none rounded-3xl"
+                className="absolute inset-0 pointer-events-none rounded-2xl md:rounded-3xl"
                 style={{
                   background: `radial-gradient(circle at ${
                     50 + mousePosition.x * 30
