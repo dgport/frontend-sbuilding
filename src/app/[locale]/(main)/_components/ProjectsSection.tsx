@@ -221,8 +221,8 @@ export default function ProjectsSection() {
             className="inline-flex items-center gap-3 bg-blue-500 from-blue-400 to-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
           >
             <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="font-semibold">
-              Elisium Building - Available Now!
+            <span className="font-semibold text-sm md:text-base">
+              Elisium - Available Now!
             </span>
           </button>
         </div>
