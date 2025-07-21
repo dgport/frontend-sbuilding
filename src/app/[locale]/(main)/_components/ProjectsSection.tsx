@@ -15,49 +15,50 @@ import Image3 from "@/root/public/images/projects/house-bagrationi.png";
 import Image4 from "@/root/public/images/projects/house-sulaberidze.png";
 import Image5 from "@/root/public/images/projects/your-space.png";
 import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 
-export default function Hotel() {
+export default function ProjectsSection() {
   const navigate = useRouter();
 
   const data = [
     {
       img: Image1,
-      alt: "Elisium Hotel",
-      title: "Elisium Building",
+      alt: "Elisium",
+      title: "Elisium",
       status: "available",
-      description: "Luxury residential complex",
+      description: "",
       id: "elisium",
     },
     {
       img: Image2,
-      alt: "House Abashidze",
-      title: "Abashidze Building",
+      alt: "House on Abashidze",
+      title: "House on Abashidze",
       status: "sold-out",
-      description: "Premium apartments - Completed",
-      id: "abashidze",
+      description: "Completed",
+      id: "House on Abashidze",
     },
     {
       img: Image3,
-      alt: "House Bagrationi",
-      title: "Bagrationi Building",
+      alt: "House on Bagrationi",
+      title: "BHouse on Bagrationi",
       status: "sold-out",
-      description: "Modern residences - Completed",
-      id: "bagrationi",
+      description: "Completed",
+      id: "House on Bagrationi",
     },
     {
       img: Image4,
-      alt: "House Sulaberidze",
-      title: "Sulaberidze Building",
+      alt: "House on Sulaberidze",
+      title: "House on Sulaberidze",
       status: "sold-out",
-      description: "Executive suites - Completed",
-      id: "sulaberidze",
+      description: "Completed",
+      id: "House on Sulaberidze",
     },
     {
       img: Image5,
       alt: "Your Space",
-      title: "Your Space Building",
+      title: "Your Space",
       status: "sold-out",
-      description: "Contemporary living - Completed",
+      description: "Completed",
       id: "your-space",
     },
   ];
@@ -70,11 +71,10 @@ export default function Hotel() {
     if (projectId === "elisium") {
       navigate.push("/elisium");
     }
-    // Add other project redirects here if needed
   };
 
   return (
-    <section className="h-auto w-full py-16 relative overflow-hidden">
+    <section className="h-auto w-full md:py-16 relative overflow-hidbden">
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="absolute inset-0 opacity-5">
           <svg
@@ -115,23 +115,20 @@ export default function Hotel() {
 
       <div className="relative z-10">
         <div className="mb-10 flex flex-col justify-center gap-6 px-10 md:flex-row md:gap-20">
-          <h1>
-            <br />
-          </h1>
-          <div className="flex flex-col items-start gap-6 md:w-[400px]">
+          <div className="flex flex-col items-center gap-4 md:gap-6 md:w-[400px]">
             <p className="text-sm md:text-base"> </p>
-            <h1 className="text-3xl md:text-4xl font-extrabold font-geo2 pt-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-sky-600 to-blue-400 tracking-wide uppercase drop-shadow-md">
+            <h1 className="text-2xl md:text-4xl   font-extrabold font-geo2 pt-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-sky-600 to-blue-400 tracking-wide uppercase drop-shadow-md">
               Our Projects
             </h1>
-            <div className="mt-2 h-1 w-24 md:w-80 bg-gradient-to-r from-blue-500 via-blue-300 to-transparent rounded-full"></div>
+            <div className="mt-2 h-1 w-48 md:w-80 bg-gradient-to-r from-blue-500 via-blue-300 to-transparent rounded-full"></div>
           </div>
         </div>
 
         <Carousel opts={{ loop: true }}>
-          <CarouselContent className="pr-16 md:pr-10 xl:pr-32">
+          <CarouselContent className=" md:pr-10 xl:pr-32">
             {data.map((item, index) => (
-              <CarouselItem key={index} className="md:basis-2/3">
-                <CardContent className="flex items-center justify-center p-0">
+              <CarouselItem key={index} className="md:basis-2/3 px-4">
+                <CardContent className="flex items-center justify-center md:p-0 pr-0 pl-4">
                   <div
                     className={`relative group overflow-hidden rounded-lg shadow-2xl ${
                       item.id === "elisium" ? "cursor-pointer" : ""
@@ -150,24 +147,22 @@ export default function Hotel() {
                       height={540}
                     />
 
-                    {/* Status Badge */}
                     <div className="absolute top-4 left-4 z-20">
                       {item.status === "available" ? (
-                        <div className="bg-green-500/90 hover:bg-green-500 text-white border-0 px-3 py-1 text-sm font-semibold backdrop-blur-sm">
+                        <Badge className="bg-green-500/90 hover:bg-green-500 text-white border-0 px-3 py-1 text-sm font-semibold backdrop-blur-sm">
                           AVAILABLE
-                        </div>
+                        </Badge>
                       ) : (
-                        <div className="bg-red-500/90 hover:bg-red-500 text-white border-0 px-3 py-1 text-sm font-semibold backdrop-blur-sm">
+                        <Badge className="bg-red-500/90 hover:bg-red-500 text-white border-0 px-3 py-1 text-sm font-semibold backdrop-blur-sm">
                           SOLD OUT
-                        </div>
+                        </Badge>
                       )}
                     </div>
 
-                    {/* Sold Out Ribbon */}
                     {item.status === "sold-out" && (
-                      <div className="absolute top-8 -right-12 bg-red-600/90 text-white px-12 py-2 text-sm font-bold transform rotate-45 shadow-lg z-10">
+                      <Badge className="absolute top-8 -right-12 bg-red-600/90 text-white px-12 py-2 text-sm font-bold transform rotate-45 shadow-lg z-10">
                         COMPLETED
-                      </div>
+                      </Badge>
                     )}
 
                     <div
@@ -216,17 +211,16 @@ export default function Hotel() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-10 w-16 h-16 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
-          <CarouselNext className="right-10 w-16 h-16 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
+          <CarouselPrevious className=" left-2 md:left-10 w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
+          <CarouselNext className="right-2 md:right-10 w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
         </Carousel>
 
-        {/* Call to Action for Available Project */}
-        <div className="mt-12 text-center px-10">
+        <div className="md:mt-12  mt-8 text-center px-10">
           <button
             onClick={handleElisiumClick}
             className="inline-flex items-center gap-3 bg-blue-500 from-blue-400 to-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
           >
-            <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
             <span className="font-semibold">
               Elisium Building - Available Now!
             </span>
