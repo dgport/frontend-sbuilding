@@ -105,7 +105,7 @@ export default function WhyUsSection() {
   const handleMouseEnter = () => setIsHovered(true);
 
   return (
-    <div className="min-h-screen py-10 md:py-0 relative overflow-hidden bg-blue-50">
+    <div className="min-h-[90vh] py-10 md:py-0 relative overflow-hidden bg-blue-50">
       <div className="absolute inset-0">
         <svg width="100%" height="100%" className="absolute inset-0">
           <defs>

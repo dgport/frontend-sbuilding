@@ -28,21 +28,18 @@ const ApartmentSlideshow = () => {
       title: "Technológie",
       description:
         "Moderné technológie pre pohodlné bývanie. Smart home systémy, energetická efektívnosť a najnovšie bezpečnostné riešenia.",
-      buttonText: "Dozvedieť sa viac",
     },
     {
       id: "ecology",
       title: "Ekológia",
       description:
         "Udržateľné a ekologické riešenia. Zelené technológie, obnoviteľné zdroje energie a environmentálne zodpovedné materiály.",
-      buttonText: "Dozvedieť sa viac",
     },
     {
       id: "location",
       title: "Lokalita",
       description:
         "Tichá, zelená a mesto na dosah. Rezidenčná lokalita, ktorá vám umožní byť blízko centra, no nie v jeho ruchu.",
-      buttonText: "Dozvedieť sa viac",
     },
   ];
 
@@ -80,17 +77,40 @@ const ApartmentSlideshow = () => {
 
       <button
         onClick={prevSlide}
-        className="absolute left-10 cursor-pointer top-1/2 transform -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-blue-500/50 hover:bg-blue-600/70 text-white flex items-center justify-center transition-colors duration-300 text-xl"
+        className="hidden lg:block cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 bg-blue-500/20 backdrop-blur-sm text-white p-3 rounded-full z-20 hover:bg-blue-500/30"
       >
-        ←
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
       </button>
 
-      {/* Right Arrow */}
       <button
         onClick={nextSlide}
-        className="absolute right-10 cursor-pointer top-1/2 transform -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-blue-500/50 hover:bg-blue-600/70 text-white flex items-center justify-center transition-colors duration-300 text-xl"
+        className="hidden lg:block cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 bg-blue-500/20 backdrop-blur-sm text-white p-3 rounded-full z-20 hover:bg-blue-500/30"
       >
-        →
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
       </button>
 
       <div className="relative z-10 hidden md:flex h-full">
@@ -124,10 +144,6 @@ const ApartmentSlideshow = () => {
                 <p className="text-white text-lg lg:text-xl mb-8 max-w-md leading-relaxed">
                   {section.description}
                 </p>
-                <button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full font-medium transition-colors duration-300 flex items-center gap-2">
-                  {section.buttonText}
-                  <span>→</span>
-                </button>
               </div>
             </div>
           </div>
@@ -143,10 +159,6 @@ const ApartmentSlideshow = () => {
           <p className="text-white text-base mb-6 max-w-sm leading-relaxed">
             {sections[currentImageIndex % sections.length].description}
           </p>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full font-medium transition-colors duration-300 flex items-center gap-2">
-            {sections[currentImageIndex % sections.length].buttonText}
-            <span>→</span>
-          </button>
         </div>
       </div>
 

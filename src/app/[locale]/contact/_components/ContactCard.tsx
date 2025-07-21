@@ -44,7 +44,6 @@ const ContactPage: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setResult("Sending....");
-
     const formDataToSend = new FormData();
     formDataToSend.append("firstName", formData.firstName);
     formDataToSend.append("lastName", formData.lastName);
@@ -97,8 +96,7 @@ const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-100">
-      {/* Decorative background pattern */}
+    <div className="min-h-screen py-8 md:py-10 bg-blue-100">
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"
@@ -109,12 +107,9 @@ const ContactPage: React.FC = () => {
         ></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-36 md:pb-28">
-        {/* Header Section */}
-
+      <div className="relative z-10 container mx-auto px-3 sm:px-6 lg:px-8 pt-12 md:pt-24 lg:pt-36 pb-6 md:pb-28">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-            {/* Contact Information */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 md:gap-4">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -123,31 +118,37 @@ const ContactPage: React.FC = () => {
             >
               <Card className="bg-white py-0 shadow-lg border-0 h-full">
                 <CardHeader className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-t-lg">
-                  <CardTitle className="text-2xl  py-4 font-bold">
+                  <CardTitle className="text-lg md:text-2xl py-2 md:py-4 font-bold">
                     Contact Information
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-8 space-y-8">
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-full">
-                      <MapPin size={24} className="text-blue-500" />
+                <CardContent className="p-4 md:p-8 space-y-4 md:space-y-8">
+                  <div className="flex items-start space-x-3 md:space-x-4">
+                    <div className="bg-blue-100 p-2 md:p-3 rounded-full flex-shrink-0">
+                      <MapPin
+                        size={20}
+                        className="md:w-6 md:h-6 text-blue-500"
+                      />
                     </div>
                     <div>
-                      <h3 className="text-blue-900 font-semibold mb-2 text-lg">
+                      <h3 className="text-blue-900 font-semibold mb-1 md:mb-2 text-base md:text-lg">
                         Our Office
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="text-gray-600 leading-relaxed text-sm md:text-base">
                         {CONTACT_INFO.address}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-full">
-                      <Phone size={24} className="text-blue-500" />
+                  <div className="flex items-start space-x-3 md:space-x-4">
+                    <div className="bg-blue-100 p-2 md:p-3 rounded-full flex-shrink-0">
+                      <Phone
+                        size={20}
+                        className="md:w-6 md:h-6 text-blue-500"
+                      />
                     </div>
                     <div>
-                      <h3 className="text-blue-900 font-semibold mb-2 text-lg">
+                      <h3 className="text-blue-900 font-semibold mb-1 md:mb-2 text-base md:text-lg">
                         Phone Numbers
                       </h3>
                       <div className="space-y-1">
@@ -155,7 +156,7 @@ const ContactPage: React.FC = () => {
                           <a
                             key={number}
                             href={`tel:${number.replace(/[^0-9+]/g, "")}`}
-                            className="block text-gray-600 hover:text-blue-500 transition-colors"
+                            className="block text-gray-600 hover:text-blue-500 transition-colors text-sm md:text-base"
                           >
                             {number}
                           </a>
@@ -164,36 +165,36 @@ const ContactPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-full">
-                      <Mail size={24} className="text-blue-500" />
+                  <div className="flex items-start space-x-3 md:space-x-4">
+                    <div className="bg-blue-100 p-2 md:p-3 rounded-full flex-shrink-0">
+                      <Mail size={20} className="md:w-6 md:h-6 text-blue-500" />
                     </div>
                     <div>
-                      <h3 className="text-blue-900 font-semibold mb-2 text-lg">
+                      <h3 className="text-blue-900 font-semibold mb-1 md:mb-2 text-base md:text-lg">
                         Email Address
                       </h3>
                       <a
                         href={`mailto:${CONTACT_INFO.email}`}
-                        className="text-gray-600 hover:text-blue-500 transition-colors"
+                        className="text-gray-600 hover:text-blue-500 transition-colors text-sm md:text-base"
                       >
                         {CONTACT_INFO.email}
                       </a>
                     </div>
                   </div>
 
-                  <div className="pt-6 border-t border-gray-200">
-                    <h3 className="text-blue-900 font-semibold mb-4 text-lg">
+                  <div className="pt-4 md:pt-6 border-t border-gray-200">
+                    <h3 className="text-blue-900 font-semibold mb-3 md:mb-4 text-base md:text-lg">
                       Follow Us
                     </h3>
-                    <div className="flex space-x-3">
+                    <div className="flex space-x-2 md:space-x-3">
                       <motion.a
                         href="#"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full transition-colors"
+                        className="bg-blue-500 hover:bg-blue-600 text-white p-2 md:p-3 rounded-full transition-colors"
                       >
                         <svg
-                          className="w-5 h-5"
+                          className="w-4 h-4 md:w-5 md:h-5"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -204,10 +205,10 @@ const ContactPage: React.FC = () => {
                         href="#"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full transition-colors"
+                        className="bg-blue-500 hover:bg-blue-600 text-white p-2 md:p-3 rounded-full transition-colors"
                       >
                         <svg
-                          className="w-5 h-5"
+                          className="w-4 h-4 md:w-5 md:h-5"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -218,10 +219,10 @@ const ContactPage: React.FC = () => {
                         href="#"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full transition-colors"
+                        className="bg-blue-500 hover:bg-blue-600 text-white p-2 md:p-3 rounded-full transition-colors"
                       >
                         <svg
-                          className="w-5 h-5"
+                          className="w-4 h-4 md:w-5 md:h-5"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -233,8 +234,6 @@ const ContactPage: React.FC = () => {
                 </CardContent>
               </Card>
             </motion.div>
-
-            {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -242,18 +241,18 @@ const ContactPage: React.FC = () => {
               className="lg:col-span-3"
             >
               <Card className="bg-white shadow-lg border-0 h-full">
-                <CardHeader className="px-8 py-4">
-                  <CardTitle className="text-2xl font-bold text-blue-900">
+                <CardHeader className="px-4 md:px-8 py-3 md:py-4">
+                  <CardTitle className="text-lg md:text-2xl font-bold text-blue-900">
                     Send us a Message
                   </CardTitle>
                 </CardHeader>
                 <form onSubmit={handleSubmit}>
-                  <CardContent className="p-8 pt-0 space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
+                  <CardContent className="p-4 md:p-8 pt-0 space-y-4 md:space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                      <div className="space-y-1 md:space-y-2">
                         <label
                           htmlFor="firstName"
-                          className="text-blue-900 font-medium"
+                          className="text-blue-900 font-medium text-sm md:text-base"
                         >
                           First Name *
                         </label>
@@ -263,14 +262,14 @@ const ContactPage: React.FC = () => {
                           value={formData.firstName}
                           onChange={handleChange}
                           required
-                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 h-12"
+                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 h-10 md:h-12 text-sm md:text-base"
                           placeholder="Enter your first name"
                         />
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-1 md:space-y-2">
                         <label
                           htmlFor="lastName"
-                          className="text-blue-900 font-medium"
+                          className="text-blue-900 font-medium text-sm md:text-base"
                         >
                           Last Name *
                         </label>
@@ -280,16 +279,16 @@ const ContactPage: React.FC = () => {
                           value={formData.lastName}
                           onChange={handleChange}
                           required
-                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 h-12"
+                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 h-10 md:h-12 text-sm md:text-base"
                           placeholder="Enter your last name"
                         />
                       </div>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1 md:space-y-2">
                       <label
                         htmlFor="email"
-                        className="text-blue-900 font-medium"
+                        className="text-blue-900 font-medium text-sm md:text-base"
                       >
                         Email Address *
                       </label>
@@ -300,15 +299,15 @@ const ContactPage: React.FC = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 h-12"
+                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 h-10 md:h-12 text-sm md:text-base"
                         placeholder="Enter your email address"
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1 md:space-y-2">
                       <label
                         htmlFor="message"
-                        className="text-blue-900 font-medium"
+                        className="text-blue-900 font-medium text-sm md:text-base"
                       >
                         Message *
                       </label>
@@ -318,15 +317,15 @@ const ContactPage: React.FC = () => {
                         value={formData.message}
                         onChange={handleChange}
                         required
-                        rows={6}
-                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 resize-none"
+                        rows={4}
+                        className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 resize-none text-sm md:text-base min-h-[100px] md:min-h-[120px]"
                         placeholder="Tell us how we can help you..."
                       />
                     </div>
 
                     {result && (
                       <div
-                        className={`p-4 rounded-lg font-medium ${
+                        className={`p-3 md:p-4 rounded-lg font-medium text-sm md:text-base ${
                           result.includes("Success")
                             ? "text-green-700 bg-green-50 border border-green-200"
                             : "text-red-700 bg-red-50 border border-red-200"
@@ -338,18 +337,18 @@ const ContactPage: React.FC = () => {
 
                     <Button
                       type="submit"
-                      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 h-12 transition-colors duration-200"
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 md:py-3 h-10 md:h-12 transition-colors duration-200 text-sm md:text-base"
                       disabled={loading}
                     >
                       {loading ? (
                         <span className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <div className="w-3 h-3 md:w-4 md:h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                           Sending...
                         </span>
                       ) : (
                         <span className="flex items-center gap-2">
                           Send Message
-                          <Send className="w-4 h-4" />
+                          <Send className="w-3 h-3 md:w-4 md:h-4" />
                         </span>
                       )}
                     </Button>

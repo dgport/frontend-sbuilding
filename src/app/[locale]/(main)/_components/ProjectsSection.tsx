@@ -211,8 +211,8 @@ export default function ProjectsSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className=" left-2 md:left-10 w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
-          <CarouselNext className="right-2 md:right-10 w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
+          <CarouselPrevious className=" left-4 md:left-10 w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
+          <CarouselNext className="right-4 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20" />
         </Carousel>
 
         <div className="md:mt-12  mt-8 text-center px-10">

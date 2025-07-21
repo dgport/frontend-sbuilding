@@ -229,23 +229,6 @@ const CoverSection = () => {
             <span className="inline-block">Sbuilding,</span>
             <span className="inline-block mt-2"> your future apartment</span>
           </motion.h1>
-          <motion.p
-            className="mt-6 text-lg lg:text-xl text-center text-white/90 font-light tracking-wider"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            style={{
-              textShadow:
-                "2px 2px 4px rgba(0,0,0,0.7), 0 0 8px rgba(0,0,0,0.5)",
-              WebkitTextStroke: "0.5px rgba(0,0,0,0.3)",
-              filter: "drop-shadow(0 0 10px rgba(59,130,246,0.3))",
-            }}
-          >
-            <span className="inline-block">
-              Discover quality living spaces built with innovation, vision, and
-              care.
-            </span>
-          </motion.p>
         </motion.div>
       </div>
     </div>
