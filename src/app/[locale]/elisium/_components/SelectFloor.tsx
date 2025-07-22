@@ -119,19 +119,6 @@ export default function SelectFloor() {
         setScaleY(scaleY);
         setOffsetX(offsetX);
         setOffsetY(offsetY);
-
-        console.log("Desktop contain scaling:", {
-          containerWidth: containerRect.width,
-          containerHeight: containerRect.height,
-          renderedWidth,
-          renderedHeight,
-          originalW,
-          originalH,
-          scaleX,
-          scaleY,
-          offsetX,
-          offsetY,
-        });
       }
     });
   }, [isMobile, currentImageDimensions, imageLoaded]);

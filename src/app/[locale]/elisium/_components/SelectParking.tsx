@@ -18,7 +18,6 @@ import { useTranslations } from "next-intl";
 import { getCoordinateAreas } from "@/constants/coordinants/statusFloorCoord";
 import { FloorPlanImageOverlay } from "@/components/shared/apartment/FloorPlanImageOverlay";
 
- 
 const DESKTOP_ORIGINAL_W = 6000;
 const DESKTOP_ORIGINAL_H = 3375;
 const MOBILE_ORIGINAL_W = 2827;
@@ -110,19 +109,6 @@ export default function SelectParking() {
         setScaleY(scaleY);
         setOffsetX(offsetX);
         setOffsetY(offsetY);
-
-        console.log("Mobile cover scaling:", {
-          containerWidth: containerRect.width,
-          containerHeight: containerRect.height,
-          originalW,
-          originalH,
-          scaleX,
-          scaleY,
-          offsetX,
-          offsetY,
-          containerAspectRatio,
-          imageAspectRatio,
-        });
       } else {
         // For desktop with object-fit: contain
         const renderedWidth = imgRect.width;
@@ -138,19 +124,6 @@ export default function SelectParking() {
         setScaleY(scaleY);
         setOffsetX(offsetX);
         setOffsetY(offsetY);
-
-        console.log("Desktop contain scaling:", {
-          containerWidth: containerRect.width,
-          containerHeight: containerRect.height,
-          renderedWidth,
-          renderedHeight,
-          originalW,
-          originalH,
-          scaleX,
-          scaleY,
-          offsetX,
-          offsetY,
-        });
       }
     });
   }, [isMobile, currentImageDimensions, imageLoaded]);
@@ -212,15 +185,12 @@ export default function SelectParking() {
   );
 
   const handleImageLoad = useCallback(() => {
-    console.log("Image loaded, device:", isMobile ? "mobile" : "desktop");
     setImageLoaded(true);
     setIsLoading(false);
   }, [isMobile]);
 
-  // Get coordinates based on device type
   const currentAreas = useMemo(() => getCoordinateAreas(isMobile), [isMobile]);
 
-  // Select image source based on device
   const imageSource = isMobile ? MobileImage : DesktopImage;
 
   return (
@@ -247,16 +217,15 @@ export default function SelectParking() {
               quality={100}
               sizes="(max-width: 768px) 100vw, 100vw"
               style={{
-                objectFit: isMobile ? "cover" : "contain", // Keep original behavior
+                objectFit: isMobile ? "cover" : "contain",
                 objectPosition: "center",
                 maxWidth: "100%",
-                height: isMobile ? "70vh" : "auto", // Keep original mobile height
+                height: isMobile ? "70vh" : "auto",
                 minHeight: isMobile ? "70vh" : "auto",
               }}
               onLoad={handleImageLoad}
             />
 
-            {/* Render overlays only when image is loaded and metrics are calculated */}
             {imageLoaded &&
               !isLoading &&
               scaleX > 0 &&
@@ -277,7 +246,6 @@ export default function SelectParking() {
                 />
               ))}
 
-            {/* Hover indicator */}
             {hoveredApartment && imageLoaded && !isLoading && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-6xl md:text-8xl opacity-70 pointer-events-none z-20 drop-shadow-lg">
                 {hoveredApartment}

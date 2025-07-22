@@ -28,14 +28,13 @@ export async function isAuthServer() {
         },
       };
     } catch (verifyError) {
-      console.error(verifyError)
+      console.error(verifyError);
       return {
         authenticated: false,
         user: null,
       };
     }
   } catch (error) {
-    console.error("❌ Unexpected error in isAuthServer:", error);
     return {
       authenticated: false,
       user: null,

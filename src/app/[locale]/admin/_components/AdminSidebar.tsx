@@ -82,7 +82,6 @@ export default function BuildingsPage() {
       setPasswordError("");
     },
     onError: (error) => {
-      console.error("Failed to add building:", error);
       toast.error(
         error instanceof Error ? error.message : "Failed to add building"
       );
@@ -107,7 +106,6 @@ export default function BuildingsPage() {
       setPasswordError("");
     },
     onError: (error) => {
-      console.error("Failed to delete building:", error);
       toast.error("Failed to delete building");
     },
   });

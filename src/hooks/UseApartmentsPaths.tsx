@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-// Define interfaces for better type safety
 interface Coordinate {
   x: number;
   y: number;
@@ -34,7 +33,6 @@ export function useApartmentPaths(apartmentsData: ApartmentData | undefined) {
   const [isMobile, setIsMobile] = useState(false);
   const [apartmentAreas, setApartmentAreas] = useState<ApartmentArea[]>([]);
 
-  // Handle mobile detection
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -48,7 +46,6 @@ export function useApartmentPaths(apartmentsData: ApartmentData | undefined) {
     };
   }, []);
 
-  // Parse apartment paths whenever apartmentsData or isMobile changes
   useEffect(() => {
     if (!apartmentsData || !apartmentsData.apartments?.length) {
       setApartmentAreas([]);
@@ -63,17 +60,14 @@ export function useApartmentPaths(apartmentsData: ApartmentData | undefined) {
         floorGroup.apartments.forEach((apartment) => {
           if (apartment[pathType]) {
             try {
-              // Trim any whitespace that might cause parsing issues
               const pathString = apartment[pathType].trim();
 
-              // Split by comma and filter out any empty strings
               const coordValues = pathString
                 .split(",")
                 .map((val) => val.trim())
                 .filter(Boolean)
                 .map(Number);
 
-              // Validate that we have valid numbers
               if (coordValues.some(isNaN)) {
                 console.error(
                   `Invalid coordinate values in ${pathType} for apartment ${apartment.flat_id}`
@@ -83,7 +77,6 @@ export function useApartmentPaths(apartmentsData: ApartmentData | undefined) {
 
               const coords: Coordinate[] = [];
 
-              // Convert the flat array to coordinate pairs
               for (let i = 0; i < coordValues.length; i += 2) {
                 if (i + 1 < coordValues.length) {
                   coords.push({
@@ -93,7 +86,6 @@ export function useApartmentPaths(apartmentsData: ApartmentData | undefined) {
                 }
               }
 
-              // Ensure we have at least 3 points to form a polygon
               if (coords.length >= 3) {
                 parsedAreas.push({
                   flatId: apartment.flat_id,

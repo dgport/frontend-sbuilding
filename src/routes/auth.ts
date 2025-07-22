@@ -30,17 +30,15 @@ export const authAPI = {
       const response = await axiosInstance.post("/signin", credentials);
 
       if (response.data.token) {
-        
         Cookies.set("token", response.data.token, {
           secure: true,
           sameSite: "none",
-          expires: 1,  
+          expires: 1,
         });
       }
 
       return response.data;
     } catch (error) {
-      console.error("❌ Login failed:", error);
       throw error;
     }
   },
@@ -50,7 +48,6 @@ export const authAPI = {
       const response = await axiosInstance.post("/signup", credentials);
       return response.data;
     } catch (error) {
-      console.error("❌ Signup failed:", error);
       throw error;
     }
   },
@@ -58,11 +55,10 @@ export const authAPI = {
   signout: async (): Promise<AuthResponse> => {
     try {
       const response = await axiosInstance.post("/signout");
- 
+
       Cookies.remove("token");
       return response.data;
     } catch (error) {
-      console.error("❌ Signout error:", error);
       Cookies.remove("token");
       throw error;
     }
@@ -73,7 +69,6 @@ export const authAPI = {
       const response = await axiosInstance.get("/status");
       return response.data;
     } catch (error) {
-      console.error("❌ Auth status check failed:", error);
       throw error;
     }
   },

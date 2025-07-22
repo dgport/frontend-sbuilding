@@ -70,7 +70,6 @@ const UpdateApartmentDialog = ({
 
   const handleClose = () => {
     if (!updateMutation.isPending) {
-      // Reset form state when closing
       setSquareMeters("");
       setMobilePaths("");
       setDesktopPaths("");

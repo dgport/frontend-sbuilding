@@ -57,7 +57,6 @@ const UpdateApartmentStatus = ({
       }, 200);
     },
     onError: (error: any) => {
-      console.error("Error updating apartment:", error);
       setUpdateError(
         error.message || "An error occurred while updating the apartment."
       );

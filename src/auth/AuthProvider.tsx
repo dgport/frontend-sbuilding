@@ -51,7 +51,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         Cookies.remove("token");
       }
     } catch (error) {
-      console.error("❌ Auth verification failed:", error);
       setUser(null);
       setAuthenticated(false);
       Cookies.remove("token");
