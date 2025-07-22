@@ -58,12 +58,8 @@ export default function Page() {
   return (
     <>
       <Cover />
-
       <SelectFloor />
       <SelectParking />
-      {/* <BuildingCarousel3D />
-      <StatusFAQ />
-      <StatusGallery /> */}
     </>
   );
 }

@@ -31,7 +31,7 @@ type RenderFunction = (props: {
   scaleFactorY: number;
 }) => React.ReactNode;
 
-interface ImageResizerProps {
+interface FloorPlanImageResizerProps {
   imageSrc: string;
   altText: string;
   originalDimensions: ResponsiveDimensions;
@@ -44,7 +44,7 @@ interface ImageResizerProps {
   onError?: () => void;
 }
 
-export function ImageResizer({
+export function FloorPlanImageResizer({
   imageSrc,
   altText,
   originalDimensions,
@@ -55,7 +55,7 @@ export function ImageResizer({
   onImagePositionChange,
   onLoad,
   onError,
-}: ImageResizerProps) {
+}: FloorPlanImageResizerProps) {
   const [imagePosition, setImagePosition] = useState<ImagePosition>({
     top: 0,
     left: 0,

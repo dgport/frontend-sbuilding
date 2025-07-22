@@ -25,7 +25,7 @@ interface ApartmentsListProps {
 
 const ApartmentsList = ({ buildingId, floorId }: ApartmentsListProps) => {
   const [page, setPage] = useState(1);
-  const limit = 15;
+  const limit = 30;
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isGenerateDialogOpen, setIsGenerateDialogOpen] =
     useState<boolean>(false);

@@ -11,16 +11,17 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { floorPlansAPI } from "@/routes/floorPlans";
 import { useApartmentPaths } from "@/hooks/UseApartmentsPaths";
-import { FloorSelector } from "@/components/shared/floorInfo/FloorSelect";
+
 import { useFloorStore } from "@/zustand/floorStore";
-import { FloorPlanImage } from "@/components/shared/extra/FloorPlanImage";
-import { PhotoGallery } from "@/components/shared/extra/PhotoGallery";
 import { ArrowLeft } from "lucide-react";
 import {
   STATUS_MAX_SIZE,
   STATUS_ORIGINAL_DIMENSIONS,
 } from "@/constants/statusFloorSizes";
 import Loader from "@/components/shared/loader/Loader";
+import { FloorPlanImageDisplay } from "@/components/shared/apartment/FloorPlanImageDisplay";
+import { ApartmentImageDisplay } from "@/components/shared/apartment/ApartmentImageDisplay";
+import { FloorSelectImageOverlay } from "@/components/shared/apartment/FloorSelectImageOverlay";
 
 interface ParamIds {
   buildingId: string;
@@ -35,7 +36,7 @@ interface ApartmentImage {
   status?: string;
 }
 
-const MemoizedFloorSelector = React.memo(FloorSelector);
+const MemoizedFloorSelector = React.memo(FloorSelectImageOverlay);
 
 export default function FloorPlanPage() {
   const [hoveredApartment, setHoveredApartment] = useState<number | null>(null);
@@ -140,7 +141,6 @@ export default function FloorPlanPage() {
     (flatId: number, flatNumber: number) => {
       const apartmentInfo = apartmentsData?.apartments?.[0]?.apartments?.[0];
       if (!apartmentInfo) {
-        console.warn("No apartment info found for the current floor plan.");
         return;
       }
 
@@ -214,7 +214,7 @@ export default function FloorPlanPage() {
           <div className="w-[52px]"></div>
         </div>
         <div className="flex-1 ">
-          <FloorPlanImage
+          <FloorPlanImageDisplay
             selectedFloorPlan={selectedFloorPlan}
             floorPlanId={floorPlanId}
             originalDimensions={originalDimensions}
@@ -229,7 +229,7 @@ export default function FloorPlanPage() {
         </div>
       </main>
 
-      <PhotoGallery
+      <ApartmentImageDisplay
         images={selectedApartmentImages}
         isOpen={isPhotoViewOpen}
         onClose={handlePhotoGalleryClose}

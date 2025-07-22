@@ -11,21 +11,21 @@ import DesktopImage from "@/root/public/images/elisium/Parking.jpg";
 import MobileImage from "@/root/public/images/elisium/MobileImage.jpg";
 import Image from "next/image";
 import { useMediaQuery } from "@/use-media-query";
-import { FloorOverlay } from "@/components/shared/overlay/FloorOverlay";
 import { useRouter } from "next/navigation";
 import { useFloorStore } from "@/zustand/floorStore";
 import Loader from "@/components/shared/loader/Loader";
 import { useTranslations } from "next-intl";
 import { getCoordinateAreas } from "@/constants/coordinants/statusFloorCoord";
+import { FloorPlanImageOverlay } from "@/components/shared/apartment/FloorPlanImageOverlay";
 
-/* Original image dimensions */
+ 
 const DESKTOP_ORIGINAL_W = 6000;
 const DESKTOP_ORIGINAL_H = 3375;
 const MOBILE_ORIGINAL_W = 2827;
 const MOBILE_ORIGINAL_H = 3375;
 
 const MemoizedFloorOverlay = React.memo(
-  FloorOverlay,
+  FloorPlanImageOverlay,
   (prev, next) =>
     prev.flatId === next.flatId &&
     prev.hoveredApartment === next.hoveredApartment &&

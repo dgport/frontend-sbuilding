@@ -11,21 +11,21 @@ import DesktopImage from "@/root/public/images/elisium/DesktopImage.avif";
 import MobileImage from "@/root/public/images/elisium/MobileImage.jpg";
 import Image from "next/image";
 import { useMediaQuery } from "@/use-media-query";
-import { FloorOverlay } from "@/components/shared/overlay/FloorOverlay";
+
 import { useRouter } from "next/navigation";
 import { useFloorStore } from "@/zustand/floorStore";
 import Loader from "@/components/shared/loader/Loader";
 import { useTranslations } from "next-intl";
 import { getCoordinateAreas } from "@/constants/coordinants/statusFloorCoord";
+import { FloorPlanImageOverlay } from "@/components/shared/apartment/FloorPlanImageOverlay";
 
-/* Original image dimensions */
 const DESKTOP_ORIGINAL_W = 6000;
 const DESKTOP_ORIGINAL_H = 3375;
 const MOBILE_ORIGINAL_W = 2827;
 const MOBILE_ORIGINAL_H = 3375;
 
 const MemoizedFloorOverlay = React.memo(
-  FloorOverlay,
+  FloorPlanImageOverlay,
   (prev, next) =>
     prev.flatId === next.flatId &&
     prev.hoveredApartment === next.hoveredApartment &&
@@ -53,7 +53,6 @@ export default function SelectFloor() {
   const router = useRouter();
   const { setBuildingContext, setCurrentFloor } = useFloorStore();
 
-  // Get current image dimensions based on device
   const currentImageDimensions = useMemo(() => {
     if (isMobile) {
       return {
@@ -69,7 +68,6 @@ export default function SelectFloor() {
     };
   }, [isMobile]);
 
-  /* Fixed scaling calculation for mobile cover behavior */
   const updateMetrics = useCallback(() => {
     const img = imageRef.current;
     const container = containerRef.current;
@@ -82,24 +80,21 @@ export default function SelectFloor() {
       const { width: originalW, height: originalH } = currentImageDimensions;
 
       if (isMobile) {
-        // For mobile with object-fit: cover, we need to calculate the actual visible area
         const containerAspectRatio = containerRect.width / containerRect.height;
         const imageAspectRatio = originalW / originalH;
 
         let scaleX, scaleY, offsetX, offsetY;
 
         if (imageAspectRatio > containerAspectRatio) {
-          // Image is wider than container, so it's scaled by height and cropped horizontally
           scaleY = containerRect.height / originalH;
-          scaleX = scaleY; // Same scale for cover behavior
+          scaleX = scaleY;
 
           const renderedWidth = originalW * scaleX;
           offsetX = (containerRect.width - renderedWidth) / 2;
           offsetY = 0;
         } else {
-          // Image is taller than container, so it's scaled by width and cropped vertically
           scaleX = containerRect.width / originalW;
-          scaleY = scaleX; // Same scale for cover behavior
+          scaleY = scaleX;
 
           const renderedHeight = originalH * scaleY;
           offsetX = 0;
@@ -110,21 +105,7 @@ export default function SelectFloor() {
         setScaleY(scaleY);
         setOffsetX(offsetX);
         setOffsetY(offsetY);
-
-        console.log("Mobile cover scaling:", {
-          containerWidth: containerRect.width,
-          containerHeight: containerRect.height,
-          originalW,
-          originalH,
-          scaleX,
-          scaleY,
-          offsetX,
-          offsetY,
-          containerAspectRatio,
-          imageAspectRatio,
-        });
       } else {
-        // For desktop with object-fit: contain
         const renderedWidth = imgRect.width;
         const renderedHeight = imgRect.height;
 
@@ -155,7 +136,6 @@ export default function SelectFloor() {
     });
   }, [isMobile, currentImageDimensions, imageLoaded]);
 
-  // Calculate metrics when image loads
   useEffect(() => {
     if (!imageLoaded) return;
 
@@ -166,7 +146,6 @@ export default function SelectFloor() {
     return () => clearTimeout(timer);
   }, [imageLoaded, updateMetrics]);
 
-  // Recalculate on resize with debouncing
   useEffect(() => {
     if (!imageLoaded) return;
 
@@ -191,7 +170,6 @@ export default function SelectFloor() {
     };
   }, [imageLoaded, updateMetrics]);
 
-  // Reset when device type changes
   useEffect(() => {
     setImageLoaded(false);
     setScaleX(1);
@@ -200,27 +178,22 @@ export default function SelectFloor() {
     setOffsetY(0);
   }, [isMobile]);
 
-  /* Business logic */
   const handleFloorClick = useCallback(
     (floorId: number) => {
       setIsLoading(true);
       setBuildingContext("3", "6");
       setCurrentFloor(floorId);
-      setTimeout(() => router.push("/aisi-status/3/6"), 300);
+      setTimeout(() => router.push("/elisium/3/2"), 300);
     },
     [router, setBuildingContext, setCurrentFloor]
   );
 
   const handleImageLoad = useCallback(() => {
-    console.log("Image loaded, device:", isMobile ? "mobile" : "desktop");
     setImageLoaded(true);
     setIsLoading(false);
   }, [isMobile]);
 
-  // Get coordinates based on device type
   const currentAreas = useMemo(() => getCoordinateAreas(isMobile), [isMobile]);
-
-  // Select image source based on device
   const imageSource = isMobile ? MobileImage : DesktopImage;
 
   return (
@@ -247,16 +220,15 @@ export default function SelectFloor() {
               quality={100}
               sizes="(max-width: 768px) 100vw, 100vw"
               style={{
-                objectFit: isMobile ? "cover" : "contain", // Keep original behavior
+                objectFit: isMobile ? "cover" : "contain",
                 objectPosition: "center",
                 maxWidth: "100%",
-                height: isMobile ? "70vh" : "auto", // Keep original mobile height
+                height: isMobile ? "70vh" : "auto",
                 minHeight: isMobile ? "70vh" : "auto",
               }}
               onLoad={handleImageLoad}
             />
 
-            {/* Render overlays only when image is loaded and metrics are calculated */}
             {imageLoaded &&
               !isLoading &&
               scaleX > 0 &&
@@ -276,8 +248,6 @@ export default function SelectFloor() {
                   offsetY={offsetY}
                 />
               ))}
-
-            {/* Hover indicator */}
             {hoveredApartment && imageLoaded && !isLoading && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-6xl md:text-8xl opacity-70 pointer-events-none z-20 drop-shadow-lg">
                 {hoveredApartment}

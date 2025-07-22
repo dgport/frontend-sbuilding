@@ -8,7 +8,7 @@ import { useFloorStore } from "@/zustand/floorStore";
 import "swiper/css";
 import "swiper/css/free-mode";
 
-interface FloorSelectorProps {
+interface FloorSelectImageOverlayProps {
   floorRangeStart: number | undefined;
   floorRangeEnd: number | undefined;
   buildingId: string;
@@ -16,14 +16,14 @@ interface FloorSelectorProps {
   disabled?: boolean;
 }
 
-export const FloorSelector = React.memo(
+export const FloorSelectImageOverlay = React.memo(
   ({
     floorRangeStart,
     floorRangeEnd,
     buildingId,
     floorPlanId,
     disabled = false,
-  }: FloorSelectorProps) => {
+  }: FloorSelectImageOverlayProps) => {
     const swiperRef = useRef<SwiperType | null>(null);
     const [centerFloor, setCenterFloor] = useState(1);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -31,7 +31,6 @@ export const FloorSelector = React.memo(
     const lastNavigatedFloorRef = useRef(1);
     const isNavigatingRef = useRef(false);
 
-    // Zustand store
     const {
       currentFloor,
       isTransitioning,
@@ -249,4 +248,4 @@ export const FloorSelector = React.memo(
   }
 );
 
-FloorSelector.displayName = "FloorSelector";
+FloorSelectImageOverlay.displayName = "FloorSelectImageOverlay";

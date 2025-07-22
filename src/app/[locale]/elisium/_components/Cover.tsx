@@ -152,7 +152,7 @@ export default function Cover(): JSX.Element {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="relative">
               <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center shadow-lg animate-pulse">
-                <Home className="w-4 h-4 text-white" />
+                <MapPin className="w-4 h-4 text-white" />
               </div>
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-500"></div>
             </div>
@@ -214,27 +214,21 @@ export default function Cover(): JSX.Element {
 
   return (
     <div className="relative w-full min-h-screen flex flex-col">
-      {/* Background Image Section */}
       <div
-        className="relative w-full flex-1 bg-cover bg-center bg-no-repeat"
+        className="relative w-full flex-1 bg-cover bg-center md:bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('/images/elisium/Image2.avif')`,
           minHeight: "100vh",
         }}
       >
         <div className="absolute inset-0 bg-black/20"></div>
-
-        {/* Header */}
         <div className="relative z-10 text-center pt-16 px-4">
           <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-8 mt-20 sm:mt-40 drop-shadow-lg">
             Find Your Dream
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
-              {" "}
               Apartment
             </span>
           </h1>
-
-          {/* Stats Bar */}
           <div className="inline-block bg-white/10 backdrop-blur-md rounded-full px-4 sm:px-8 py-3 sm:py-4 mb-16">
             <div className="flex items-center space-x-4 sm:space-x-8 text-white">
               <div className="text-center">
@@ -256,8 +250,6 @@ export default function Cover(): JSX.Element {
             </div>
           </div>
         </div>
-
-        {/* Interactive Apartment Markers */}
         <div className="relative z-20 w-full h-full">
           {apartments.map((apartment) => (
             <div
@@ -268,71 +260,41 @@ export default function Cover(): JSX.Element {
               onMouseLeave={() => setHoveredApartment(null)}
               onClick={() => handleApartmentClick(apartment)}
             >
-              {/* Apartment Marker */}
               <div
                 className={`relative transition-all duration-300 ${
                   hoveredApartment === apartment.id ? "scale-110" : ""
                 }`}
               >
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full shadow-lg flex items-center justify-center border-4 border-blue-500 hover:border-blue-600 transition-colors">
-                  <Home className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500 hover:text-blue-600 transition-colors" />
+                  <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500 hover:text-blue-600 transition-colors" />
                 </div>
-
-                {/* Pulse Animation */}
                 <div className="absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 rounded-full animate-ping opacity-20"></div>
-
-                {/* Apartment Info Card */}
-                {hoveredApartment === apartment.id && (
-                  <div className="absolute top-16 sm:top-20 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-xl p-4 w-56 sm:w-64 opacity-100 transition-opacity duration-300 z-50">
-                    <div className="w-full h-24 sm:h-32 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg mb-3 flex items-center justify-center">
-                      <Home className="w-12 h-12 text-blue-400" />
-                    </div>
-                    <h3 className="font-bold text-lg text-gray-800">
-                      {apartment.name}
-                    </h3>
-                    <div className="flex items-center text-gray-600 mb-2">
-                      <MapPin className="w-4 h-4 mr-1" />
-                      <span className="text-sm">{apartment.location}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-blue-600 font-bold">
-                        {apartment.price}
-                      </span>
-                      <div className="flex items-center">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-                        <span className="text-sm">{apartment.rating}</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Action Buttons */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex space-x-4">
-          {/* Select Floor Button */}
+        <div className="absolute flex flex-col gap-6 md:flex-row w-full items-center justify-center bottom-8 left-1/2 transform -translate-x-1/2 z-30 space-x-4">
           <button
             onClick={handleSelectFloorClick}
             onMouseEnter={() => setIsFloorButtonHovered(true)}
             onMouseLeave={() => setIsFloorButtonHovered(false)}
-            className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105"
+            className="group relative w-auto overflow-hidden bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105"
             style={{
               animation: "bounce 3s infinite",
             }}
           >
-            {/* Animated background glow */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300"></div>
 
-            {/* Button content */}
-            <div className="relative flex items-center space-x-2">
-              <MapPin
+            <div className="relative flex items-center cursor-pointer space-x-2">
+              <Home
                 className={`w-5 h-5 transition-transform duration-300 ${
                   isFloorButtonHovered ? "scale-110 rotate-12" : ""
                 }`}
               />
-              <span className="text-base font-bold">Select Your Floor</span>
+              <span className="text-sm md:text-base font-bold">
+                Select Your Floor
+              </span>
               <ArrowDown
                 className={`w-5 h-5 transition-all duration-300 ${
                   isFloorButtonHovered ? "translate-y-1 scale-110" : ""
@@ -340,53 +302,43 @@ export default function Cover(): JSX.Element {
               />
             </div>
 
-            {/* Ripple effect */}
             <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transform scale-0 group-hover:scale-100 transition-all duration-300"></div>
 
-            {/* Sparkle effects */}
             <div className="absolute -top-2 -right-2 w-4 h-4 bg-blue-300 rounded-full animate-pulse opacity-0 group-hover:opacity-100 delay-100"></div>
             <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-blue-400 rounded-full animate-pulse opacity-0 group-hover:opacity-100 delay-200"></div>
           </button>
 
-          {/* Select Parking Button */}
           <button
             onClick={handleSelectParkingClick}
             onMouseEnter={() => setIsParkingButtonHovered(true)}
             onMouseLeave={() => setIsParkingButtonHovered(false)}
-            className="group relative overflow-hidden bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full font-semibold text-lg shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-105"
+            className="group w-auto cursor-pointer relative overflow-hidden bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full font-semibold text-lg shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-105"
             style={{
               animation: "bounce 3s infinite 0.5s",
             }}
           >
-            {/* Animated background glow */}
             <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300"></div>
-
-            {/* Button content */}
             <div className="relative flex items-center space-x-2">
               <Car
                 className={`w-5 h-5 transition-transform duration-300 ${
                   isParkingButtonHovered ? "scale-110 rotate-12" : ""
                 }`}
               />
-              <span className="text-base font-bold">Select Parking</span>
+              <span className="text-sm md:text-base font-bold">
+                Select Parking
+              </span>
               <ArrowDown
                 className={`w-5 h-5 transition-all duration-300 ${
                   isParkingButtonHovered ? "translate-y-1 scale-110" : ""
                 }`}
               />
             </div>
-
-            {/* Ripple effect */}
             <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transform scale-0 group-hover:scale-100 transition-all duration-300"></div>
-
-            {/* Sparkle effects */}
             <div className="absolute -top-2 -right-2 w-4 h-4 bg-green-300 rounded-full animate-pulse opacity-0 group-hover:opacity-100 delay-100"></div>
             <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-green-400 rounded-full animate-pulse opacity-0 group-hover:opacity-100 delay-200"></div>
           </button>
         </div>
       </div>
-
-      {/* Selected Apartment Modal */}
       {selectedApartment && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
@@ -408,8 +360,6 @@ export default function Cover(): JSX.Element {
                   ×
                 </button>
               </div>
-
-              {/* Apartment Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <h3 className="text-lg font-semibold mb-2">
@@ -457,8 +407,6 @@ export default function Cover(): JSX.Element {
                   </div>
                 </div>
               </div>
-
-              {/* Interactive Map */}
               <div className="w-full h-96 border rounded-xl">
                 <InteractiveMapView apartment={selectedApartment} />
               </div>
@@ -466,8 +414,6 @@ export default function Cover(): JSX.Element {
           </div>
         </div>
       )}
-
-      {/* Custom bounce animation with slower timing */}
       <style
         dangerouslySetInnerHTML={{
           __html: `

@@ -33,7 +33,7 @@ const getClipPathPolygon = (
     .join(", ")})`;
 };
 
-export const FloorOverlay: React.FC<FloorOverlayProps> = React.memo(
+export const FloorPlanImageOverlay: React.FC<FloorOverlayProps> = React.memo(
   ({
     flatId,
     flatNumber,
@@ -50,13 +50,11 @@ export const FloorOverlay: React.FC<FloorOverlayProps> = React.memo(
     const [showHint, setShowHint] = useState(false);
     const isHovered = hoveredApartment === flatId;
 
-    // Create clip path with proper scaling
     const clipPath = useMemo(
       () => getClipPathPolygon(coords, scaleX, scaleY, offsetX, offsetY),
       [coords, scaleX, scaleY, offsetX, offsetY]
     );
 
-    // Mobile detection
     useEffect(() => {
       const checkMobile = () => {
         setIsMobile(window.innerWidth <= 768 || "ontouchstart" in window);
@@ -77,7 +75,6 @@ export const FloorOverlay: React.FC<FloorOverlayProps> = React.memo(
       };
     }, []);
 
-    // Hint animation - show hint occasionally
     useEffect(() => {
       const hintInterval = setInterval(() => {
         setShowHint(true);
@@ -109,20 +106,17 @@ export const FloorOverlay: React.FC<FloorOverlayProps> = React.memo(
       handleFloorClick,
     ]);
 
-    // Don't render if scaling values are invalid
     if (scaleX <= 0 || scaleY <= 0) {
       return null;
     }
 
     return (
       <>
-        {/* Base layer – stronger edge, soft inner glow */}
         <div
           style={{ clipPath }}
           className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-slate-100/10 to-slate-200/10 border border-white/60 shadow-inner"
         />
 
-        {/* Interactive overlay – thicker borders & shimmer */}
         <div
           style={{ clipPath }}
           className={`
@@ -141,7 +135,6 @@ export const FloorOverlay: React.FC<FloorOverlayProps> = React.memo(
           onClick={handleClick}
         />
 
-        {/* Floor number badge - only shown when hovered */}
         <AnimatePresence>
           {isHovered && (
             <motion.div
@@ -159,7 +152,6 @@ export const FloorOverlay: React.FC<FloorOverlayProps> = React.memo(
           )}
         </AnimatePresence>
 
-        {/* Custom animation styles */}
         <style jsx global>{`
           @keyframes shimmer-hint {
             0% {
@@ -196,4 +188,4 @@ export const FloorOverlay: React.FC<FloorOverlayProps> = React.memo(
   }
 );
 
-FloorOverlay.displayName = "FloorOverlay";
+FloorPlanImageOverlay.displayName = "FloorPlanImageOverlay";

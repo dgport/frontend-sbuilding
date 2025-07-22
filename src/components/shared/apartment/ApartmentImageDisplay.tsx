@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,7 @@ interface ApartmentImage {
   status?: string;
 }
 
-interface PhotoGalleryProps {
+interface ApartmentImageDisplayProps {
   images: ApartmentImage[];
   isOpen: boolean;
   onClose: () => void;
@@ -34,11 +34,9 @@ interface ContactFormData {
   floorNumber?: number;
 }
 
- 
-const WEB3FORMS_ACCESS_KEY =
-  process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || ""
+const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
 
-export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
+export const ApartmentImageDisplay: React.FC<ApartmentImageDisplayProps> = ({
   images,
   isOpen,
   onClose,

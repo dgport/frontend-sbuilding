@@ -60,7 +60,7 @@ const Pagination = ({
             size="sm"
             onClick={() => onPageChange(page)}
           >
-            {page}
+            {page + 1}
           </Button>
         )
       )}

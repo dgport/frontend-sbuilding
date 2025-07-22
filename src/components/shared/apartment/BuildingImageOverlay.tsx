@@ -54,7 +54,7 @@ const calculateCenter = (
   };
 };
 
-export const ApartmentOverlay: FC<ApartmentAreaProps> = ({
+export const BuildingImageOverlay: FC<ApartmentAreaProps> = ({
   flatId,
   flatNumber,
   status,
