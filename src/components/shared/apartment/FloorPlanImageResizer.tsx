@@ -150,32 +150,22 @@ export function FloorPlanImageResizer({
       setTimeout(updateImageMetrics, 100);
     });
 
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
+    const containerEl = containerRef.current;
+    const imageEl = imageRef.current;
+    const imageContainerEl = imageContainerRef.current;
 
-    if (imageRef.current) {
-      resizeObserver.observe(imageRef.current);
-    }
-
-    if (imageContainerRef.current) {
-      resizeObserver.observe(imageContainerRef.current);
-    }
+    if (containerEl) resizeObserver.observe(containerEl);
+    if (imageEl) resizeObserver.observe(imageEl);
+    if (imageContainerEl) resizeObserver.observe(imageContainerEl);
 
     window.addEventListener("resize", updateImageMetrics);
 
     return () => {
       clearTimeout(timer);
 
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
-      }
-      if (imageRef.current) {
-        resizeObserver.unobserve(imageRef.current);
-      }
-      if (imageContainerRef.current) {
-        resizeObserver.unobserve(imageContainerRef.current);
-      }
+      if (containerEl) resizeObserver.unobserve(containerEl);
+      if (imageEl) resizeObserver.unobserve(imageEl);
+      if (imageContainerEl) resizeObserver.unobserve(imageContainerEl);
 
       window.removeEventListener("resize", updateImageMetrics);
       resizeObserver.disconnect();

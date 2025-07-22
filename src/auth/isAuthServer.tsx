@@ -35,6 +35,7 @@ export async function isAuthServer() {
       };
     }
   } catch (error) {
+    console.error(error);
     return {
       authenticated: false,
       user: null,

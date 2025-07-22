@@ -20,7 +20,7 @@ export default function PaymentCalculator() {
     } else {
       setIsUpdatingPercent(false);
     }
-  }, [propertyValue, downPaymentPercent]);
+  }, [propertyValue, downPaymentPercent, isUpdatingPercent]);
 
   const handleDownPaymentAmountChange = (value: number) => {
     setDownPaymentAmount(value);
@@ -91,12 +91,9 @@ export default function PaymentCalculator() {
           <div className="mt-4 h-0.5 w-32 md:w-32 bg-gradient-to-r from-blue-500 via-blue-300 to-transparent rounded-full mx-auto"></div>
         </div>
 
-        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-          {/* Input Controls */}
           <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border border-gray-100">
             <div className="space-y-6">
-              {/* Property Value */}
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-gray-700 flex items-center font-medium text-sm md:text-base">
@@ -131,7 +128,6 @@ export default function PaymentCalculator() {
                 </div>
               </div>
 
-              {/* Down Payment */}
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-gray-700 flex items-center font-medium text-sm md:text-base">
@@ -189,7 +185,6 @@ export default function PaymentCalculator() {
                 </div>
               </div>
 
-              {/* Payment Period */}
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-gray-700 flex items-center font-medium text-sm md:text-base">
@@ -231,7 +226,6 @@ export default function PaymentCalculator() {
             </div>
           </div>
 
-          {/* Payment Summary */}
           <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border border-gray-100">
             <div className="mb-4">
               <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
@@ -240,7 +234,6 @@ export default function PaymentCalculator() {
               <div className="h-px bg-gray-200 w-full" />
             </div>
 
-            {/* Summary Grid */}
             <div className="grid grid-cols-2 gap-x-3 gap-y-8 mb-4">
               <div className="bg-gray-50 border border-gray-100 rounded-md p-3">
                 <div className="text-gray-600 text-xs font-medium mb-1">

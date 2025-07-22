@@ -106,6 +106,7 @@ export default function BuildingsPage() {
       setPasswordError("");
     },
     onError: (error) => {
+      console.error(error);
       toast.error("Failed to delete building");
     },
   });

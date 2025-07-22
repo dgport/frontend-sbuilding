@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import React, { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
@@ -367,7 +368,7 @@ This inquiry was submitted through the apartment gallery.
                     }`}
                     aria-label={`${t("thumbnail")} ${idx + 1}`}
                   >
-                    <img
+                    <Image
                       src={img.src || "/placeholder.svg"}
                       alt={`${t("thumbnail")} ${idx + 1}`}
                       className="w-full h-full object-cover"

@@ -88,11 +88,6 @@ export async function generateMetadata({
     category: "Real Estate",
     classification: "Business",
     referrer: "origin-when-cross-origin",
-    viewport: {
-      width: "device-width",
-      initialScale: 1,
-      maximumScale: 5,
-    },
   };
 }
 

@@ -52,7 +52,6 @@ export default function SelectParking() {
   const router = useRouter();
   const { setBuildingContext, setCurrentFloor } = useFloorStore();
 
-  // Get current image dimensions based on device
   const currentImageDimensions = useMemo(() => {
     if (isMobile) {
       return {
@@ -68,7 +67,6 @@ export default function SelectParking() {
     };
   }, [isMobile]);
 
-  /* Fixed scaling calculation for mobile cover behavior */
   const updateMetrics = useCallback(() => {
     const img = imageRef.current;
     const container = containerRef.current;
@@ -81,24 +79,21 @@ export default function SelectParking() {
       const { width: originalW, height: originalH } = currentImageDimensions;
 
       if (isMobile) {
-        // For mobile with object-fit: cover, we need to calculate the actual visible area
         const containerAspectRatio = containerRect.width / containerRect.height;
         const imageAspectRatio = originalW / originalH;
 
         let scaleX, scaleY, offsetX, offsetY;
 
         if (imageAspectRatio > containerAspectRatio) {
-          // Image is wider than container, so it's scaled by height and cropped horizontally
           scaleY = containerRect.height / originalH;
-          scaleX = scaleY; // Same scale for cover behavior
+          scaleX = scaleY;
 
           const renderedWidth = originalW * scaleX;
           offsetX = (containerRect.width - renderedWidth) / 2;
           offsetY = 0;
         } else {
-          // Image is taller than container, so it's scaled by width and cropped vertically
           scaleX = containerRect.width / originalW;
-          scaleY = scaleX; // Same scale for cover behavior
+          scaleY = scaleX;
 
           const renderedHeight = originalH * scaleY;
           offsetX = 0;
@@ -110,7 +105,6 @@ export default function SelectParking() {
         setOffsetX(offsetX);
         setOffsetY(offsetY);
       } else {
-        // For desktop with object-fit: contain
         const renderedWidth = imgRect.width;
         const renderedHeight = imgRect.height;
 
@@ -128,7 +122,6 @@ export default function SelectParking() {
     });
   }, [isMobile, currentImageDimensions, imageLoaded]);
 
-  // Calculate metrics when image loads
   useEffect(() => {
     if (!imageLoaded) return;
 
@@ -139,7 +132,6 @@ export default function SelectParking() {
     return () => clearTimeout(timer);
   }, [imageLoaded, updateMetrics]);
 
-  // Recalculate on resize with debouncing
   useEffect(() => {
     if (!imageLoaded) return;
 
@@ -164,7 +156,6 @@ export default function SelectParking() {
     };
   }, [imageLoaded, updateMetrics]);
 
-  // Reset when device type changes
   useEffect(() => {
     setImageLoaded(false);
     setScaleX(1);
@@ -173,7 +164,6 @@ export default function SelectParking() {
     setOffsetY(0);
   }, [isMobile]);
 
-  /* Business logic */
   const handleFloorClick = useCallback(
     (floorId: number) => {
       setIsLoading(true);
@@ -187,7 +177,7 @@ export default function SelectParking() {
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
     setIsLoading(false);
-  }, [isMobile]);
+  }, []);
 
   const currentAreas = useMemo(() => getCoordinateAreas(isMobile), [isMobile]);
 

@@ -51,6 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         Cookies.remove("token");
       }
     } catch (error) {
+      console.error(error);
       setUser(null);
       setAuthenticated(false);
       Cookies.remove("token");
@@ -91,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }, 5 * 60 * 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [authenticated]);
 
   return (
     <AuthContext.Provider

@@ -178,7 +178,7 @@ export default function SelectFloor() {
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
     setIsLoading(false);
-  }, [isMobile]);
+  }, []);
 
   const currentAreas = useMemo(() => getCoordinateAreas(isMobile), [isMobile]);
   const imageSource = isMobile ? MobileImage : DesktopImage;

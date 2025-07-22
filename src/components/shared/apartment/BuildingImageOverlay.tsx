@@ -21,6 +21,40 @@ interface ApartmentAreaProps {
   animationDelay?: number;
 }
 
+const getStatusStyles = (status: string, isHovered: boolean) => {
+  switch (status?.toLowerCase()) {
+    case "free":
+    case "available":
+      return {
+        background: isHovered ? "bg-green-600/70" : "bg-green-500/40",
+        textColor: "text-green-800",
+        badgeColor: "bg-green-100 text-green-800 border-green-300",
+        borderColor: "border-green-400",
+      };
+    case "reserved":
+      return {
+        background: isHovered ? "bg-yellow-600/70" : "bg-yellow-500/40",
+        textColor: "text-yellow-800",
+        badgeColor: "bg-yellow-100 text-yellow-800 border-yellow-300",
+        borderColor: "border-yellow-400",
+      };
+    case "sold":
+      return {
+        background: isHovered ? "bg-red-600/70" : "bg-red-500/40",
+        textColor: "text-red-800",
+        badgeColor: "bg-red-100 text-red-800 border-red-300",
+        borderColor: "border-red-400",
+      };
+    default:
+      return {
+        background: isHovered ? "bg-gray-600/70" : "bg-gray-500/40",
+        textColor: "text-gray-800",
+        badgeColor: "bg-gray-100 text-gray-800 border-gray-300",
+        borderColor: "border-gray-400",
+      };
+  }
+};
+
 const getClipPathPolygon = (
   coords: Coordinate[],
   scaleFactorX = 1,
@@ -77,60 +111,10 @@ export const BuildingImageOverlay: FC<ApartmentAreaProps> = ({
     return () => clearTimeout(timer);
   }, [animationDelay, flatId]);
 
-  const getStatusStyles = () => {
-    const isHovered = hoveredApartment === flatId;
-
-    switch (status?.toLowerCase()) {
-      case "free":
-      case "available":
-        return {
-          background: isHovered ? "bg-green-600/70" : "bg-green-500/40",
-          textColor: "text-green-800",
-          badgeColor: "bg-green-100 text-green-800 border-green-300",
-          borderColor: "border-green-400",
-        };
-      case "reserved":
-        return {
-          background: isHovered ? "bg-yellow-600/70" : "bg-yellow-500/40",
-          textColor: "text-yellow-800",
-          badgeColor: "bg-yellow-100 text-yellow-800 border-yellow-300",
-          borderColor: "border-yellow-400",
-        };
-      case "sold":
-        return {
-          background: isHovered ? "bg-red-600/70" : "bg-red-500/40",
-          textColor: "text-red-800",
-          badgeColor: "bg-red-100 text-red-800 border-red-300",
-          borderColor: "border-red-400",
-        };
-      default:
-        return {
-          background: isHovered ? "bg-gray-600/70" : "bg-gray-500/40",
-          textColor: "text-gray-800",
-          badgeColor: "bg-gray-100 text-gray-800 border-gray-300",
-          borderColor: "border-gray-400",
-        };
-    }
-  };
-
-  const getStatusIcon = () => {
-    switch (status?.toLowerCase()) {
-      case "free":
-      case "available":
-        return "✓";
-      case "reserved":
-        return "⏳";
-      case "sold":
-        return "✕";
-      default:
-        return "?";
-    }
-  };
+  const isHovered = hoveredApartment === flatId;
+  const styles = getStatusStyles(status, isHovered);
 
   const overlayClasses = useMemo(() => {
-    const styles = getStatusStyles();
-    const isHovered = hoveredApartment === flatId;
-
     let classes = `
       ${styles.background}
       border-2 ${isHovered ? "border-white" : styles.borderColor}
@@ -146,15 +130,25 @@ export const BuildingImageOverlay: FC<ApartmentAreaProps> = ({
     }
 
     return classes;
-  }, [hoveredApartment, flatId, isVisible, status]);
+  }, [isHovered, isVisible, styles]);
 
-  if (!coords || coords.length < 3) {
-    return null;
-  }
+  const getStatusIcon = () => {
+    switch (status?.toLowerCase()) {
+      case "free":
+      case "available":
+        return "✓";
+      case "reserved":
+        return "⏳";
+      case "sold":
+        return "✕";
+      default:
+        return "?";
+    }
+  };
+
+  if (!coords || coords.length < 3) return null;
 
   const center = calculateCenter(coords, scaleFactorX, scaleFactorY);
-  const styles = getStatusStyles();
-  const isHovered = hoveredApartment === flatId;
 
   return (
     <>
@@ -197,6 +191,21 @@ export const BuildingImageOverlay: FC<ApartmentAreaProps> = ({
         .animate-badge-bounce {
           animation: badge-bounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)
             forwards;
+        }
+
+        @keyframes tooltip-appear {
+          0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(10px) scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+          }
+        }
+
+        .animate-tooltip-appear {
+          animation: tooltip-appear 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
       `}</style>
 
@@ -249,6 +258,7 @@ export const BuildingImageOverlay: FC<ApartmentAreaProps> = ({
           <span className="md:block hidden ">{getStatusIcon()}</span>
         </div>
       </div>
+
       {isHovered && (
         <div
           style={{
@@ -272,23 +282,6 @@ export const BuildingImageOverlay: FC<ApartmentAreaProps> = ({
           <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-800/95"></div>
         </div>
       )}
-
-      <style jsx>{`
-        @keyframes tooltip-appear {
-          0% {
-            opacity: 0;
-            transform: translateX(-50%) translateY(10px) scale(0.9);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0) scale(1);
-          }
-        }
-
-        .animate-tooltip-appear {
-          animation: tooltip-appear 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-      `}</style>
     </>
   );
 };
