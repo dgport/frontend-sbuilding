@@ -10,13 +10,6 @@ import WhatsAppChat from "@/components/shared/socials/Whatsapp";
 import MessengerChat from "@/components/shared/socials/Messanger";
 import Footer from "@/components/footer/Footer";
 
-const geo1 = localFont({
-  src: "../../fonts/geo1.otf",
-  variable: "--font-geo1",
-  display: "swap",
-  weight: "400",
-});
-
 const geo2 = localFont({
   src: "../../fonts/geo2.ttf",
   variable: "--font-geo2",
@@ -25,10 +18,11 @@ const geo2 = localFont({
 });
 
 export async function generateMetadata({
-  params: { locale },
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations("main");
 
   return {
@@ -93,16 +87,17 @@ export async function generateMetadata({
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
   const messages = await getMessages();
 
   return (
     <html lang={locale}>
-      <body className={`${geo1.variable} ${geo2.variable}`}>
+      <body className={` ${geo2.variable}`} suppressHydrationWarning={true}>
         <AuthProvider>
           <QueryProvider>
             <NextIntlClientProvider messages={messages}>

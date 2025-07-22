@@ -170,46 +170,45 @@ const CoverSection = () => {
       </div>
 
       <div className="hidden absolute pt-14 gap-20 inset-0 lg:flex items-center justify-between text-white pl-32 xl:pl-48 pr-12 xl:pr-20 z-10">
-        <Link href="/elisium">
+        {/* Removed the outer Link wrapper - this was causing nested <a> tags */}
+        <motion.div
+          ref={cardRef}
+          className="w-92 relative"
+          style={{ perspective: "1200px" }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
           <motion.div
-            ref={cardRef}
-            className="w-92 relative"
-            style={{ perspective: "1200px" }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            className="rounded-3xl shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden"
+            style={{
+              rotateX,
+              rotateZ,
+              background:
+                "linear-gradient(135deg, rgba(59,130,246,0.2), rgba(29,78,216,0.3), rgba(30,64,175,0.2))",
+            }}
           >
-            <motion.div
-              className="rounded-3xl shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden"
-              style={{
-                rotateX,
-                rotateZ,
-                background:
-                  "linear-gradient(135deg, rgba(59,130,246,0.2), rgba(29,78,216,0.3), rgba(30,64,175,0.2))",
-              }}
-            >
-              <div className="p-4 flex flex-col items-center text-white">
-                <div className="text-3xl mb-2">🏗️</div>
-                <h1 className="text-2xl font-bold mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-                  Current project "Elisium"
-                </h1>
-                <Image
-                  src={img || "/placeholder.svg"}
-                  alt="Project"
-                  className="w-full   lg:h-[60%] rounded-md"
-                />
-                <Link href="/elisium">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-gradient-to-r from-blue-500 cursor-pointer to-blue-600 text-white mt-4 text-base px-5 py-2 rounded-xl flex items-center gap-3 shadow-lg"
-                  >
-                    View Current Project
-                  </motion.button>
-                </Link>
-              </div>
-            </motion.div>
+            <div className="p-4 flex flex-col items-center text-white">
+              <div className="text-3xl mb-2">🏗️</div>
+              <h1 className="text-2xl font-bold mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+                Current project "Elisium"
+              </h1>
+              <Image
+                src={img || "/placeholder.svg"}
+                alt="Project"
+                className="w-full   lg:h-[60%] rounded-md"
+              />
+              <Link href="/elisium">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-blue-500 cursor-pointer to-blue-600 text-white mt-4 text-base px-5 py-2 rounded-xl flex items-center gap-3 shadow-lg"
+                >
+                  View Current Project
+                </motion.button>
+              </Link>
+            </div>
           </motion.div>
-        </Link>
+        </motion.div>
 
         <motion.div
           className="mr-16 lg:mr-24 text-right max-w-xl"

@@ -2,14 +2,27 @@
 
 import type React from "react";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, useSpring } from "framer-motion";
 import { Star } from "lucide-react";
 
 export default function WhyUsSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   const clientTestimonials = [
     {
@@ -267,14 +280,14 @@ export default function WhyUsSection() {
               className="absolute bg-white/90 border-blue-200/60 text-blue-900 backdrop-blur-sm rounded-lg border shadow-lg"
               style={{
                 left: `${
-                  window.innerWidth >= 768
-                    ? testimonial.position.x
-                    : testimonial.mobilePosition.x
+                  isMobile
+                    ? testimonial.mobilePosition.x
+                    : testimonial.position.x
                 }%`,
                 top: `${
-                  window.innerWidth >= 768
-                    ? testimonial.position.y
-                    : testimonial.mobilePosition.y
+                  isMobile
+                    ? testimonial.mobilePosition.y
+                    : testimonial.position.y
                 }%`,
                 opacity: testimonial.depth,
               }}

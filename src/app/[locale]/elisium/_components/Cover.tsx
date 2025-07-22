@@ -94,17 +94,11 @@ export default function Cover(): JSX.Element {
       }
     };
 
-    const handleMouseDown = (): void => {
-      // Handle mouse down for dragging if needed
-    };
+    const handleMouseDown = (): void => {};
 
-    const handleMouseUp = (): void => {
-      // Handle mouse up for dragging if needed
-    };
+    const handleMouseUp = (): void => {};
 
-    const handleMouseLeave = (): void => {
-      // Handle mouse leave for dragging if needed
-    };
+    const handleMouseLeave = (): void => {};
 
     useEffect(() => {
       setIsMapLoaded(true);

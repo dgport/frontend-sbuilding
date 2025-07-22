@@ -59,6 +59,8 @@ const ApartmentSlideshow = () => {
       <div className="absolute inset-0 transition-opacity duration-1000">
         <Image
           src={backgroundImages[currentImageIndex]}
+          width={1900}
+          height={1200}
           alt="Apartment building"
           className="w-full h-full object-cover md:object-cover animate-[panRight_20s_linear_infinite] md:animate-none md:object-center object-left"
         />

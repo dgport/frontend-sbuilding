@@ -38,7 +38,7 @@ const UpdateApartmentDialog = ({
   const [updateError, setUpdateError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Reset form values when dialog opens or apartment changes
+ 
   useEffect(() => {
     if (isOpen && apartment) {
       setSquareMeters(apartment.square_meters.toString());

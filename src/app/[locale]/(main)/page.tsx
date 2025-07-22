@@ -1,4 +1,3 @@
-import React from "react";
 import WhyUsSection from "./_components/WhyUsSection";
 import HeroSection from "./_components/CoverSection";
 import ApartmentSlideshow from "./_components/FeaturesSection";

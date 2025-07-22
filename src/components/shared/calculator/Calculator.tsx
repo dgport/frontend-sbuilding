@@ -20,7 +20,7 @@ export default function PaymentCalculator() {
     } else {
       setIsUpdatingPercent(false);
     }
-  }, [propertyValue, downPaymentPercent, isUpdatingPercent]);
+  }, [propertyValue, downPaymentPercent]);
 
   const handleDownPaymentAmountChange = (value: number) => {
     setDownPaymentAmount(value);
