@@ -5,8 +5,10 @@ import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import { motion, useSpring } from "framer-motion";
 import { Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function WhyUsSection() {
+  const t = useTranslations("main");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -27,8 +29,8 @@ export default function WhyUsSection() {
   const clientTestimonials = [
     {
       id: 1,
-      name: "Robert Chen",
-      text: "Exceptional construction quality and on-time delivery. Professional team that exceeded our expectations.",
+      name: t("client_name_1"),
+      text: t("client_testimonial_1"),
       rating: 5,
       position: { x: 15, y: 20 }, // Original desktop position
       mobilePosition: { x: 10, y: 5 }, // Mobile specific position
@@ -37,8 +39,8 @@ export default function WhyUsSection() {
     },
     {
       id: 2,
-      name: "Maria Rodriguez",
-      text: "Professional team, excellent project management. They transformed our commercial space beautifully.",
+      name: t("client_name_2"),
+      text: t("client_testimonial_2"),
       rating: 5,
       position: { x: 75, y: 15 }, // Original desktop position
       mobilePosition: { x: 70, y: 8 },
@@ -47,8 +49,8 @@ export default function WhyUsSection() {
     },
     {
       id: 3,
-      name: "David Thompson",
-      text: "Outstanding attention to detail and craftsmanship. Every aspect was handled with precision and care.",
+      name: t("client_name_3"),
+      text: t("client_testimonial_3"),
       rating: 5,
       position: { x: 10, y: 65 }, // Original desktop position
       mobilePosition: { x: 5, y: 85 },
@@ -57,8 +59,8 @@ export default function WhyUsSection() {
     },
     {
       id: 4,
-      name: "Sarah Johnson",
-      text: "Transformed our vision into reality perfectly. Amazing communication throughout the entire process.",
+      name: t("client_name_4"),
+      text: t("client_testimonial_4"),
       rating: 5,
       position: { x: 70, y: 70 }, // Original desktop position
       mobilePosition: { x: 75, y: 90 },
@@ -67,8 +69,8 @@ export default function WhyUsSection() {
     },
     {
       id: 5,
-      name: "Michael Park",
-      text: "Reliable, efficient, and high-quality construction. Best investment we made for our property renovation.",
+      name: t("client_name_5"),
+      text: t("client_testimonial_5"),
       rating: 5,
       position: { x: 20, y: 40 }, // Original desktop position
       mobilePosition: { x: 2, y: 35 },
@@ -77,8 +79,8 @@ export default function WhyUsSection() {
     },
     {
       id: 6,
-      name: "Lisa Wilson",
-      text: "Best construction company we've worked with. Delivered on time and within budget consistently.",
+      name: t("client_name_6"),
+      text: t("client_testimonial_6"),
       rating: 5,
       position: { x: 65, y: 45 }, // Original desktop position
       mobilePosition: { x: 88, y: 45 },
@@ -355,7 +357,7 @@ export default function WhyUsSection() {
               </motion.div>
 
               <h2 className="text-xl md:text-3xl font-bold mb-4 md:mb-6 text-center tracking-wide">
-                WHY CHOOSE US?
+                {t("why_choose_us")}
               </h2>
 
               <div className="space-y-3 md:space-y-4 text-center">
@@ -368,7 +370,7 @@ export default function WhyUsSection() {
                     500+
                   </div>
                   <div className="text-xs md:text-sm opacity-90">
-                    Projects Completed
+                    {t("projects_completed")}
                   </div>
                 </motion.div>
 
@@ -386,7 +388,7 @@ export default function WhyUsSection() {
                     10,000+
                   </div>
                   <div className="text-xs md:text-sm opacity-90">
-                    Happy Clients
+                    {t("happy_clients")}
                   </div>
                 </motion.div>
 
@@ -404,7 +406,7 @@ export default function WhyUsSection() {
                     30+
                   </div>
                   <div className="text-xs md:text-sm opacity-90">
-                    Years Experience
+                    {t("years_experience")}
                   </div>
                 </motion.div>
               </div>

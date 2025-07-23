@@ -50,9 +50,9 @@ export default function Header() {
     {
       name: t("projects"),
       href: "/projects",
-      subItems: [{ name: "elisium", href: "/elisium" }],
+      subItems: [{ name: t("elisium"), href: "/elisium" }],
     },
-    // { name: t("aboutUs"), href: "/about-us" },
+
     { name: t("contact"), href: "/contact" },
   ];
 
@@ -96,11 +96,9 @@ export default function Header() {
     setIsProjectsOpen(!isProjectsOpen);
   };
 
-  // Check if we're on contact or about-us pages
   const isContactOrAboutPage =
     pathname.includes("/contact") || pathname.includes("/about-us");
 
-  // Function to get header background classes
   const getHeaderBackgroundClasses = () => {
     if (isAdmin) {
       return "bg-blue-900/95 backdrop-blur-xl shadow-2xl shadow-black/20 border-b border-white/10";
@@ -117,7 +115,6 @@ export default function Header() {
     return "bg-blue-900/20 backdrop-blur-md";
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -160,10 +157,9 @@ export default function Header() {
         <div className="flex items-center justify-between h-full relative">
           {isMobile ? (
             <>
-              {/* Mobile Logo */}
               <motion.button
                 onClick={handleLogoClick}
-                className="flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-lg"
+                className="flex-shrink-0 focus:outline-none cursor-pointer focus:ring-2 focus:ring-blue-400 rounded-lg"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -177,10 +173,9 @@ export default function Header() {
                 />
               </motion.button>
 
-              {/* Mobile Menu Toggle */}
               <motion.button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="relative z-[60] p-3 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="relative z-[60] p-3 rounded-2xl cursor-pointer bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-expanded={isMenuOpen}
@@ -199,7 +194,6 @@ export default function Header() {
                 </AnimatePresence>
               </motion.button>
 
-              {/* Mobile Menu Backdrop */}
               <AnimatePresence>
                 {isMenuOpen && (
                   <motion.div
@@ -212,8 +206,6 @@ export default function Header() {
                   />
                 )}
               </AnimatePresence>
-
-              {/* Mobile Menu */}
               <AnimatePresence>
                 {isMenuOpen && (
                   <motion.nav
@@ -286,7 +278,7 @@ export default function Header() {
                                               onClick={() =>
                                                 handleSubItemClick(subItem.href)
                                               }
-                                              className={`w-full text-left p-4 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                                              className={`w-full text-left p-4 cursor-pointer rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                                                 isSubItemActive(subItem.href)
                                                   ? "bg-gradient-to-r from-blue-500/30 to-blue-600/30 border border-blue-500/50 text-blue-50 shadow-lg shadow-blue-500/20"
                                                   : "bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-transparent hover:border-white/20"
@@ -306,7 +298,7 @@ export default function Header() {
                             ) : (
                               <button
                                 onClick={() => handleNavItemClick(item.href)}
-                                className={`w-full text-left p-5 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                                className={`w-full text-left p-5 rounded-2xl cursor-pointer transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                                   isActive(item.href)
                                     ? "bg-gradient-to-r from-blue-500/20 to-blue-600/20 border border-blue-500/40 text-white shadow-lg shadow-blue-500/25"
                                     : "bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 hover:border-white/30"
@@ -336,10 +328,8 @@ export default function Header() {
             </>
           ) : (
             <>
-              {/* Desktop Layout */}
               <div className="flex items-center justify-center w-full">
                 <div className="flex items-center gap-12">
-                  {/* Left Navigation */}
                   <nav
                     className="flex items-center gap-6"
                     role="navigation"
@@ -351,7 +341,7 @@ export default function Header() {
                           <div className="relative projects-dropdown">
                             <motion.button
                               onClick={handleProjectsToggle}
-                              className={`relative text-white font-medium text-base tracking-wide hover:text-blue-100 group inline-flex items-center px-5 py-2.5 rounded-xl backdrop-blur-sm transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                              className={`relative text-white cursor-pointer font-medium text-base tracking-wide hover:text-blue-100 group inline-flex items-center px-5 py-2.5 rounded-xl backdrop-blur-sm transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                                 isActive(item.href)
                                   ? "bg-gradient-to-r from-blue-500/25 to-blue-600/25 border-blue-400/50 shadow-lg shadow-blue-500/20"
                                   : "bg-white/8 hover:bg-white/15 border-white/15 hover:border-white/25"
@@ -394,7 +384,7 @@ export default function Header() {
                                           handleSubItemClick(subItem.href);
                                           setIsProjectsOpen(false);
                                         }}
-                                        className={`w-full text-left px-3.5 py-2.5 rounded-lg font-medium text-sm tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                                        className={`w-full text-left px-3.5 py-2.5 rounded-lg cursor-pointer font-medium text-sm tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                                           isSubItemActive(subItem.href)
                                             ? "bg-gradient-to-r from-blue-500/30 to-blue-600/30 text-blue-50 border border-blue-500/50 shadow-lg shadow-blue-500/20"
                                             : "text-gray-300 hover:bg-white/10 hover:text-white border border-transparent hover:border-white/20"
@@ -412,7 +402,7 @@ export default function Header() {
                         ) : (
                           <motion.button
                             onClick={() => handleNavItemClick(item.href)}
-                            className={`relative text-white font-medium text-base tracking-wide hover:text-blue-100 group inline-block px-5 py-2.5 rounded-xl backdrop-blur-sm transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                            className={`relative text-white font-medium cursor-pointer text-base tracking-wide hover:text-blue-100 group inline-block px-5 py-2.5 rounded-xl backdrop-blur-sm transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                               isActive(item.href)
                                 ? "bg-gradient-to-r from-blue-500/25 to-blue-600/25 border-blue-400/50 shadow-lg shadow-blue-500/20"
                                 : "bg-white/8 hover:bg-white/15 border-white/15 hover:border-white/25"
@@ -427,10 +417,9 @@ export default function Header() {
                     ))}
                   </nav>
 
-                  {/* Desktop Logo */}
                   <motion.button
                     onClick={handleLogoClick}
-                    className="mx-10 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-lg"
+                    className="mx-10 focus:outline-none cursor-pointer focus:ring-2 focus:ring-blue-400 rounded-lg"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{
@@ -452,7 +441,6 @@ export default function Header() {
                     />
                   </motion.button>
 
-                  {/* Right Navigation */}
                   <nav
                     className="flex items-center gap-6"
                     role="navigation"
@@ -462,7 +450,7 @@ export default function Header() {
                       <motion.button
                         key={item.name}
                         onClick={() => handleNavItemClick(item.href)}
-                        className={`relative text-white font-medium text-base tracking-wide hover:text-blue-100 group inline-block px-5 py-2.5 rounded-xl backdrop-blur-sm transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                        className={`relative text-white font-medium cursor-pointer text-base tracking-wide hover:text-blue-100 group inline-block px-5 py-2.5 rounded-xl backdrop-blur-sm transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                           isActive(item.href)
                             ? "bg-gradient-to-r from-blue-500/25 to-blue-600/25 border-blue-400/50 shadow-lg shadow-blue-500/20"
                             : "bg-white/8 hover:bg-white/15 border-white/15 hover:border-white/25"
@@ -475,8 +463,6 @@ export default function Header() {
                     ))}
                   </nav>
                 </div>
-
-                {/* Locale Switcher */}
                 <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
                   <div className="p-2 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg">
                     <LocaleSwitcher />

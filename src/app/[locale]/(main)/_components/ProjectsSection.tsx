@@ -16,49 +16,51 @@ import Image4 from "@/root/public/images/projects/house-sulaberidze.png";
 import Image5 from "@/root/public/images/projects/your-space.png";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
+import { useTranslations } from "next-intl";
 
 export default function ProjectsSection() {
+  const t = useTranslations("main");
   const navigate = useRouter();
 
   const data = [
     {
       img: Image1,
-      alt: "Elisium",
-      title: "Elisium",
+      alt: t("elisium_title"),
+      title: t("elisium_title"),
       status: "available",
       description: "",
       id: "elisium",
     },
     {
       img: Image2,
-      alt: "House on Abashidze",
-      title: "House on Abashidze",
+      alt: t("house_abashidze_title"),
+      title: t("house_abashidze_title"),
       status: "sold-out",
-      description: "Completed",
+      description: t("project_completed"),
       id: "House on Abashidze",
     },
     {
       img: Image3,
-      alt: "House on Bagrationi",
-      title: "BHouse on Bagrationi",
+      alt: t("house_bagrationi_title"),
+      title: t("house_bagrationi_title"),
       status: "sold-out",
-      description: "Completed",
+      description: t("project_completed"),
       id: "House on Bagrationi",
     },
     {
       img: Image4,
-      alt: "House on Sulaberidze",
-      title: "House on Sulaberidze",
+      alt: t("house_sulaberidze_title"),
+      title: t("house_sulaberidze_title"),
       status: "sold-out",
-      description: "Completed",
+      description: t("project_completed"),
       id: "House on Sulaberidze",
     },
     {
       img: Image5,
-      alt: "Your Space",
-      title: "Your Space",
+      alt: t("your_space_title"),
+      title: t("your_space_title"),
       status: "sold-out",
-      description: "Completed",
+      description: t("project_completed"),
       id: "your-space",
     },
   ];

@@ -6,8 +6,10 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import img from "@/root/public/images/testimg.jpg";
+import { useTranslations } from "next-intl";
 
 const CoverSection = () => {
+  const t = useTranslations("main");
   const backgroundImages = ["/images/elisium/Image1.avif"];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -138,8 +140,7 @@ const CoverSection = () => {
             filter: "drop-shadow(0 0 10px rgba(59,130,246,0.4))",
           }}
         >
-          <span className="inline-block">Sbuilding,</span>
-          <span className="inline-block mt-2"> your future apartment</span>
+          {t("company_slogan")}
         </motion.h1>
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -149,11 +150,11 @@ const CoverSection = () => {
           <div className="relative w-full rounded-2xl shadow-2xl border border-white/30 backdrop-blur-xl bg-gradient-to-br from-blue-500/20 via-blue-600/30 to-blue-700/20 p-4 text-white">
             <div className="text-2xl hidden lg:block mb-2">🏗️</div>
             <h1 className="text-lg font-bold hidden lg:block mb-3 text-center tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-              Current project "Elisium"
+              {t("current_project")}
             </h1>
             <Image
               src={img || "/placeholder.svg"}
-              alt="Project"
+              alt={t("project_alt")}
               className="w-full h-84 md:h-96  rounded-2xl   object-cover mb-4"
             />
             <Link href="/elisium">
@@ -162,7 +163,7 @@ const CoverSection = () => {
                 whileTap={{ scale: 0.95 }}
                 className="w-full bg-gradient-to-r h-9 from-blue-500 to-blue-600 text-white text-sm px-3 py-1 rounded-xl shadow-lg flex items-center justify-center gap-2"
               >
-                Current Project <ArrowRight size={16} />
+                {t("current_project_button")} <ArrowRight size={16} />
               </motion.button>
             </Link>
           </div>
@@ -170,7 +171,6 @@ const CoverSection = () => {
       </div>
 
       <div className="hidden absolute pt-14 gap-20 inset-0 lg:flex items-center justify-between text-white pl-32 xl:pl-48 pr-12 xl:pr-20 z-10">
-        {/* Removed the outer Link wrapper - this was causing nested <a> tags */}
         <motion.div
           ref={cardRef}
           className="w-92 relative"
@@ -190,11 +190,11 @@ const CoverSection = () => {
             <div className="p-4 flex flex-col items-center text-white">
               <div className="text-3xl mb-2">🏗️</div>
               <h1 className="text-2xl font-bold mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-                Current project "Elisium"
+                {t("current_project")}
               </h1>
               <Image
                 src={img || "/placeholder.svg"}
-                alt="Project"
+                alt={t("project_alt")}
                 className="w-full   lg:h-[60%] rounded-md"
               />
               <Link href="/elisium">
@@ -203,7 +203,7 @@ const CoverSection = () => {
                   whileTap={{ scale: 0.95 }}
                   className="bg-gradient-to-r from-blue-500 cursor-pointer to-blue-600 text-white mt-4 text-base px-5 py-2 rounded-xl flex items-center gap-3 shadow-lg"
                 >
-                  View Current Project
+                  {t("view_current_project")}
                 </motion.button>
               </Link>
             </div>
@@ -225,8 +225,7 @@ const CoverSection = () => {
               filter: "drop-shadow(0 0 15px rgba(59,130,246,0.5))",
             }}
           >
-            <span className="inline-block">Sbuilding,</span>
-            <span className="inline-block mt-2"> your future apartment</span>
+            {t("company_slogan")}
           </motion.h1>
         </motion.div>
       </div>

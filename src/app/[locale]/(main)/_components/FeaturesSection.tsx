@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 const ApartmentSlideshow = () => {
+  const t = useTranslations("main");
   const backgroundImages = [
     "/images/elisium/Image1.avif",
     "/images/elisium/Image1.avif",
@@ -26,21 +28,18 @@ const ApartmentSlideshow = () => {
   const sections = [
     {
       id: "technology",
-      title: "Technológie",
-      description:
-        "Moderné technológie pre pohodlné bývanie. Smart home systémy, energetická efektívnosť a najnovšie bezpečnostné riešenia.",
+      title: t("technology_title"),
+      description: t("technology_description"),
     },
     {
       id: "ecology",
-      title: "Ekológia",
-      description:
-        "Udržateľné a ekologické riešenia. Zelené technológie, obnoviteľné zdroje energie a environmentálne zodpovedné materiály.",
+      title: t("ecology_title"),
+      description: t("ecology_description"),
     },
     {
       id: "location",
-      title: "Lokalita",
-      description:
-        "Tichá, zelená a mesto na dosah. Rezidenčná lokalita, ktorá vám umožní byť blízko centra, no nie v jeho ruchu.",
+      title: t("location_title"),
+      description: t("location_description"),
     },
   ];
 
@@ -61,7 +60,7 @@ const ApartmentSlideshow = () => {
           src={backgroundImages[currentImageIndex]}
           width={1900}
           height={1200}
-          alt="Apartment building"
+          alt={t("apartment_building_alt")}
           className="w-full h-full object-cover md:object-cover animate-[panRight_20s_linear_infinite] md:animate-none md:object-center object-left"
         />
         <div className="absolute inset-0 bg-black/30" />

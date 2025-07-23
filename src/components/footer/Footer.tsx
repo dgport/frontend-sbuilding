@@ -14,13 +14,7 @@ export default function Footer() {
   const navigationItems = [
     { name: t("main"), href: "/" },
     { name: t("contact"), href: "/contact" },
-    { name: t("aboutUs"), href: "/about-us" },
-  ];
-
-  const projectItems = [
-    { name: t("aisiBatumi"), href: "/aisi-batumi" },
-    { name: t("aisiGoderdzi"), href: "/aisi-goderdzi" },
-    { name: t("aisiStatus"), href: "/aisi-status" },
+    { name: t("elisium"), href: "/elisium" },
   ];
 
   return (
@@ -86,73 +80,34 @@ export default function Footer() {
               </motion.a>
             </div>
           </motion.div>
-          <div className="grid grid-cols-2 gap-4 md:gap-8 lg:gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className=""
-            >
-              <h3 className="text-white text-base font-semibold mb-6 tracking-wide">
-                {t("navigation")}
-              </h3>
-              <div className="space-y-3">
-                {navigationItems.map((item) => (
-                  <motion.div
-                    key={item.name}
-                    whileHover={{ x: 4 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  >
-                    <Link
-                      href={`/${locale}${item.href}`}
-                      className="text-gray-300 hover:text-blue-100 transition-colors duration-300 text-sm block py-1 hover:underline underline-offset-4"
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                ))}
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className=""
+          >
+            <h3 className="text-white text-base font-semibold mb-6 tracking-wide">
+              {t("navigation")}
+            </h3>
+            <div className="space-y-3">
+              {navigationItems.map((item) => (
                 <motion.div
+                  key={item.name}
                   whileHover={{ x: 4 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <a
+                  <Link
+                    href={`/${locale}${item.href}`}
                     className="text-gray-300 hover:text-blue-100 transition-colors duration-300 text-sm block py-1 hover:underline underline-offset-4"
-                    href="https://korter.ge"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
-                    Korter.ge
-                  </a>
+                    {item.name}
+                  </Link>
                 </motion.div>
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className=""
-            >
-              <h3 className="text-white text-base font-semibold mb-6 tracking-wide">
-                {t("projects")}
-              </h3>
-              <div className="space-y-3">
-                {projectItems.map((item) => (
-                  <motion.div
-                    key={item.name}
-                    whileHover={{ x: 4 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  >
-                    <Link
-                      href={`/${locale}${item.href}`}
-                      className="text-gray-300 hover:text-blue-100 transition-colors duration-300 text-sm block py-1 hover:underline underline-offset-4"
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
+              ))}
+            </div>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
