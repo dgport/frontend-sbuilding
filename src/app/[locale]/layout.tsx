@@ -31,7 +31,7 @@ export async function generateMetadata({
       default: `${t("sBuilding")} - ${t("constructionExcellence")}`,
       template: `%s | ${t("sBuilding")}`,
     },
-    description: t("buildingDreams"),
+    description: t("metaDescription"),
     keywords: t("metaKeywords"),
     authors: [{ name: t("sBuilding") }],
     creator: t("sBuilding"),
@@ -39,14 +39,10 @@ export async function generateMetadata({
     robots: {
       index: true,
       follow: true,
-      nocache: false,
       googleBot: {
         index: true,
         follow: true,
-        noimageindex: false,
-        "max-video-preview": -1,
         "max-image-preview": "large",
-        "max-snippet": -1,
       },
     },
     openGraph: {
@@ -55,7 +51,7 @@ export async function generateMetadata({
       alternateLocale: locale === "ka" ? ["en_US"] : ["ka_GE"],
       url: `https://sbuilding.ge${locale === "en" ? "" : `/${locale}`}`,
       title: `${t("sBuilding")} - ${t("constructionExcellence")}`,
-      description: t("buildingDreams"),
+      description: t("metaDescription"),
       siteName: t("sBuilding"),
       images: [
         {
@@ -69,8 +65,8 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${t("sBuilding")} - ${t("constructionExcellence")}`,
-      description: t("buildingDreams"),
-      images: ["https://sbuilding.ge/images/og-image.jpg"],
+      description: t("metaDescription"),
+      images: ["https://sbuilding.ge/images/opengraph-image.png"],
     },
     alternates: {
       canonical: `https://sbuilding.ge${locale === "en" ? "" : `/${locale}`}`,
@@ -79,9 +75,7 @@ export async function generateMetadata({
         "en-US": "https://sbuilding.ge/en",
       },
     },
-    category: "Construction",
-    classification: "Business",
-    referrer: "origin-when-cross-origin",
+    category: "Real Estate",
   };
 }
 

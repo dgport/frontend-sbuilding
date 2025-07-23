@@ -1,18 +1,10 @@
 {
   "sBuilding": "SBuilding",
   "constructionExcellence": "Construction Excellence",
-  "buildingDreams": "Building dreams into reality with innovative construction solutions and exceptional craftsmanship",
-  "metaKeywords": "construction, building, real estate development, architecture, residential construction, commercial construction, Georgian construction company, SBuilding, construction services, property development, building contractor",
-  "about": "About",
-  "services": "Services",
-  "contact": "Contact",
-  "home": "Home",
-  "portfolio": "Portfolio",
-  "testimonials": "Testimonials",
-  "team": "Team",
-  "blog": "Blog",
-  "news": "News",
-  "gallery": "Gallery",
-  "faq": "FAQ",
-  "careers": "Careers"
+  "metaDescription": "SBuilding is a leading real estate developer in Batumi, Georgia, specializing in residential apartment construction with extensive experience and many completed projects.",
+  "metaKeywords": "Batumi apartments, real estate development, residential construction, Georgian developer, SBuilding, apartment projects Batumi",
+  "contactUs": "Contact Us",
+  "contactDescription": "Reach out to SBuilding’s professional team in Batumi, Georgia for your apartment and building construction needs.",
+  "contactKeywords": "contact SBuilding, Batumi apartments, real estate developer, construction inquiries, building projects Batumi",
+  "contactFormImage": "Contact Form - SBuilding"
 }
