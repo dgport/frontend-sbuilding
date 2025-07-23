@@ -23,19 +23,19 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations("main");
+  const t = await getTranslations("meta");
 
   return {
-    metadataBase: new URL("https://aisigroup.ge"),
+    metadataBase: new URL("https://sbuilding.ge"),
     title: {
-      default: `${t("aisiGroup")} - ${t("premiumDev")}`,
-      template: `%s | ${t("aisiGroup")}`,
+      default: `${t("sBuilding")} - ${t("constructionExcellence")}`,
+      template: `%s | ${t("sBuilding")}`,
     },
-    description: t("transformingFrom"),
+    description: t("buildingDreams"),
     keywords: t("metaKeywords"),
-    authors: [{ name: t("aisiGroup") }],
-    creator: t("aisiGroup"),
-    publisher: t("aisiGroup"),
+    authors: [{ name: t("sBuilding") }],
+    creator: t("sBuilding"),
+    publisher: t("sBuilding"),
     robots: {
       index: true,
       follow: true,
@@ -53,33 +53,33 @@ export async function generateMetadata({
       type: "website",
       locale: locale === "ka" ? "ka_GE" : "en_US",
       alternateLocale: locale === "ka" ? ["en_US"] : ["ka_GE"],
-      url: `https://aisigroup.ge${locale === "en" ? "" : `/${locale}`}`,
-      title: `${t("aisiGroup")} - ${t("premiumDev")}`,
-      description: t("transformingFrom"),
-      siteName: t("aisiGroup"),
+      url: `https://sbuilding.ge${locale === "en" ? "" : `/${locale}`}`,
+      title: `${t("sBuilding")} - ${t("constructionExcellence")}`,
+      description: t("buildingDreams"),
+      siteName: t("sBuilding"),
       images: [
         {
-          url: "https://aisigroup.ge/images/opengraph-image.png",
+          url: "https://sbuilding.ge/images/opengraph-image.png",
           width: 1200,
           height: 630,
-          alt: `${t("aisiGroup")} - ${t("premiumDev")}`,
+          alt: `${t("sBuilding")} - ${t("constructionExcellence")}`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${t("aisiGroup")} - ${t("premiumDev")}`,
-      description: t("transformingFrom"),
-      images: ["https://aisigroup.ge/images/og-image.jpg"],
+      title: `${t("sBuilding")} - ${t("constructionExcellence")}`,
+      description: t("buildingDreams"),
+      images: ["https://sbuilding.ge/images/og-image.jpg"],
     },
     alternates: {
-      canonical: `https://aisigroup.ge${locale === "en" ? "" : `/${locale}`}`,
+      canonical: `https://sbuilding.ge${locale === "en" ? "" : `/${locale}`}`,
       languages: {
-        "ka-GE": "https://aisigroup.ge/ka",
-        "en-US": "https://aisigroup.ge/en",
+        "ka-GE": "https://sbuilding.ge/ka",
+        "en-US": "https://sbuilding.ge/en",
       },
     },
-    category: "Real Estate",
+    category: "Construction",
     classification: "Business",
     referrer: "origin-when-cross-origin",
   };
@@ -107,11 +107,11 @@ export default async function RootLayout({
 
               <WhatsAppChat
                 phoneNumber="+995557471414"
-                defaultMessage="Hello from aisi group website"
+                defaultMessage="Hello from SBuilding website"
               />
               <MessengerChat
                 pageId={process.env.NEXT_PUBLIC_MESSENGER_PAGE_ID || ""}
-                defaultMessage="Hello from aisi group website"
+                defaultMessage="Hello from SBuilding website"
               />
             </NextIntlClientProvider>
           </QueryProvider>
