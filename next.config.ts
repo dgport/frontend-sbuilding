@@ -4,12 +4,8 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
-  // Add environment variables from first config
   env: {
-    NEXT_PUBLIC_API_URL:
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3001/api"
-        : "http://localhost:3001/api",
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
 
   experimental: {
@@ -42,12 +38,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "api.aisigroup.ge",
+        hostname: "api.sbuilding.ge",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "api.aisigroup.ge/uploads",
+        hostname: "api.sbuilding.ge/uploads",
         pathname: "/**",
       },
     ],
