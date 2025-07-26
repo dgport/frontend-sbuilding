@@ -167,7 +167,7 @@ export default function Header() {
               >
                 <Image
                   src={Logo || "/placeholder.svg"}
-                  alt="AISI Logo"
+                  alt="SBUILDING Logo"
                   className="w-28 h-auto"
                   priority
                 />
@@ -431,7 +431,7 @@ export default function Header() {
                   >
                     <Image
                       src={Logo || "/placeholder.svg"}
-                      alt="AISI Logo"
+                      alt="SBUILDING Logo"
                       className={`transition-all duration-500 ${
                         scrolled || isContactOrAboutPage
                           ? "w-36 h-auto"

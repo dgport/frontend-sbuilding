@@ -1,6 +1,6 @@
  
 import { motion } from "framer-motion";
-import BlackAisi from "@/root/public/images/BlackAisi.png";
+import BlackAisi from "@/root/public/images/SBuildingLogo.png";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 

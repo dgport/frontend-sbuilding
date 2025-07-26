@@ -22,14 +22,14 @@ export default function ClientSideChats() {
   return (
     <>
       <WhatsAppChat
-        phoneNumber="+995557471414"
-        defaultMessage="Hello from aisi group website"
+        phoneNumber=""
+        defaultMessage="Hello from SBuilding group website"
       />
 
       {process.env.NEXT_PUBLIC_MESSENGER_PAGE_ID && (
         <MessengerChat
           pageId={process.env.NEXT_PUBLIC_MESSENGER_PAGE_ID}
-          defaultMessage="Hello from aisi group website"
+          defaultMessage="Hello from SBuilding group website"
         />
       )}
     </>

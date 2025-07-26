@@ -15,7 +15,7 @@ export default async function Page() {
           <Building2 className="h-20 w-20 text-blue-600" />
         </div>
         <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
-          Welcome to AISI GROUP
+          Welcome to SBUILDING
         </h1>
       </div>
     </div>

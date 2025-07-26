@@ -46,14 +46,14 @@ export default function Footer() {
               >
                 <Image
                   src={Logo || "/placeholder.svg"}
-                  alt="AISI Logo"
+                  alt="SBUILDING Logo"
                   className="w-40 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
                 />
               </motion.div>
             </Link>
             <div className="flex space-x-3">
               <motion.a
-                href="https://www.facebook.com/AISIGROUP"
+                href="https://www.facebook.com/srm.building"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -66,7 +66,7 @@ export default function Footer() {
                 />
               </motion.a>
               <motion.a
-                href="https://www.instagram.com/aisigroup/"
+                href="https://www.instagram.com/sbuilding.ge/"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -129,11 +129,16 @@ export default function Footer() {
                     className="text-blue-300 group-hover:text-blue-200"
                   />
                 </div>
-                <span className="text-gray-300 text-sm leading-relaxed group-hover:text-white transition-colors duration-300">
-                  ანგისის პირველი შესახვევი #28,
+                <a
+                  href="https://maps.app.goo.gl/qUQ1wGHQisxgmH5U7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 text-sm leading-relaxed group-hover:text-white transition-colors duration-300 hover:underline underline-offset-4 cursor-pointer"
+                >
+                  Grigol Lortkipanidze #3,
                   <br />
                   Batumi, Georgia
-                </span>
+                </a>
               </motion.div>
 
               <motion.div
@@ -167,10 +172,10 @@ export default function Footer() {
                   />
                 </div>
                 <a
-                  href="mailto:aisistatus@gmail.com"
+                  href="mailto:sbuilding@gmail.com"
                   className="text-gray-300 hover:text-blue-100 transition-colors duration-300 text-sm group-hover:underline underline-offset-4"
                 >
-                  aisistatus@gmail.com
+                  sbuilding@gmail.com
                 </a>
               </motion.div>
             </div>

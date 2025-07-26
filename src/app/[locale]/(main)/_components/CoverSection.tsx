@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useSpring } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import img from "@/root/public/images/testimg.jpg";
+import img from "@/root/public/images/elisium/CoverCardImage.jpg";
 import { useTranslations } from "next-intl";
 
 const CoverSection = () => {
@@ -145,19 +145,19 @@ const CoverSection = () => {
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-full max-w-[270px] md:max-w-[350px] mx-auto mt-4"
+          className="w-full max-w-[270px] md:max-w-[350px] mx-auto mt-4 "
         >
-          <div className="relative w-full rounded-2xl shadow-2xl border border-white/30 backdrop-blur-xl bg-gradient-to-br from-blue-500/20 via-blue-600/30 to-blue-700/20 p-4 text-white">
-            <div className="text-2xl hidden lg:block mb-2">🏗️</div>
-            <h1 className="text-lg font-bold hidden lg:block mb-3 text-center tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-              {t("current_project")}
-            </h1>
-            <Image
-              src={img || "/placeholder.svg"}
-              alt={t("project_alt")}
-              className="w-full h-84 md:h-96  rounded-2xl   object-cover mb-4"
-            />
-            <Link href="/elisium">
+          <Link href="/elisium">
+            <div className="relative w-full rounded-2xl shadow-2xl border border-white/30 backdrop-blur-xl bg-gradient-to-br from-blue-500/20 via-blue-600/30 to-blue-700/20 p-4 text-white cursor-pointer hover:scale-105 transition-transform duration-200">
+              <div className="text-2xl hidden lg:block mb-2">🏗️</div>
+              <h1 className="text-lg font-bold hidden lg:block mb-3 text-center tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+                {t("current_project")}
+              </h1>
+              <Image
+                src={img || "/placeholder.svg"}
+                alt={t("project_alt")}
+                className="w-full h-84 md:h-96  rounded-2xl   object-cover mb-4"
+              />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -165,39 +165,41 @@ const CoverSection = () => {
               >
                 {t("current_project_button")} <ArrowRight size={16} />
               </motion.button>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </motion.div>
       </div>
 
       <div className="hidden absolute pt-14 gap-20 inset-0 lg:flex items-center justify-between text-white pl-32 xl:pl-48 pr-12 xl:pr-20 z-10">
-        <motion.div
-          ref={cardRef}
-          className="w-92 relative"
-          style={{ perspective: "1200px" }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-        >
+        <Link href="/elisium">
           <motion.div
-            className="rounded-3xl shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden"
-            style={{
-              rotateX,
-              rotateZ,
-              background:
-                "linear-gradient(135deg, rgba(59,130,246,0.2), rgba(29,78,216,0.3), rgba(30,64,175,0.2))",
-            }}
+            ref={cardRef}
+            className="w-92 relative cursor-pointer"
+            style={{ perspective: "1200px" }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <div className="p-4 flex flex-col items-center text-white">
-              <div className="text-3xl mb-2">🏗️</div>
-              <h1 className="text-2xl font-bold mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-                {t("current_project")}
-              </h1>
-              <Image
-                src={img || "/placeholder.svg"}
-                alt={t("project_alt")}
-                className="w-full   lg:h-[60%] rounded-md"
-              />
-              <Link href="/elisium">
+            <motion.div
+              className="rounded-3xl shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden"
+              style={{
+                rotateX,
+                rotateZ,
+                background:
+                  "linear-gradient(135deg, rgba(59,130,246,0.2), rgba(29,78,216,0.3), rgba(30,64,175,0.2))",
+              }}
+            >
+              <div className="p-4 flex flex-col items-center text-white">
+                <div className="text-3xl mb-2">🏗️</div>
+                <h1 className="text-2xl font-bold mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+                  {t("current_project")}
+                </h1>
+                <Image
+                  src={img || "/placeholder.svg"}
+                  alt={t("project_alt")}
+                  className="w-full   lg:h-[60%] rounded-md"
+                />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -205,10 +207,10 @@ const CoverSection = () => {
                 >
                   {t("view_current_project")}
                 </motion.button>
-              </Link>
-            </div>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </Link>
 
         <motion.div
           className="mr-16 lg:mr-24 text-right max-w-xl"

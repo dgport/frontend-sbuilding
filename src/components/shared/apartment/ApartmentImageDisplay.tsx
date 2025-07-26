@@ -100,13 +100,7 @@ export const ApartmentImageDisplay: React.FC<ApartmentImageDisplayProps> = ({
   const getBuildingName = (buildingId: string) => {
     switch (buildingId) {
       case "1":
-        return t("aisiGoderdzi");
-      case "2":
-        return t("aisiBBlock");
-      case "3":
-        return t("aisiStatus");
-      case "5":
-        return t("aisiBatumiABlock");
+        return t("sbuildingElisium");
       default:
         return buildingName || `Building ${buildingId}`;
     }
