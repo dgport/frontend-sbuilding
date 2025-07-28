@@ -73,7 +73,10 @@ export default function Header() {
       href: "/projects",
       subItems: [{ name: t("elisium"), href: "/elisium" }],
     },
+
     { name: t("contact"), href: "/contact" },
+
+    { name: t("about"), href: "/about" },
   ];
 
   const isActive = (href: string) =>
