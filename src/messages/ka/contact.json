@@ -10,8 +10,12 @@
   "lastName": "გვარი",
   "message": "ტექსტი",
   "sendMessage": "გაგზავნა",
-  "contactDesc": "დაუკავშირდით AISI Group-ს. ჩვენ ვართ აქ რომ დაგეხმაროთ ყველა უძრავი ქონების საკითხში და უპასუხოთ ნებისმიერ კითხვას.",
-  "keyWords": "კონტაქტი, AISI Group, უძრავი ქონების კონტაქტი, დაკავშირება, საკონტაქტო ფორმა",
-  "aisiGroup": "AISI Group",
-  "contactImageAlt": "დაუკავშირდით AISI Group-ს"
+  "contactDesc": "დაუკავშირდით Sbuilding-ს. ჩვენ ვართ აქ რომ დაგეხმაროთ ყველა უძრავი ქონების საკითხში და უპასუხოთ ნებისმიერ კითხვას.",
+  "keyWords": "კონტაქტი, Sbuilding, უძრავი ქონების კონტაქტი, დაკავშირება, საკონტაქტო ფორმა",
+  "sbuilding": "Sbuilding",
+  "contactImageAlt": "დაუკავშირდით Sbuilding-ს",
+  "address": "გრიგოლ ლორთქიფანიძის #3, ბათუმი, საქართველო",
+  "phoneNumber1": "+995 579 260 000",
+  "phoneNumber2": "+995 597 260 000",
+  "emailAddress": "sbuilding@gmail.com"
 }

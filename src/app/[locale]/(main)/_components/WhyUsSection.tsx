@@ -367,7 +367,7 @@ export default function WhyUsSection() {
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 >
                   <div className="text-yellow-300 text-lg md:text-2xl font-bold">
-                    500+
+                    4+
                   </div>
                   <div className="text-xs md:text-sm opacity-90">
                     {t("projects_completed")}
@@ -385,7 +385,7 @@ export default function WhyUsSection() {
                   }}
                 >
                   <div className="text-yellow-300 text-lg md:text-2xl font-bold">
-                    10,000+
+                    1,000+
                   </div>
                   <div className="text-xs md:text-sm opacity-90">
                     {t("happy_clients")}
@@ -403,7 +403,7 @@ export default function WhyUsSection() {
                   }}
                 >
                   <div className="text-yellow-300 text-lg md:text-2xl font-bold">
-                    30+
+                    10+
                   </div>
                   <div className="text-xs md:text-sm opacity-90">
                     {t("years_experience")}

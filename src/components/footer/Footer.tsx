@@ -153,10 +153,10 @@ export default function Footer() {
                   />
                 </div>
                 <a
-                  href="tel:+995557471414"
+                  href="tel:+995 579 260 000"
                   className="text-gray-300 hover:text-blue-100 transition-colors duration-300 text-sm group-hover:underline underline-offset-4"
                 >
-                  +995 557 47 14 14
+                  +995 579 260 000
                 </a>
               </motion.div>
 

@@ -10,8 +10,12 @@
   "lastName": "Last Name",
   "message": "Message",
   "sendMessage": "Send Message",
-  "contactDesc": "Get in touch with AISI Group. We're here to help with all your real estate needs and answer any questions you may have.",
-  "keyWords": "contact, AISI Group, real estate contact, get in touch, contact form",
-  "aisiGroup": "AISI Group",
-  "contactImageAlt": "Contact AISI Group"
+  "contactDesc": "Get in touch with Sbuilding. We're here to help with all your real estate needs and answer any questions you may have.",
+  "keyWords": "contact, Sbuilding, real estate contact, get in touch, contact form",
+  "sbuilding": "Sbuilding",
+  "contactImageAlt": "Contact Sbuilding",
+  "address": "Grigol Lortkipanidze #3, Batumi, Georgia",
+  "phoneNumber1": "+995 579 260 000",
+  "phoneNumber2": "+995 597 260 000",
+  "emailAddress": "sbuilding@gmail.com"
 }

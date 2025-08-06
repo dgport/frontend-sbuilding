@@ -22,7 +22,7 @@ export default function ClientSideChats() {
   return (
     <>
       <WhatsAppChat
-        phoneNumber=""
+        phoneNumber="tel:+995579260000"
         defaultMessage="Hello from SBuilding group website"
       />
 
