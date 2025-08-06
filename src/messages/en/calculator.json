@@ -1,11 +1,11 @@
 {
-      "paymentCalculator": "Payment Calculator",
-      "propertyValue": "Property Value",
-      "downPayment": "Down Payment",
-      "paymentPeriod": "Payment Period",
-      "months": "months",
-      "month": "month",
-      "paymentSummary": "Payment Summary",
-      "financeAmount": "Finance Amount",
-      "monthlyPayment": "Monthly Payment"
-    }
+  "paymentCalculator": "Payment Calculator",
+  "propertyValue": "Property Value",
+  "downPayment": "Down Payment",
+  "paymentPeriod": "Payment Period",
+  "months": "months",
+  "month": "month",
+  "paymentSummary": "Payment Summary",
+  "financeAmount": "Finance Amount",
+  "monthlyPayment": "Monthly Payment"
+}

@@ -130,13 +130,13 @@ const CoverSection = () => {
 
       <div className="lg:hidden absolute inset-0 flex flex-col pt-10 items-center justify-center text-white text-center px-4 z-10">
         <motion.h1
-          className="text-3xl font-bold mb-6 tracking-wider"
+          className="text-3xl font-normal mb-6 tracking-wider"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           style={{
             textShadow:
               "2px 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.6), 0 0 16px rgba(59,130,246,0.3)",
-            WebkitTextStroke: "1px rgba(0,0,0,0.5)",
+
             filter: "drop-shadow(0 0 10px rgba(59,130,246,0.4))",
           }}
         >
@@ -150,7 +150,7 @@ const CoverSection = () => {
           <Link href="/elisium">
             <div className="relative w-full rounded-2xl shadow-2xl border border-white/30 backdrop-blur-xl bg-gradient-to-br from-blue-500/20 via-blue-600/30 to-blue-700/20 p-4 text-white cursor-pointer hover:scale-105 transition-transform duration-200">
               <div className="text-2xl hidden lg:block mb-2">🏗️</div>
-              <h1 className="text-lg font-bold hidden lg:block mb-3 text-center tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+              <h1 className="text-lg text-center font-bold hidden lg:block mb-3   tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
                 {t("current_project")}
               </h1>
               <Image
@@ -192,7 +192,7 @@ const CoverSection = () => {
             >
               <div className="p-4 flex flex-col items-center text-white">
                 <div className="text-3xl mb-2">🏗️</div>
-                <h1 className="text-2xl font-bold mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+                <h1 className="text-2xl font-bold text-center mb-2 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
                   {t("current_project")}
                 </h1>
                 <Image
@@ -219,11 +219,11 @@ const CoverSection = () => {
           transition={{ delay: 0.4, duration: 1 }}
         >
           <motion.h1
-            className="text-5xl text-center font-extrabold leading-tight tracking-wide"
+            className="text-5xl text-center font-normal leading-tight tracking-wide"
             style={{
               textShadow:
                 "3px 3px 6px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.6), 0 0 20px rgba(59,130,246,0.4)",
-              WebkitTextStroke: "1.5px rgba(0,0,0,0.5)",
+
               filter: "drop-shadow(0 0 15px rgba(59,130,246,0.5))",
             }}
           >

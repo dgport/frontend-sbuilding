@@ -21,8 +21,8 @@
   "available": "ხელმისაწვდომი",
   "sold_out": "გაყიდული",
   "completed": "დასრულებული",
-  "now_available": "ახლა ხელმისაწვდომი",
-  "elisium_available_now": "ელიზიუმი - ახლავე ხელმისაწვდომია!",
+  "now_available": "მიმდინარე",
+  "elisium_available_now": "ელიზიუმი - მიმდინარე პროექტი!",
 
   "elisium_title": "ელიზიუმი",
   "house_abashidze_title": "სახლი აბაშიძის ქუჩაზე",
@@ -51,5 +51,15 @@
   "elisium": "ელიზიუმი",
   "navigation": "ნავიგაცია",
   "contactUs": "დაგვიკავშირდით",
-  "changeLang": "ენის შეცვლა"
+  "changeLang": "ენის შეცვლა",
+
+  "view_project": "პროექტის ნახვა",
+  "project_details": "პროექტის დეტალები",
+  "learn_more": "მეტის გაგება",
+  "coming_soon": "მალე",
+  "under_construction": "მშენებარე",
+  "project_gallery": "პროექტის გალერეა",
+  "next_project": "შემდეგი პროექტი",
+  "previous_project": "წინა პროექტი",
+  "all_projects": "ყველა პროექტი"
 }

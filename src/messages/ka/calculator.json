@@ -1,11 +1,11 @@
 {
-      "paymentCalculator": "კალკულატორი",
-      "propertyValue": "ქონების ღირებულება",
-      "downPayment": "პირველადი შენატანი",
-      "paymentPeriod": "გადახდის პერიოდი",
-      "months": "თვე",
-      "month": "თვე",
-      "paymentSummary": "გადახდის დეტალები",
-      "financeAmount": "დარჩენილი თანხა",
-      "monthlyPayment": "ყოველთვიური გადახდასახადი"
-    }
+  "paymentCalculator": "კალკულატორი",
+  "propertyValue": "ქონების ღირებულება",
+  "downPayment": "პირველადი შენატანი",
+  "paymentPeriod": "გადახდის პერიოდი",
+  "months": "თვე",
+  "month": "თვე",
+  "paymentSummary": "გადახდის დეტალები",
+  "financeAmount": "დარჩენილი თანხა",
+  "monthlyPayment": "ყოველთვიური გადასახადი"
+}

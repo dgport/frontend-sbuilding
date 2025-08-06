@@ -119,8 +119,8 @@ export default function ProjectsSection() {
         <div className="mb-10 flex flex-col justify-center gap-6 px-10 md:flex-row md:gap-20">
           <div className="flex flex-col items-center gap-4 md:gap-6 md:w-[400px]">
             <p className="text-sm md:text-base"> </p>
-            <h1 className="text-2xl md:text-4xl   font-extrabold font-geo2 pt-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-sky-600 to-blue-400 tracking-wide uppercase drop-shadow-md">
-              Our Projects
+            <h1 className="text-2xl md:text-4xl font-extrabold font-geo2 pt-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-sky-600 to-blue-400 tracking-wide uppercase drop-shadow-md">
+              {t("our_projects")}
             </h1>
             <div className="mt-2 h-1 w-48 md:w-80 bg-gradient-to-r from-blue-500 via-blue-300 to-transparent rounded-full"></div>
           </div>
@@ -152,18 +152,18 @@ export default function ProjectsSection() {
                     <div className="absolute top-4 left-4 z-20">
                       {item.status === "available" ? (
                         <Badge className="bg-green-500/90 hover:bg-green-500 text-white border-0 px-3 py-1 text-sm font-semibold backdrop-blur-sm">
-                          AVAILABLE
+                          {t("available")}
                         </Badge>
                       ) : (
                         <Badge className="bg-red-500/90 hover:bg-red-500 text-white border-0 px-3 py-1 text-sm font-semibold backdrop-blur-sm">
-                          SOLD OUT
+                          {t("sold_out")}
                         </Badge>
                       )}
                     </div>
 
                     {item.status === "sold-out" && (
                       <Badge className="absolute top-8 -right-12 bg-red-600/90 text-white px-12 py-2 text-sm font-bold transform rotate-45 shadow-lg z-10">
-                        COMPLETED
+                        {t("completed")}
                       </Badge>
                     )}
 
@@ -193,7 +193,7 @@ export default function ProjectsSection() {
                           <div className="flex items-center gap-2 mt-3">
                             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                             <span className="text-green-300 text-sm font-medium">
-                              Now Available
+                              {t("now_available")}
                             </span>
                           </div>
                         )}
@@ -224,7 +224,7 @@ export default function ProjectsSection() {
           >
             <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
             <span className="font-semibold text-sm md:text-base">
-              Elisium - Available Now!
+              {t("elisium_available_now")}
             </span>
           </button>
         </div>
