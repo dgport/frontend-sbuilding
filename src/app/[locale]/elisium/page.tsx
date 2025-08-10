@@ -1,6 +1,7 @@
 import SelectFloor from "../elisium/_components/SelectFloor";
 import Cover from "../elisium/_components/Cover";
 import SelectParking from "./_components/SelectParking";
+import ElyisiumFAQ from "./_components/StatusFAQ";
 
 // export async function generateMetadata(): Promise<Metadata> {
 //   const t = await getTranslations("main");
@@ -60,6 +61,7 @@ export default function Page() {
       <Cover />
       <SelectFloor />
       <SelectParking />
+      <ElyisiumFAQ />
     </>
   );
 }

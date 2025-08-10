@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChevronDown, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-export default function StatusFAQ() {
+export default function ElyisiumFAQ() {
   const t = useTranslations("status");
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
 
