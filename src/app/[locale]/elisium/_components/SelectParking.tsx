@@ -16,25 +16,25 @@ import { useFloorStore } from "@/zustand/floorStore";
 import Loader from "@/components/shared/loader/Loader";
 import { useTranslations } from "next-intl";
 import { getCoordinateAreas } from "@/constants/coordinants/statusFloorCoord";
-// import { FloorPlanImageOverlay } from "@/components/shared/apartment/FloorPlanImageOverlay";
+import { FloorPlanImageOverlay } from "@/components/shared/apartment/FloorPlanImageOverlay";
 
 const DESKTOP_ORIGINAL_W = 6000;
 const DESKTOP_ORIGINAL_H = 3375;
 const MOBILE_ORIGINAL_W = 2827;
 const MOBILE_ORIGINAL_H = 3375;
 
-// const MemoizedFloorOverlay = React.memo(
-//   FloorPlanImageOverlay,
-//   (prev, next) =>
-//     prev.flatId === next.flatId &&
-//     prev.hoveredApartment === next.hoveredApartment &&
-//     prev.scaleX === next.scaleX &&
-//     prev.scaleY === next.scaleY &&
-//     prev.offsetX === next.offsetX &&
-//     prev.offsetY === next.offsetY &&
-//     JSON.stringify(prev.coords) === JSON.stringify(next.coords)
-// );
-// MemoizedFloorOverlay.displayName = "MemoizedFloorOverlay";
+const MemoizedFloorOverlay = React.memo(
+  FloorPlanImageOverlay,
+  (prev, next) =>
+    prev.flatId === next.flatId &&
+    prev.hoveredApartment === next.hoveredApartment &&
+    prev.scaleX === next.scaleX &&
+    prev.scaleY === next.scaleY &&
+    prev.offsetX === next.offsetX &&
+    prev.offsetY === next.offsetY &&
+    JSON.stringify(prev.coords) === JSON.stringify(next.coords)
+);
+MemoizedFloorOverlay.displayName = "MemoizedFloorOverlay";
 
 export default function SelectParking() {
   const t = useTranslations("elysium");
@@ -169,7 +169,7 @@ export default function SelectParking() {
       setIsLoading(true);
       setBuildingContext("3", "6");
       setCurrentFloor(floorId);
-      setTimeout(() => router.push("/aisi-status/3/6"), 300);
+      setTimeout(() => router.push("#"), 300);
     },
     [router, setBuildingContext, setCurrentFloor]
   );
@@ -255,7 +255,7 @@ export default function SelectParking() {
               }}
               onLoad={handleImageLoad}
             />
-            {/* {imageLoaded &&
+            {imageLoaded &&
               !isLoading &&
               scaleX > 0 &&
               scaleY > 0 &&
@@ -273,7 +273,7 @@ export default function SelectParking() {
                   offsetX={offsetX}
                   offsetY={offsetY}
                 />
-              ))} */}
+              ))}
             {hoveredApartment && imageLoaded && !isLoading && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-6xl md:text-8xl opacity-70 pointer-events-none z-20 drop-shadow-lg">
                 {hoveredApartment}

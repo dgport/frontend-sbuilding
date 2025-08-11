@@ -1,6 +1,6 @@
 {
-  "company_slogan": "Sbuilding, your future apartment",
-  "current_project": "Current project \"Elisium\"",
+  "company_slogan": "Sbuilding - Built on Trust for 10 Years",
+  "current_project": "Current project \"Elysium\"",
   "view_current_project": "View Current Project",
   "current_project_button": "Current Project",
   "project_alt": "Project",
@@ -22,9 +22,9 @@
   "sold_out": "SOLD OUT",
   "completed": "COMPLETED",
   "now_available": "Now Available",
-  "elisium_available_now": "Elisium - Available Now!",
+  "elisium_available_now": "Elysium - Available Now!",
 
-  "elisium_title": "Elisium",
+  "elisium_title": "Elysium",
   "house_abashidze_title": "House on Abashidze",
   "house_bagrationi_title": "House on Bagrationi",
   "house_sulaberidze_title": "House on Sulaberidze",
@@ -48,12 +48,11 @@
   "main": "Main",
   "contact": "Contact",
   "projects": "Projects",
-  "elisium": "Elisium",
+  "elisium": "Elysium",
   "navigation": "Navigation",
   "contactUs": "Contact Us",
   "changeLang": "Change Language",
 
- 
   "view_project": "View Project",
   "project_details": "Project Details",
   "learn_more": "Learn More",
@@ -62,5 +61,19 @@
   "project_gallery": "Project Gallery",
   "next_project": "Next Project",
   "previous_project": "Previous Project",
-  "all_projects": "All Projects"
+  "all_projects": "All Projects",
+  "facade_title": "🧱 Facade",
+  "facade_system_title": "8-Layer System:",
+  "facade_layer_1": "🔵 Adhesive mortar",
+  "facade_layer_2": "⚪ Adhesive cement (so-called Beteki)",
+  "facade_layer_3": "⚪ Adhesive cement with mesh",
+  "facade_layer_4": "⚪ Frost-resistant adhesive cement",
+  "facade_layer_5": "🔵 Decorative plaster (so-called spray)",
+  "facade_layer_6": "⚪ Primer",
+  "facade_layer_7": "🔵 First coat of facade silicone paint",
+  "facade_layer_8": "🔵 Second coat of facade silicone paint",
+  "location_title2": "🏙 Location",
+  "location_description2": "Apartments in Batumi's most prestigious district, New Boulevard — 400 meters from the sea. Perfect location close to the sea with all infrastructure.",
+  "apartments_title": "🏗 Apartment Condition",
+  "apartments_description": "Apartments will be delivered in green frame condition, which means 50% of the rough work will be completed. Building trust since 2015!"
 }

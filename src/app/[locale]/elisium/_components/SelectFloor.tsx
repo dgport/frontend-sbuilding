@@ -170,7 +170,7 @@ export default function SelectFloor() {
       setIsLoading(true);
       setBuildingContext("3", "6");
       setCurrentFloor(floorId);
-      setTimeout(() => router.push("/elisium/3/2"), 300);
+      setTimeout(() => router.push("#"), 300);
     },
     [router, setBuildingContext, setCurrentFloor]
   );
