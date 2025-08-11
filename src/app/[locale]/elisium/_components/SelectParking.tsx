@@ -16,28 +16,28 @@ import { useFloorStore } from "@/zustand/floorStore";
 import Loader from "@/components/shared/loader/Loader";
 import { useTranslations } from "next-intl";
 import { getCoordinateAreas } from "@/constants/coordinants/statusFloorCoord";
-import { FloorPlanImageOverlay } from "@/components/shared/apartment/FloorPlanImageOverlay";
+// import { FloorPlanImageOverlay } from "@/components/shared/apartment/FloorPlanImageOverlay";
 
 const DESKTOP_ORIGINAL_W = 6000;
 const DESKTOP_ORIGINAL_H = 3375;
 const MOBILE_ORIGINAL_W = 2827;
 const MOBILE_ORIGINAL_H = 3375;
 
-const MemoizedFloorOverlay = React.memo(
-  FloorPlanImageOverlay,
-  (prev, next) =>
-    prev.flatId === next.flatId &&
-    prev.hoveredApartment === next.hoveredApartment &&
-    prev.scaleX === next.scaleX &&
-    prev.scaleY === next.scaleY &&
-    prev.offsetX === next.offsetX &&
-    prev.offsetY === next.offsetY &&
-    JSON.stringify(prev.coords) === JSON.stringify(next.coords)
-);
-MemoizedFloorOverlay.displayName = "MemoizedFloorOverlay";
+// const MemoizedFloorOverlay = React.memo(
+//   FloorPlanImageOverlay,
+//   (prev, next) =>
+//     prev.flatId === next.flatId &&
+//     prev.hoveredApartment === next.hoveredApartment &&
+//     prev.scaleX === next.scaleX &&
+//     prev.scaleY === next.scaleY &&
+//     prev.offsetX === next.offsetX &&
+//     prev.offsetY === next.offsetY &&
+//     JSON.stringify(prev.coords) === JSON.stringify(next.coords)
+// );
+// MemoizedFloorOverlay.displayName = "MemoizedFloorOverlay";
 
 export default function SelectParking() {
-  const t = useTranslations("status");
+  const t = useTranslations("elysium");
   const [hoveredApartment, setHoveredApartment] = useState<number | null>(null);
   const [scaleX, setScaleX] = useState(1);
   const [scaleY, setScaleY] = useState(1);
@@ -184,18 +184,58 @@ export default function SelectParking() {
   const imageSource = isMobile ? MobileImage : DesktopImage;
 
   return (
-    <section className="px-4 md:px-8 lg:px-40 py-10 bg-white min-h-screen font-geo2 tracking-widest">
-      <div className="container2">
+    <section className="px-4 md:px-8 relative lg:px-40 py-10 min-h-screen font-geo2 tracking-widest">
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="absolute inset-0 opacity-5">
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            <defs>
+              <pattern
+                id="construction-grid-parking"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="#1e40af"
+                  strokeWidth="0.5"
+                />
+                <rect
+                  width="10"
+                  height="10"
+                  fill="none"
+                  stroke="#1e40af"
+                  strokeWidth="0.3"
+                />
+                <circle cx="10" cy="10" r="2" fill="#1e40af" opacity="0.3" />
+              </pattern>
+            </defs>
+            <rect
+              width="100%"
+              height="100%"
+              fill="url(#construction-grid-parking)"
+            />
+          </svg>
+        </div>
+      </div>
+      <div className="container2 relative z-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">
-            {t("selectFloor")}
+            {t("selectParking")}
           </h1>
         </div>
 
         <div ref={containerRef} className="relative w-full">
-          <div className="relative w-full bg-gray-50 rounded-lg border-3 border-slate-500 overflow-hidden">
+          <div className="relative w-full bg-white/80 backdrop-blur-sm rounded-lg border-3 border-slate-500 overflow-hidden shadow-lg">
             {isLoading && <Loader />}
-
             <Image
               ref={imageRef}
               src={imageSource}
@@ -215,8 +255,7 @@ export default function SelectParking() {
               }}
               onLoad={handleImageLoad}
             />
-
-            {imageLoaded &&
+            {/* {imageLoaded &&
               !isLoading &&
               scaleX > 0 &&
               scaleY > 0 &&
@@ -234,8 +273,7 @@ export default function SelectParking() {
                   offsetX={offsetX}
                   offsetY={offsetY}
                 />
-              ))}
-
+              ))} */}
             {hoveredApartment && imageLoaded && !isLoading && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-6xl md:text-8xl opacity-70 pointer-events-none z-20 drop-shadow-lg">
                 {hoveredApartment}

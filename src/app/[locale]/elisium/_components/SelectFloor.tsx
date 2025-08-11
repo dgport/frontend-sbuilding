@@ -38,7 +38,7 @@ const MemoizedFloorOverlay = React.memo(
 MemoizedFloorOverlay.displayName = "MemoizedFloorOverlay";
 
 export default function SelectFloor() {
-  const t = useTranslations("status");
+  const t = useTranslations("elysium");
   const [hoveredApartment, setHoveredApartment] = useState<number | null>(null);
   const [scaleX, setScaleX] = useState(1);
   const [scaleY, setScaleY] = useState(1);
@@ -184,8 +184,45 @@ export default function SelectFloor() {
   const imageSource = isMobile ? MobileImage : DesktopImage;
 
   return (
-    <section className="px-4 md:px-8 lg:px-40 py-10 bg-white min-h-screen font-geo2 tracking-widest">
-      <div className="container2">
+    <section className="px-4 md:px-8 relative lg:px-40 py-10 min-h-screen font-geo2 tracking-widest">
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="absolute inset-0 opacity-5">
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            <defs>
+              <pattern
+                id="construction-grid"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="#1e40af"
+                  strokeWidth="0.5"
+                />
+                <rect
+                  width="10"
+                  height="10"
+                  fill="none"
+                  stroke="#1e40af"
+                  strokeWidth="0.3"
+                />
+                <circle cx="10" cy="10" r="2" fill="#1e40af" opacity="0.3" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#construction-grid)" />
+          </svg>
+        </div>
+      </div>
+      <div className="container2 relative z-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">
             {t("selectFloor")}
@@ -193,7 +230,7 @@ export default function SelectFloor() {
         </div>
 
         <div ref={containerRef} className="relative w-full">
-          <div className="relative w-full bg-gray-50 rounded-lg border-3 border-slate-500 overflow-hidden">
+          <div className="relative w-full bg-white/80 backdrop-blur-sm rounded-lg border-3 border-slate-500 overflow-hidden shadow-lg">
             {isLoading && <Loader />}
 
             <Image
