@@ -151,7 +151,7 @@ export default function Header() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <div className="container mx-auto px-6 h-full">
+        <div className="container mx-auto  px-6 h-full">
           <div className="flex items-center justify-between h-full relative">
             {/* mobile hamburger */}
             {isMobile ? (

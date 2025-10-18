@@ -61,7 +61,7 @@ export default function Page() {
     <>
       <Cover />
       <SelectFloor />
-      <SelectParking />
+      {/* <SelectParking /> */}
       <ProjectInfo />
       <ElyisiumFAQ />
     </>
