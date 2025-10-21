@@ -5,7 +5,6 @@ import Header from "@/components/header/Header";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import QueryProvider from "@/reactQuery/queryProvider";
-import { AuthProvider } from "@/auth/AuthProvider";
 import WhatsAppChat from "@/components/shared/socials/Whatsapp";
 import MessengerChat from "@/components/shared/socials/Messanger";
 import Footer from "@/components/footer/Footer";
@@ -92,24 +91,22 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={` ${geo2.variable}`} suppressHydrationWarning={true}>
-        <AuthProvider>
-          <QueryProvider>
-            <NextIntlClientProvider messages={messages}>
-              <Header />
-              {children}
-              <Footer />
+        <QueryProvider>
+          <NextIntlClientProvider messages={messages}>
+            <Header />
+            {children}
+            <Footer />
 
-              <WhatsAppChat
-                phoneNumber="+995557471414"
-                defaultMessage="Hello from SBuilding website"
-              />
-              <MessengerChat
-                pageId={process.env.NEXT_PUBLIC_MESSENGER_PAGE_ID || ""}
-                defaultMessage="Hello from SBuilding website"
-              />
-            </NextIntlClientProvider>
-          </QueryProvider>
-        </AuthProvider>
+            <WhatsAppChat
+              phoneNumber="+995557471414"
+              defaultMessage="Hello from SBuilding website"
+            />
+            <MessengerChat
+              pageId={process.env.NEXT_PUBLIC_MESSENGER_PAGE_ID || ""}
+              defaultMessage="Hello from SBuilding website"
+            />
+          </NextIntlClientProvider>
+        </QueryProvider>
       </body>
     </html>
   );
