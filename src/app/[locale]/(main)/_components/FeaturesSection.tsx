@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 const ApartmentSlideshow = () => {
@@ -64,7 +65,7 @@ const ApartmentSlideshow = () => {
   return (
     <div className="relative w-full h-[90vh] overflow-hidden">
       <div className="absolute inset-0 transition-opacity duration-1000">
-        <img
+        <Image
           src={backgroundImages[currentImageIndex]}
           alt="Apartment Building"
           className="w-full h-full object-cover md:object-cover animate-[panRight_20s_linear_infinite] md:animate-none md:object-center object-left"

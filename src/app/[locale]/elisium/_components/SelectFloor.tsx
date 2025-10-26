@@ -15,7 +15,7 @@ const FLOORS = Object.keys(DESKTOP_FLOOR_PATHS).map(Number);
 
 export default function SelectFloor() {
   const t = useTranslations("elysium");
-  const [selectedFloor, setSelectedFloor] = useState(1);
+  const [selectedFloor, setSelectedFloor] = useState(3);
   const [hoveredFloor, setHoveredFloor] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ export default function SelectFloor() {
   };
 
   return (
-    <section className="px-4 md:px-8 lg:px-40 py-10 min-h-screen font-geo2 tracking-widest relative">
+    <section className="px-4 md:px-8 lg:px-36 py-10 min-h-screen font-geo2 tracking-widest relative">
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="absolute inset-0 opacity-5">
           <svg
@@ -68,6 +68,13 @@ export default function SelectFloor() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="relative hidden md:block bg-white/90 rounded-xl shadow-xl overflow-hidden max-h-[600px]">
+          {/* Floor number indicator - top left */}
+          {(hoveredFloor !== null || selectedFloor) && (
+            <div className="absolute top-4 left-4 z-20 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-xl font-bold text-3xl animate-fadeIn">
+              {hoveredFloor !== null ? hoveredFloor : selectedFloor}
+            </div>
+          )}
+
           <svg
             viewBox={`0 0 ${SVG_VIEWBOX.desktop.width} ${SVG_VIEWBOX.desktop.height}`}
             className="w-full h-auto"
@@ -75,14 +82,9 @@ export default function SelectFloor() {
           >
             <defs>
               <linearGradient id="hoverGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.5" />
-                <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#2563eb" stopOpacity="0.5" />
-              </linearGradient>
-              <linearGradient id="selectedGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.7" />
-                <stop offset="50%" stopColor="#2563eb" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#1d4ed8" stopOpacity="0.7" />
+                <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.6" />
+                <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#2563eb" stopOpacity="0.6" />
               </linearGradient>
             </defs>
             <style>{`
@@ -90,30 +92,52 @@ export default function SelectFloor() {
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 cursor: pointer;
                 vector-effect: non-scaling-stroke;
+                pointer-events: all;
+              }
+              .floor-path {
+                fill: transparent;
+                stroke: transparent;
+                stroke-width: 0;
+                opacity: 0;
               }
               .floor-path:hover {
-                filter: drop-shadow(0 6px 12px rgba(59, 130, 246, 0.4));
+                fill: url(#hoverGradient) !important;
+                stroke: #ffffff !important;
+                stroke-width: 2.5 !important;
+                opacity: 1 !important;
+                filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+                animation: pulse-border 1.2s ease-in-out infinite;
               }
-              .floor-unselected {
-                fill: rgba(148, 163, 184, 0.08);
-                stroke: rgba(148, 163, 184, 0.4);
-                stroke-width: 1.5;
+              .floor-path.selected {
+                fill: url(#hoverGradient) !important;
+                stroke: #ffffff !important;
+                stroke-width: 2.5 !important;
+                opacity: 1 !important;
+                filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+                animation: pulse-border 1.2s ease-in-out infinite;
               }
-              .floor-hovered {
-                fill: url(#hoverGradient);
-                stroke: #3b82f6;
-                stroke-width: 2.5;
-                animation: pulse-glow 1.5s ease-in-out infinite;
+              @keyframes pulse-border {
+                0%, 100% { 
+                  stroke-width: 2.5;
+                  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+                }
+                50% { 
+                  stroke-width: 3;
+                  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 1)) drop-shadow(0 0 12px rgba(59, 130, 246, 0.8));
+                }
               }
-              .floor-selected {
-                fill: url(#selectedGradient);
-                stroke: #1d4ed8;
-                stroke-width: 3;
-                filter: drop-shadow(0 4px 10px rgba(29, 78, 216, 0.5));
+              @keyframes fadeIn {
+                from {
+                  opacity: 0;
+                  transform: scale(0.8);
+                }
+                to {
+                  opacity: 1;
+                  transform: scale(1);
+                }
               }
-              @keyframes pulse-glow {
-                0%, 100% { filter: drop-shadow(0 6px 12px rgba(59, 130, 246, 0.4)); }
-                50% { filter: drop-shadow(0 8px 16px rgba(59, 130, 246, 0.6)); }
+              .animate-fadeIn {
+                animation: fadeIn 0.2s ease-out;
               }
             `}</style>
 
@@ -125,7 +149,6 @@ export default function SelectFloor() {
             {Object.entries(DESKTOP_FLOOR_PATHS).map(([floorNum, path]) => {
               const floor = Number(floorNum);
               const isSelected = floor === selectedFloor;
-              const isHovered = floor === hoveredFloor;
 
               const handlePathClick = () => {
                 setSelectedFloor(floor);
@@ -139,13 +162,7 @@ export default function SelectFloor() {
                 <path
                   key={floor}
                   d={path}
-                  className={`floor-path ${
-                    isSelected
-                      ? "floor-selected"
-                      : isHovered
-                      ? "floor-hovered"
-                      : "floor-unselected"
-                  }`}
+                  className={`floor-path ${isSelected ? "selected" : ""}`}
                   onMouseEnter={() => setHoveredFloor(floor)}
                   onMouseLeave={() => setHoveredFloor(null)}
                   onClick={handlePathClick}
@@ -184,7 +201,14 @@ export default function SelectFloor() {
 
         {/* Mobile view */}
         <div className="md:hidden flex flex-col gap-4">
-          <div className="bg-white/90 rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-white/90 rounded-xl shadow-lg overflow-hidden relative">
+            {/* Floor number indicator for mobile */}
+            {(hoveredFloor !== null || selectedFloor) && (
+              <div className="absolute top-3 left-3 z-20 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-xl font-bold text-2xl animate-fadeIn">
+                {hoveredFloor !== null ? hoveredFloor : selectedFloor}
+              </div>
+            )}
+
             <svg
               viewBox={`0 0 ${SVG_VIEWBOX.mobile.width} ${SVG_VIEWBOX.mobile.height}`}
               className="w-full h-auto"
@@ -192,15 +216,15 @@ export default function SelectFloor() {
             >
               <defs>
                 <linearGradient
-                  id="selectedGradientMobile"
+                  id="hoverGradientMobile"
                   x1="0"
                   y1="0"
                   x2="0"
                   y2="1"
                 >
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.7" />
-                  <stop offset="50%" stopColor="#2563eb" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#1d4ed8" stopOpacity="0.7" />
+                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.6" />
+                  <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.6" />
                 </linearGradient>
               </defs>
               <style>{`
@@ -208,17 +232,18 @@ export default function SelectFloor() {
                   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                   cursor: pointer;
                   vector-effect: non-scaling-stroke;
+                  fill: transparent;
+                  stroke: transparent;
+                  stroke-width: 0;
+                  opacity: 0;
+                  pointer-events: all;
                 }
-                .floor-unselected-mobile {
-                  fill: rgba(148, 163, 184, 0.08);
-                  stroke: rgba(148, 163, 184, 0.4);
-                  stroke-width: 1.5;
-                }
-                .floor-selected-mobile {
-                  fill: url(#selectedGradientMobile);
-                  stroke: #1d4ed8;
-                  stroke-width: 3;
-                  filter: drop-shadow(0 4px 10px rgba(29, 78, 216, 0.5));
+                .floor-path-mobile:active, .floor-path-mobile.selected {
+                  fill: url(#hoverGradientMobile);
+                  stroke: #ffffff;
+                  stroke-width: 4;
+                  opacity: 1;
+                  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.9));
                 }
               `}</style>
 
@@ -229,15 +254,16 @@ export default function SelectFloor() {
               />
               {Object.entries(MOBILE_FLOOR_PATHS).map(([floorNum, path]) => {
                 const floor = Number(floorNum);
+                const isSelected = floor === selectedFloor;
                 return (
                   <path
                     key={floor}
                     d={path}
                     className={`floor-path-mobile ${
-                      floor === selectedFloor
-                        ? "floor-selected-mobile"
-                        : "floor-unselected-mobile"
+                      isSelected ? "selected" : ""
                     }`}
+                    onTouchStart={() => setHoveredFloor(floor)}
+                    onTouchEnd={() => setHoveredFloor(null)}
                     onClick={() => setSelectedFloor(floor)}
                   />
                 );

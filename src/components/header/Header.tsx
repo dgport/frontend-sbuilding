@@ -13,8 +13,6 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
-
-  /* ------------------  local state  ------------------ */
   const [isMounted, setIsMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,10 +20,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  /* ------------------  effects  ------------------ */
   useEffect(() => {
     setIsMounted(true);
-
     const check = () => setIsMobile(window.innerWidth < 768);
     const onScroll = () => setScrolled(window.scrollY > 20);
     check();
@@ -42,7 +38,6 @@ export default function Header() {
     setIsAdmin(pathname.includes("/admin"));
   }, [pathname]);
 
-  /* lock body scroll when mobile menu is opened */
   useEffect(() => {
     if (!isMobile) return;
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
@@ -51,7 +46,6 @@ export default function Header() {
     };
   }, [isMenuOpen, isMobile]);
 
-  /* close on click-outside */
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       if (
@@ -114,7 +108,9 @@ export default function Header() {
   const toggleProjects = () => setIsProjectsOpen((v) => !v);
 
   const isSpecialPage =
-    pathname.includes("/contact") || pathname.includes("/about-us");
+    pathname.includes("/contact") ||
+    pathname.includes("/about-us") ||
+    /\/elisium\/[^/]+/.test(pathname);
 
   const headerBg = () => {
     if (isAdmin || isSpecialPage || scrolled)
