@@ -60,9 +60,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 import WhyUsSection from "./_components/WhyUsSection";
 import HeroSection from "./_components/CoverSection";
-import ApartmentSlideshow from "./_components/FeaturesSection";
 import PaymentCalculator from "@/components/shared/calculator/Calculator";
 import ProjectsSection from "./_components/ProjectsSection";
+import FeaturesSection from "./_components/FeaturesSection";
 
 export default function page() {
   return (
@@ -70,7 +70,7 @@ export default function page() {
       <HeroSection />
       <ProjectsSection />
       <PaymentCalculator />
-      <ApartmentSlideshow />
+      <FeaturesSection />
       <WhyUsSection />
     </>
   );

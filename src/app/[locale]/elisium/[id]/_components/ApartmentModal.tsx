@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type React from "react";
+import { useState } from "react";
 
 interface ApartmentData {
   id: string | number;
@@ -31,11 +32,17 @@ export function ApartmentModal({
   statusConfig,
   onClose,
 }: ApartmentModalProps) {
+  const [imageError, setImageError] = useState(false);
+
   if (!apartment || !statusConfig) return null;
+
+  const imageSrc = imageError
+    ? "/images/elisium/Gegma.png"
+    : `/images/apartments/apt-${apartment.id}.jpg`;
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <div
@@ -45,12 +52,12 @@ export function ApartmentModal({
         {/* Image Section */}
         <div className="w-full lg:w-3/4 bg-gray-100 flex items-center justify-center p-2 md:p-4 h-64 sm:h-96 lg:h-auto">
           <Image
-            src={`/images/apartments/apt-${apartment.id}.jpg`}
+            src={imageSrc}
             alt={`Apartment ${apartment.name}`}
             className="w-full h-full object-contain rounded-lg"
-            onError={(e) => {
-              e.currentTarget.src = "/images/elisium/Gegma.png";
-            }}
+            onError={() => setImageError(true)}
+            width={1200}
+            height={800}
           />
         </div>
 
@@ -158,10 +165,9 @@ export function ApartmentModal({
             </div>
           </div>
 
-          {/* Close Button */}
           <button
             onClick={onClose}
-            className="w-full mt-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 rounded-lg transition-colors"
+            className="w-full mt-4 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 rounded-lg transition-colors"
           >
             Close
           </button>

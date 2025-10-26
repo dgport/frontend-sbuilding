@@ -59,8 +59,8 @@ import ProjectInfo from "./_components/ProjectInfo";
 export default function Page() {
   return (
     <>
-      <Cover />
       <SelectFloor />
+      <Cover />
       {/* <SelectParking /> */}
       <ProjectInfo />
       <ElyisiumFAQ />

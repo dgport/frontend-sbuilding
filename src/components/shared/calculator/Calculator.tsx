@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { DollarSign, Percent, Clock } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -10,40 +10,48 @@ export default function PaymentCalculator() {
   const [months, setMonths] = useState(24);
   const [downPaymentPercent, setDownPaymentPercent] = useState(20);
   const [downPaymentAmount, setDownPaymentAmount] = useState(20000);
-  const [monthlyPayment, setMonthlyPayment] = useState(0);
-  const [totalPayment, setTotalPayment] = useState(0);
-  const [isUpdatingPercent, setIsUpdatingPercent] = useState(false);
 
-  useEffect(() => {
-    if (!isUpdatingPercent) {
-      const amount = (propertyValue * downPaymentPercent) / 100;
-      setIsUpdatingPercent(true);
-      setDownPaymentAmount(amount);
-    } else {
-      setIsUpdatingPercent(false);
-    }
-  }, [propertyValue, downPaymentPercent]);
-
-  const handleDownPaymentAmountChange = (value: number) => {
-    setDownPaymentAmount(value);
-    const percent = (value / propertyValue) * 100;
-    setDownPaymentPercent(Number.parseFloat(percent.toFixed(1)));
-  };
-
-  useEffect(() => {
+  const calculations = useMemo(() => {
     const loanAmount = propertyValue - downPaymentAmount;
     const monthly = months > 0 ? loanAmount / months : 0;
-    setMonthlyPayment(monthly);
-    setTotalPayment(loanAmount);
+    return {
+      monthlyPayment: monthly,
+      totalPayment: loanAmount,
+    };
   }, [propertyValue, months, downPaymentAmount]);
 
-  const formatCurrency = (value: number) => {
+  useEffect(() => {
+    const amount = (propertyValue * downPaymentPercent) / 100;
+    setDownPaymentAmount(amount);
+  }, [propertyValue, downPaymentPercent]);
+
+  const handleDownPaymentAmountChange = useCallback(
+    (value: number) => {
+      setDownPaymentAmount(value);
+      const percent = (value / propertyValue) * 100;
+      setDownPaymentPercent(Number.parseFloat(percent.toFixed(1)));
+    },
+    [propertyValue]
+  );
+
+  const formatCurrency = useCallback((value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
       maximumFractionDigits: 0,
     }).format(value);
-  };
+  }, []);
+
+  useEffect(() => {
+    const sliders = document.querySelectorAll(".slider");
+    sliders.forEach((slider: any) => {
+      const min = slider.min || 0;
+      const max = slider.max || 100;
+      const value = slider.value;
+      const percentage = ((value - min) / (max - min)) * 100;
+      slider.style.setProperty("--value", `${percentage}%`);
+    });
+  }, [propertyValue, downPaymentPercent, months]);
 
   return (
     <section className="w-full px-4 md:px-8 py-10 md:pt-12 pb-24 relative overflow-hidden min-h-screen lg:min-h-auto">
@@ -87,22 +95,22 @@ export default function PaymentCalculator() {
 
       <div className="relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
-          <h1 className="text-2xl font-geo2 md:text-4xl py-3 tracking-widest font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-sky-600 to-blue-400   uppercase">
+          <h1 className="text-2xl font-geo2 md:text-4xl py-3 tracking-widest font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-sky-600 to-blue-400 uppercase animate-fade-in">
             {t("paymentCalculator")}
           </h1>
-          <div className="mt-4 h-0.5 w-32 md:w-32 bg-gradient-to-r from-blue-500 via-blue-300 to-transparent rounded-full mx-auto"></div>
+          <div className="mt-4 h-0.5 w-32 md:w-32 bg-gradient-to-r from-blue-500 via-blue-300 to-transparent rounded-full mx-auto animate-expand"></div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border border-gray-100">
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border border-gray-100 transition-all duration-300 hover:shadow-xl hover:border-blue-200">
             <div className="space-y-6">
-              <div>
+              <div className="group">
                 <div className="flex justify-between items-center mb-3">
-                  <label className="text-gray-700 flex items-center font-medium text-sm md:text-base">
-                    <DollarSign className="h-4 w-4 mr-2 text-blue-600" />
+                  <label className="text-gray-700 flex items-center font-medium text-sm md:text-base transition-colors group-hover:text-blue-600">
+                    <DollarSign className="h-4 w-4 mr-2 text-blue-600 transition-transform group-hover:scale-110" />
                     {t("propertyValue")}
                   </label>
-                  <div className="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-md">
+                  <div className="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-md transition-all hover:border-blue-300 hover:bg-blue-50">
                     <input
                       type="number"
                       value={propertyValue}
@@ -130,29 +138,29 @@ export default function PaymentCalculator() {
                 </div>
               </div>
 
-              <div>
+              <div className="group">
                 <div className="flex justify-between items-center mb-3">
-                  <label className="text-gray-700 flex items-center font-medium text-sm md:text-base">
-                    <Percent className="h-4 w-4 mr-2 text-blue-600" />
+                  <label className="text-gray-700 flex items-center font-medium text-sm md:text-base transition-colors group-hover:text-blue-600">
+                    <Percent className="h-4 w-4 mr-2 text-blue-600 transition-transform group-hover:scale-110" />
                     {t("downPayment")}
                   </label>
                   <div className="flex space-x-2">
-                    <div className="bg-gray-50 border border-gray-200 px-2 py-1.5 rounded-md flex items-center">
+                    <div className="bg-gray-50 border border-gray-200 px-2 py-1.5 rounded-md flex items-center transition-all hover:border-blue-300 hover:bg-blue-50">
                       <input
                         type="number"
                         value={downPaymentPercent}
-                        onChange={(e) => {
+                        onChange={(e) =>
                           setDownPaymentPercent(
                             Math.max(0, Math.min(100, Number(e.target.value)))
-                          );
-                        }}
+                          )
+                        }
                         className="w-12 bg-transparent text-gray-700 font-medium text-right text-sm focus:outline-none"
                       />
                       <span className="text-gray-700 font-medium ml-1 text-sm">
                         %
                       </span>
                     </div>
-                    <div className="bg-gray-50 border border-gray-200 px-2 py-1.5 rounded-md">
+                    <div className="bg-gray-50 border border-gray-200 px-2 py-1.5 rounded-md transition-all hover:border-blue-300 hover:bg-blue-50">
                       <input
                         type="number"
                         value={Math.round(downPaymentAmount)}
@@ -187,13 +195,13 @@ export default function PaymentCalculator() {
                 </div>
               </div>
 
-              <div>
+              <div className="group">
                 <div className="flex justify-between items-center mb-3">
-                  <label className="text-gray-700 flex items-center font-medium text-sm md:text-base">
-                    <Clock className="h-4 w-4 mr-2 text-blue-600" />
+                  <label className="text-gray-700 flex items-center font-medium text-sm md:text-base transition-colors group-hover:text-blue-600">
+                    <Clock className="h-4 w-4 mr-2 text-blue-600 transition-transform group-hover:scale-110" />
                     {t("paymentPeriod")}
                   </label>
-                  <div className="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-md flex items-center">
+                  <div className="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-md flex items-center transition-all hover:border-blue-300 hover:bg-blue-50">
                     <input
                       type="number"
                       value={months}
@@ -228,16 +236,16 @@ export default function PaymentCalculator() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border border-gray-100">
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 border border-gray-100 transition-all duration-300 hover:shadow-xl hover:border-blue-200">
             <div className="mb-4">
               <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
                 {t("paymentSummary")}
               </h3>
-              <div className="h-px bg-gray-200 w-full" />
+              <div className="h-px bg-gradient-to-r from-gray-200 via-blue-200 to-transparent w-full" />
             </div>
 
-            <div className="grid grid-cols-2 gap-x-3 gap-y-8 mb-4">
-              <div className="bg-gray-50 border border-gray-100 rounded-md p-3">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-4 mb-6">
+              <div className="bg-gradient-to-br from-gray-50 to-blue-50 border border-gray-100 rounded-md p-3 transition-all duration-300 hover:shadow-md hover:border-blue-200 transform hover:-translate-y-1">
                 <div className="text-gray-600 text-xs font-medium mb-1">
                   {t("propertyValue")}
                 </div>
@@ -245,7 +253,7 @@ export default function PaymentCalculator() {
                   {formatCurrency(propertyValue)}
                 </div>
               </div>
-              <div className="bg-gray-50 border border-gray-100 rounded-md p-3">
+              <div className="bg-gradient-to-br from-gray-50 to-blue-50 border border-gray-100 rounded-md p-3 transition-all duration-300 hover:shadow-md hover:border-blue-200 transform hover:-translate-y-1">
                 <div className="text-gray-600 text-xs font-medium mb-1">
                   {t("paymentPeriod")}
                 </div>
@@ -253,7 +261,7 @@ export default function PaymentCalculator() {
                   {months} {months === 1 ? t("month") : t("months")}
                 </div>
               </div>
-              <div className="bg-gray-50 border border-gray-100 rounded-md p-3">
+              <div className="bg-gradient-to-br from-gray-50 to-blue-50 border border-gray-100 rounded-md p-3 transition-all duration-300 hover:shadow-md hover:border-blue-200 transform hover:-translate-y-1">
                 <div className="text-gray-600 text-xs font-medium mb-1">
                   {t("downPayment")}
                 </div>
@@ -261,19 +269,22 @@ export default function PaymentCalculator() {
                   {formatCurrency(downPaymentAmount)}
                 </div>
               </div>
-              <div className="bg-gray-50 border border-gray-100 rounded-md p-3">
+              <div className="bg-gradient-to-br from-gray-50 to-blue-50 border border-gray-100 rounded-md p-3 transition-all duration-300 hover:shadow-md hover:border-blue-200 transform hover:-translate-y-1">
                 <div className="text-gray-600 text-xs font-medium mb-1">
                   {t("financeAmount")}
                 </div>
                 <div className="text-sm md:text-base font-semibold text-gray-800">
-                  {formatCurrency(totalPayment)}
+                  {formatCurrency(calculations.totalPayment)}
                 </div>
               </div>
             </div>
 
-            <div className="bg-blue-600 rounded-lg lg:mt-10 p-2 md:py-4 text-center">
-              <div className="text-blue-100 text-sm font-medium mb-1">
-                {t("monthlyPayment")} {formatCurrency(monthlyPayment)}
+            <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg lg:mt-6 p-4 md:py-5 text-center shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105">
+              <div className="text-blue-100 text-xs md:text-sm font-medium mb-1 uppercase tracking-wide">
+                {t("monthlyPayment")}
+              </div>
+              <div className="text-white text-2xl md:text-3xl font-bold">
+                {formatCurrency(calculations.monthlyPayment)}
               </div>
             </div>
           </div>
@@ -281,25 +292,106 @@ export default function PaymentCalculator() {
       </div>
 
       <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes expand {
+          from {
+            width: 0;
+          }
+          to {
+            width: 8rem;
+          }
+        }
+
+        .animate-fade-in {
+          animation: fadeIn 0.6s ease-out;
+        }
+
+        .animate-expand {
+          animation: expand 0.8s ease-out;
+        }
+
+        .slider {
+          transition: all 0.15s ease;
+          background: linear-gradient(
+            to right,
+            #3b82f6 0%,
+            #3b82f6 var(--value),
+            #e5e7eb var(--value),
+            #e5e7eb 100%
+          );
+        }
+
         .slider::-webkit-slider-thumb {
           appearance: none;
           height: 18px;
           width: 18px;
           border-radius: 50%;
-          background: #2563eb;
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
           cursor: pointer;
           border: 2px solid #ffffff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+          transition: all 0.2s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+          transform: scale(1.2);
+          box-shadow: 0 3px 8px rgba(37, 99, 235, 0.6);
+        }
+
+        .slider::-webkit-slider-thumb:active {
+          transform: scale(1.1);
         }
 
         .slider::-moz-range-thumb {
           height: 18px;
           width: 18px;
           border-radius: 50%;
-          background: #2563eb;
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
           cursor: pointer;
           border: 2px solid #ffffff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+          transition: all 0.2s ease;
+        }
+
+        .slider::-moz-range-thumb:hover {
+          transform: scale(1.2);
+          box-shadow: 0 3px 8px rgba(37, 99, 235, 0.6);
+        }
+
+        .slider::-moz-range-thumb:active {
+          transform: scale(1.1);
+        }
+
+        .slider::-moz-range-track {
+          background: linear-gradient(
+            to right,
+            #3b82f6 0%,
+            #3b82f6 var(--value),
+            #e5e7eb var(--value),
+            #e5e7eb 100%
+          );
+          height: 8px;
+          border-radius: 4px;
+        }
+
+        .slider::-moz-range-progress {
+          background: #3b82f6;
+          height: 8px;
+          border-radius: 4px;
+        }
+
+        .slider:hover {
+          opacity: 0.9;
         }
       `}</style>
     </section>

@@ -172,6 +172,8 @@ export default function FloorPlanPage({
             src="/images/elisium/Gegma.png"
             alt="Building"
             className="w-full h-full object-contain"
+            width={1200}
+            height={800}
           />
           <FloorPlanSvg
             paths={paths}
