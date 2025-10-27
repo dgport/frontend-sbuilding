@@ -1,4 +1,5 @@
 "use client";
+
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
@@ -6,10 +7,19 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { Facebook, Instagram } from "../svg";
 import Image from "next/image";
 import Logo from "@/root/public/images/SBuildingWhite.png";
+import { usePathname } from "next/navigation"; // ✅ import this
 
 export default function Footer() {
   const t = useTranslations("main");
   const locale = useLocale();
+  const pathname = usePathname(); // ✅ current route
+
+  // ✅ Hide footer on `/elisium/:id` routes
+  const isElisiumDetail = /^\/[^/]*\/elisium\/\d+$/.test(pathname);
+
+  if (isElisiumDetail) {
+    return null;
+  }
 
   const navigationItems = [
     { name: t("main"), href: "/" },
@@ -18,7 +28,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative  px-4 md:px-24 w-full bg-blue-900/95 backdrop-blur-xl shadow-2xl shadow-black/20 border-t border-white/10">
+    <footer className="relative px-4 md:px-24 w-full bg-blue-900/95 backdrop-blur-xl shadow-2xl shadow-black/20 border-t border-white/10">
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"
@@ -33,6 +43,7 @@ export default function Footer() {
 
       <div className="relative z-10 container mx-auto px-6 py-8 lg:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* --- Logo & Socials --- */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -81,11 +92,11 @@ export default function Footer() {
             </div>
           </motion.div>
 
+          {/* --- Navigation --- */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className=""
           >
             <h3 className="text-white text-base font-semibold mb-6 tracking-wide">
               {t("navigation")}
@@ -108,6 +119,7 @@ export default function Footer() {
             </div>
           </motion.div>
 
+          {/* --- Contact --- */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -118,6 +130,7 @@ export default function Footer() {
               {t("contactUs")}
             </h3>
             <div className="space-y-4">
+              {/* Address */}
               <motion.div
                 className="flex items-start group"
                 whileHover={{ x: 4 }}
@@ -141,6 +154,7 @@ export default function Footer() {
                 </a>
               </motion.div>
 
+              {/* Phone */}
               <motion.div
                 className="flex items-start group"
                 whileHover={{ x: 4 }}
@@ -160,6 +174,7 @@ export default function Footer() {
                 </a>
               </motion.div>
 
+              {/* Email */}
               <motion.div
                 className="flex items-start group"
                 whileHover={{ x: 4 }}
@@ -186,7 +201,7 @@ export default function Footer() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 pt-2  border-t justify-center border-white/10 flex flex-col sm:flex-row   items-center space-y-4 sm:space-y-0"
+          className="mt-12 pt-2 border-t justify-center border-white/10 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0"
         >
           <p className="text-gray-400 text-sm text-center sm:text-left">
             © {new Date().getFullYear()} Digital Port. All rights reserved.

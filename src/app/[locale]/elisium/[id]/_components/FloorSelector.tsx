@@ -1,5 +1,6 @@
 import type React from "react";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 
 interface FloorSelectorProps {
   floors: number[];
@@ -14,33 +15,95 @@ export function FloorSelector({
   onFloorChange,
   isMobile = false,
 }: FloorSelectorProps) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const scrollToDirection = (direction: "left" | "right") => {
+    if (!scrollContainerRef.current) return;
+    const scrollAmount = 200;
+    scrollContainerRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const handleGlobalMouseUp = () => setIsDragging(false);
+    document.addEventListener("mouseup", handleGlobalMouseUp);
+    document.addEventListener("touchend", handleGlobalMouseUp);
+    return () => {
+      document.removeEventListener("mouseup", handleGlobalMouseUp);
+      document.removeEventListener("touchend", handleGlobalMouseUp);
+    };
+  }, []);
+
   if (isMobile) {
     return (
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pb-3 sm:px-4 sm:pb-4">
-        <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border-2 border-gray-200/70 p-3 sm:p-4">
-          <div className="flex items-center gap-2 sm:gap-3">
+      <div className="md:hidden bottom-0 left-0 right-0 z-20 px-3 pb-3 sm:px-4 sm:pb-4">
+        <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border-2 border-gray-200/70 py-5 px-3 sm:p-4">
+          <div className="flex items-center gap-3 sm:gap-3">
             <button
-              onClick={() => {
-                const prevFloor =
-                  currentFloor > floors[0] ? currentFloor - 1 : currentFloor;
-                if (prevFloor !== currentFloor) onFloorChange(prevFloor);
-              }}
-              disabled={currentFloor <= floors[0]}
-              className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 disabled:from-gray-50 disabled:to-gray-100 disabled:cursor-not-allowed rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-50"
+              onClick={() => scrollToDirection("left")}
+              className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-95"
             >
-              <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-blue-700" />
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-blue-700" />
             </button>
 
-            <div className="flex-1 overflow-x-auto scrollbar-hide">
-              <div className="flex gap-2 sm:gap-2.5 px-1">
+            <div
+              ref={scrollContainerRef}
+              className="flex-1 overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleMouseUp}
+            >
+              <div className="floor-buttons-container flex gap-1.5 sm:gap-2 px-1">
                 {floors.map((floor) => (
                   <button
                     key={floor}
                     onClick={() => onFloorChange(floor)}
-                    className={`flex-shrink-0 min-w-[48px] h-12 sm:min-w-[56px] sm:h-14 px-3 rounded-xl text-base sm:text-lg font-bold transition-all shadow-lg hover:shadow-xl active:scale-95 ${
+                    className={`flex-shrink-0 min-w-10 min-h-10  my-2 sm:min-w-[50px] sm:h-11 px-2.5 rounded-lg text-base sm:text-lg font-bold transition-all shadow-lg hover:shadow-xl active:scale-95 ${
                       currentFloor === floor
                         ? "bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white scale-105 shadow-blue-400/50 ring-2 ring-blue-400"
-                        : "bg-gradient-to-br from-white to-gray-50 text-gray-800 hover:from-blue-50 hover:to-blue-100 border-2 border-gray-300 hover:border-blue-300"
+                        : "bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 hover:from-blue-50 hover:to-blue-100 border-2 border-gray-300 hover:border-blue-300"
                     }`}
                   >
                     {floor}
@@ -50,17 +113,10 @@ export function FloorSelector({
             </div>
 
             <button
-              onClick={() => {
-                const nextFloor =
-                  currentFloor < floors[floors.length - 1]
-                    ? currentFloor + 1
-                    : currentFloor;
-                if (nextFloor !== currentFloor) onFloorChange(nextFloor);
-              }}
-              disabled={currentFloor >= floors[floors.length - 1]}
-              className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 disabled:from-gray-50 disabled:to-gray-100 disabled:cursor-not-allowed rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-50"
+              onClick={() => scrollToDirection("right")}
+              className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-95"
             >
-              <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-700" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-blue-700" />
             </button>
           </div>
         </div>

@@ -22,6 +22,7 @@ interface ApartmentPathProps {
   onMouseLeave: () => void;
   onClick: () => void;
   onPathRef: (el: SVGPathElement | null) => void;
+  isMobile?: boolean;
 }
 
 export function ApartmentPath({
@@ -33,6 +34,7 @@ export function ApartmentPath({
   onMouseLeave,
   onClick,
   onPathRef,
+  isMobile = false,
 }: ApartmentPathProps) {
   const pathRef = useRef<SVGPathElement | null>(null);
   const [center, setCenter] = useState({ x: 640, y: 400 });
@@ -56,14 +58,17 @@ export function ApartmentPath({
     onPathRef(el);
   };
 
-  const fillGradient = isHovered
-    ? `url(#${statusConfig.hoverGradient})`
-    : `url(#${statusConfig.gradient})`;
+  const fillGradient =
+    isHovered && !isMobile
+      ? `url(#${statusConfig.hoverGradient})`
+      : `url(#${statusConfig.gradient})`;
+
+  const shouldShowHoverEffects = isHovered && !isMobile;
 
   return (
     <g
       style={{
-        zIndex: isHovered ? 99999 : 1,
+        zIndex: shouldShowHoverEffects ? 99999 : 1,
         position: "relative",
       }}
     >
@@ -75,18 +80,20 @@ export function ApartmentPath({
         strokeWidth="2"
         className="pointer-events-none"
         style={{
-          opacity: isHovered ? 1 : 0,
+          opacity: shouldShowHoverEffects ? 1 : 0,
           transition: "opacity 0.3s ease",
         }}
       />
 
       <g
         style={{
-          transform: isHovered ? "translateY(-32px)" : "translateY(0)",
+          transform: shouldShowHoverEffects
+            ? "translateY(-32px)"
+            : "translateY(0)",
           transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
-          willChange: isHovered ? "transform" : "auto",
+          willChange: shouldShowHoverEffects ? "transform" : "auto",
         }}
-        filter={isHovered ? "url(#liftShadow)" : "none"}
+        filter={shouldShowHoverEffects ? "url(#liftShadow)" : "none"}
       >
         {/* Clipped background image that moves with the apartment */}
         <path
@@ -101,7 +108,7 @@ export function ApartmentPath({
           d={pathData}
           fill="none"
           stroke="rgba(255, 255, 255, 0.7)"
-          strokeWidth={isHovered ? "6" : "4"}
+          strokeWidth={shouldShowHoverEffects ? "6" : "4"}
           className="transition-all duration-300 pointer-events-none"
         />
 
@@ -111,14 +118,14 @@ export function ApartmentPath({
           d={pathData}
           fill={fillGradient}
           stroke={statusConfig.color}
-          strokeWidth={isHovered ? "4" : "2"}
+          strokeWidth={shouldShowHoverEffects ? "4" : "2"}
           className="transition-all duration-300 cursor-pointer"
           onMouseMove={onMouseMove}
           onMouseLeave={onMouseLeave}
           onClick={onClick}
           style={{
             pointerEvents: "all",
-            filter: isHovered ? "url(#glow)" : "none",
+            filter: shouldShowHoverEffects ? "url(#glow)" : "none",
           }}
         />
 
@@ -130,7 +137,7 @@ export function ApartmentPath({
             r="24"
             fill="white"
             stroke={statusConfig.color}
-            strokeWidth={isHovered ? "4" : "3"}
+            strokeWidth={shouldShowHoverEffects ? "4" : "3"}
             opacity="1"
             className="transition-all duration-300"
             style={{
@@ -145,7 +152,7 @@ export function ApartmentPath({
             dominantBaseline="middle"
             className="font-bold select-none transition-all duration-300"
             fill={statusConfig.color}
-            fontSize={isHovered ? "20" : "18"}
+            fontSize={shouldShowHoverEffects ? "20" : "18"}
             style={{
               paintOrder: "stroke fill",
               stroke: "white",
@@ -165,7 +172,7 @@ export function ApartmentPath({
             strokeWidth="2.5"
             className="transition-all duration-300"
             style={{
-              transform: isHovered ? "scale(1.4)" : "scale(1)",
+              transform: shouldShowHoverEffects ? "scale(1.4)" : "scale(1)",
               transformOrigin: `${center.x + 20}px ${center.y - 20}px`,
               filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))",
             }}

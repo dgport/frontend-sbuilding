@@ -143,7 +143,7 @@ export default function FloorPlanPage({
   }
 
   return (
-    <div className="w-full h-screen flex flex-col lg:flex-row lg:justify-center lg:items-center lg:gap-6 lg:p-6 pt-20 lg:pt-24 overflow-hidden">
+    <div className="w-full overflow-y-hidden h-screen flex flex-col lg:flex-row lg:justify-center lg:items-center lg:gap-6 lg:p-6 pt-20 lg:pt-24 overflow-hidden">
       <FloorSelector
         floors={FLOORS}
         currentFloor={currentFloor}
@@ -166,8 +166,8 @@ export default function FloorPlanPage({
         }
         position={tooltipPosition}
       />
-      <div className="relative flex-1 w-full h-full flex items-center justify-center p-2 sm:p-4 lg:p-0 overflow-hidden mb-16 sm:mb-20 lg:mb-0">
-        <div className="relative w-full h-full flex items-center justify-center">
+      <div className="relative flex-1 w-full h-full flex items-center justify-start lg:justify-center lg:p-0 mb-5 sm:mb-10 lg:mb-0 overflow-x-auto overflow-y-hidden lg:overflow-hidden">
+        <div className="relative w-full h-full min-w-[1100px]  lg:min-w-[1280px] flex items-center justify-center">
           <Image
             src="/images/elisium/Gegma.png"
             alt="Building"
