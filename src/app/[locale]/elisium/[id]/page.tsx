@@ -48,8 +48,18 @@ export default function FloorPlanPage({
     const fetchApartments = async () => {
       try {
         setLoading(true);
+
+        // Get auth token from environment or your auth system
+        const authToken = process.env.NEXT_PUBLIC_API_TOKEN || "";
+
         const response = await fetch(
-          `https://sbuilding.bo.ge/api/property/${propertyId}`
+          `https://sbuilding.bo.ge/api/property/${propertyId}`,
+          {
+            headers: {
+              Authorization: `authtoken ${authToken}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
 
         if (!response.ok) throw new Error("Backend offline");
@@ -65,23 +75,11 @@ export default function FloorPlanPage({
 
         setApartmentData(apartments);
         setPaths(data.paths || []);
-      } catch {
-        console.warn("Backend unreachable, loading local data...");
-        const localData = await import(
-          "@/app/[locale]/elisium/_components/apartments.json"
-        );
-        const pathsData = await import(
-          "@/app/[locale]/elisium/_components/paths.json"
-        );
-
-        const sortedLocalData = localData.default.sort((a: any, b: any) => {
-          const numA = Number.parseInt(a.name.replace(/[^\d]/g, ""), 10);
-          const numB = Number.parseInt(b.name.replace(/[^\d]/g, ""), 10);
-          return numA - numB;
-        });
-
-        setApartmentData(sortedLocalData);
-        setPaths(pathsData.default);
+      } catch (error) {
+        console.warn("Backend unreachable, using fetched data failed:", error);
+        // You can still keep fallback to local data if needed
+        setApartmentData([]);
+        setPaths([]);
       } finally {
         setLoading(false);
       }
@@ -143,7 +141,7 @@ export default function FloorPlanPage({
   }
 
   return (
-    <div className="w-full overflow-y-hidden h-screen flex flex-col lg:flex-row lg:justify-center lg:items-center lg:gap-6 lg:p-6 pt-20 lg:pt-24 overflow-hidden">
+    <div className="w-full overflow-y-hidden h-screen flex flex-col xl:flex-row  xl:justify-center xl:items-center xl:gap-6 xl:px-6 pt-20 xl:pt-24 overflow-hidden">
       <FloorSelector
         floors={FLOORS}
         currentFloor={currentFloor}
@@ -166,8 +164,8 @@ export default function FloorPlanPage({
         }
         position={tooltipPosition}
       />
-      <div className="relative flex-1 w-full h-full flex items-center justify-start lg:justify-center lg:p-0 mb-5 sm:mb-10 lg:mb-0 overflow-x-auto overflow-y-hidden lg:overflow-hidden">
-        <div className="relative w-full h-full min-w-[1100px]  lg:min-w-[1280px] flex items-center justify-center">
+      <div className="relative flex-1 w-full h-full flex items-center justify-start xl:justify-center xl:p-0 mb-5 sm:mb-10 xl:mb-0 overflow-x-auto overflow-y-hidden xl:overflow-hidden">
+        <div className="relative w-full h-full min-w-[1100px]  xl:min-w-7xl flex items-center justify-center">
           <Image
             src="/images/elisium/Gegma.png"
             alt="Building"

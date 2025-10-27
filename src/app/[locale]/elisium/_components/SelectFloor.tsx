@@ -53,40 +53,11 @@ export default function SelectFloor() {
   );
 
   return (
-    <section className="w-full  pt-16 md:pt-20 min-h-screen font-geo2 tracking-widest relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="absolute inset-0 opacity-5">
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="xMidYMid slice"
-          >
-            <defs>
-              <pattern
-                id="grid"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  width="20"
-                  height="20"
-                  fill="none"
-                  stroke="#1e40af"
-                  strokeWidth="0.5"
-                />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-      </div>
-
+    <section className="w-full  pt-16 md:pt-20  h-auto md:min-h-screen font-geo2 tracking-widest relative">
       <div className="relative z-10 md:min-h-screen ">
-        {/* Desktop view */}
         <div className="relative  hidden md:block bg-white/90 shadow-xl overflow-hidden h-screen">
           {displayFloor && (
-            <div className="absolute top-4 left-4 z-20 bg-gradient-to-br from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg shadow-xl font-bold text-3xl border border-white/20">
+            <div className="absolute top-4 left-4 z-20 bg-linear-to-br from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg shadow-xl font-bold text-3xl border border-white/20">
               {displayFloor}
             </div>
           )}
@@ -154,7 +125,7 @@ export default function SelectFloor() {
                   onClick={() => setSelectedFloor(floor)}
                   className={`w-11 h-11 rounded-lg text-sm font-bold transition-all ${
                     selectedFloor === floor
-                      ? "bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg scale-105 border-2 border-white/30"
+                      ? "bg-linear-to-br from-blue-600 to-blue-700 text-white shadow-lg scale-105 border-2 border-white/30"
                       : "bg-white text-gray-800 hover:bg-blue-50 hover:scale-105 border-2 border-gray-300/50"
                   }`}
                 >
@@ -166,17 +137,16 @@ export default function SelectFloor() {
             <Button
               onClick={handleSelectFloor}
               disabled={isLoading}
-              className="w-full mt-3 cursor-pointer py-2.5 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white text-sm font-bold rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95 disabled:cursor-not-allowed"
+              className="w-full mt-3 cursor-pointer py-2.5 bg-linear-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white text-sm font-bold rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95 disabled:cursor-not-allowed"
             >
               {isLoading ? t("loading") : t("select")}
             </Button>
           </div>
         </div>
 
-        {/* Mobile view */}
         <div className="md:hidden relative h-[70vh] overflow-hidden">
           {displayFloor && (
-            <div className="absolute top-3 left-3 z-20 bg-gradient-to-br from-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg shadow-xl font-bold text-2xl border border-white/20">
+            <div className="absolute top-3 left-3 z-20 bg-linear-to-br from-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg shadow-xl font-bold text-2xl border border-white/20">
               {displayFloor}
             </div>
           )}
@@ -243,14 +213,14 @@ export default function SelectFloor() {
           </svg>
 
           {/* Mobile controls */}
-          <div className="absolute bottom-4 left-4 right-4 z-10 space-y-3">
-            <div className="bg-white/80 backdrop-blur-xl shadow-xl rounded-xl p-3 border border-white/30">
+          <div className="absolute bottom-1 z-50 left-4 right-4   space-y-3">
+            <div className="bg-white/80 backdrop-blur-xl shadow-xl rounded-xl p-1 border border-white/30">
               <div className="flex items-center gap-2">
                 <Button
                   onClick={() => scrollCarousel("left")}
-                  className="flex-shrink-0 w-9 h-9 flex items-center justify-center bg-white hover:bg-blue-50 rounded-lg transition-all shadow-md active:scale-95 border border-gray-200"
+                  className="shrink-0 w-9 h-9 flex items-center justify-center bg-white hover:bg-blue-50 rounded-lg transition-all shadow-md active:scale-95 border border-gray-200"
                 >
-                  <ChevronLeft className="w-4 h-4 text-gray-700" />
+                  <ChevronLeft className="w-3 h-3 text-gray-700" />
                 </Button>
 
                 <div
@@ -262,9 +232,9 @@ export default function SelectFloor() {
                       <Button
                         key={floor}
                         onClick={() => setSelectedFloor(floor)}
-                        className={`flex-shrink-0 w-10 h-10 rounded-lg text-sm font-bold transition-all ${
+                        className={`shrink-0 w-8 h-8 rounded-lg text-sm font-bold transition-all ${
                           selectedFloor === floor
-                            ? "bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg scale-105 border-2 border-white/30"
+                            ? "bg-linear-to-br from-blue-600 to-blue-700 text-white shadow-lg scale-105 border-2 border-white/30"
                             : "bg-white text-gray-800 hover:bg-blue-50 border-2 border-gray-300/50"
                         }`}
                       >
@@ -276,18 +246,18 @@ export default function SelectFloor() {
 
                 <Button
                   onClick={() => scrollCarousel("right")}
-                  className="flex-shrink-0 w-9 h-9 flex items-center justify-center bg-white hover:bg-blue-50 rounded-lg transition-all shadow-md active:scale-95 border border-gray-200"
+                  className="shrink-0 w-9 h-9 flex items-center justify-center bg-white hover:bg-blue-50 rounded-lg transition-all shadow-md active:scale-95 border border-gray-200"
                 >
                   <ChevronRight className="w-4 h-4 text-gray-700" />
                 </Button>
               </div>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-xl shadow-xl rounded-xl p-3 border border-white/30">
+            <div className="bg-white/80 backdrop-blur-xl shadow-xl flex justify-center w-full rounded-xl   ">
               <Button
                 onClick={handleSelectFloor}
                 disabled={isLoading}
-                className="w-full cursor-pointer py-3 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white text-sm font-bold rounded-lg transition-all shadow-md active:scale-95 disabled:cursor-not-allowed"
+                className="w-full cursor-pointer py-3   bg-linear-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white text-sm font-bold rounded-lg transition-all shadow-md active:scale-95 disabled:cursor-not-allowed"
               >
                 {isLoading ? t("loading") : t("select")}
               </Button>

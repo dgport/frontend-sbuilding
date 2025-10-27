@@ -41,11 +41,11 @@ export function ApartmentModal({
 
   return (
     <div
-      className="fixed inset-0 z-[999999999999] bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 p-3 sm:p-4"
+      className="fixed inset-0 z-999999999999 bg-black/40 backdrop-blur-xs flex items-center justify-center p-6 sm:p-4"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl flex flex-col lg:flex-row overflow-hidden max-h-[100dvh] sm:max-h-[90vh]"
+        className="bg-white rounded-2xl gap-10 shadow-2xl p-5 w-full max-w-5xl flex flex-col lg:flex-row overflow-hidden max-h-dvh sm:max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image Section */}
@@ -61,18 +61,15 @@ export function ApartmentModal({
         </div>
 
         {/* Info Section */}
-        <div className="w-full lg:w-1/4 p-4 sm:p-6 flex flex-col overflow-y-auto">
+        <div className="w-full lg:w-1/4 p-1 flex flex-col overflow-y-auto">
           {/* Header */}
           <div
             className="rounded-lg p-2 mb-3 sm:mb-4"
             style={{ backgroundColor: statusConfig.color }}
           >
             <h2 className="text-base sm:text-lg font-bold text-white text-center leading-tight">
-              Apt {apartment.name}
+              Apt {apartment.name} / Floor {apartment.floor}
             </h2>
-            <p className="text-white text-center text-[11px] sm:text-xs mt-0.5 opacity-90">
-              Floor {apartment.floor}
-            </p>
           </div>
 
           {/* Status Badge */}

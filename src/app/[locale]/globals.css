@@ -122,10 +122,6 @@
   }
 }
 
-.defaultGradient {
-  background-image: linear-gradient(90deg, #d52028 0%, #fd9d14 100%);
-}
-
 .image-zoomed {
   overflow: hidden;
 }

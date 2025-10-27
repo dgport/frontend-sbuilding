@@ -32,49 +32,8 @@ export default function ElysiumFAQ() {
 
   return (
     <section className="bg-white relative font-geo2 py-10 md:py-20 px-4 md:px-8 lg:px-16 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="absolute inset-0 opacity-5">
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="xMidYMid slice"
-          >
-            <defs>
-              <pattern
-                id="construction-grid-parking"
-                x="0"
-                y="0"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  width="20"
-                  height="20"
-                  fill="none"
-                  stroke="#1e40af"
-                  strokeWidth="0.5"
-                />
-                <rect
-                  width="10"
-                  height="10"
-                  fill="none"
-                  stroke="#1e40af"
-                  strokeWidth="0.3"
-                />
-                <circle cx="10" cy="10" r="2" fill="#1e40af" opacity="0.3" />
-              </pattern>
-            </defs>
-            <rect
-              width="100%"
-              height="100%"
-              fill="url(#construction-grid-parking)"
-            />
-          </svg>
-        </div>
-      </div>
+      <div className="absolute inset-0 bg-linear-to-br from-slate-50 to-blue-50"></div>
 
-      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(8)].map((_, i) => (
           <div
@@ -94,7 +53,6 @@ export default function ElysiumFAQ() {
         <div className="bg-blue-900/95 rounded-2xl backdrop-blur-lg shadow-2xl">
           <div className="relative w-full p-3 px-4 sm:px-8 md:px-12 pb-8 sm:pb-16 pt-0 mx-auto overflow-hidden border border-white/10">
             <div className="relative z-10 p-3 sm:p-6 pt-8 sm:pt-12">
-              {/* Header */}
               <div className="flex flex-col items-center mb-8 sm:mb-12">
                 <div className="flex items-center mb-2 sm:mb-4">
                   <div className="h-5 w-5 sm:h-6 sm:w-6 text-white mr-2 sm:mr-3">
@@ -104,15 +62,14 @@ export default function ElysiumFAQ() {
                     {t("faqTitle")}
                   </h3>
                 </div>
-                <div className="h-[2px] bg-gradient-to-r from-transparent via-white/60 to-transparent rounded-full w-24 sm:w-32"></div>
+                <div className="h-0.5 bg-linear-to-r from-transparent via-white/60 to-transparent rounded-full w-24 sm:w-32"></div>
               </div>
 
-              {/* Accordion Section */}
               <div className="space-y-4 sm:space-y-6">
                 {accordionItems.map((item, index) => (
                   <div
                     key={index}
-                    className="rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-700/50 via-slate-600/40 to-slate-800/60 backdrop-blur-xl border border-white/20 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-white/30"
+                    className="rounded-lg sm:rounded-xl bg-linear-to-br from-slate-700/50 via-slate-600/40 to-slate-800/60 backdrop-blur-xl border border-white/20 shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-white/30"
                   >
                     <button
                       className="flex justify-between cursor-pointer items-center w-full p-4 sm:p-5 text-left hover:bg-white/5 transition-all duration-300 group"
@@ -129,7 +86,7 @@ export default function ElysiumFAQ() {
                         </span>
                       </div>
                       <ChevronDown
-                        className={`w-4 h-4 sm:w-5 sm:h-5 text-white/70 transition-transform duration-300 flex-shrink-0 ${
+                        className={`w-4 h-4 sm:w-5 sm:h-5 text-white/70 transition-transform duration-300 shrink-0 ${
                           openAccordion === index ? "transform rotate-180" : ""
                         } group-hover:text-white/90`}
                       />
@@ -144,7 +101,7 @@ export default function ElysiumFAQ() {
                       }`}
                     >
                       <div className="px-4 sm:px-5 pb-4 sm:pb-5">
-                        <div className="h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full w-full mb-3 sm:mb-4"></div>
+                        <div className="h-0.5 bg-linear-to-r from-transparent via-white/20 to-transparent rounded-full w-full mb-3 sm:mb-4"></div>
                         <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-white/10">
                           <div className="text-white/80 text-base md:text-lg leading-relaxed whitespace-pre-line">
                             {item.answer}

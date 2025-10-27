@@ -98,7 +98,7 @@ export default async function RootLayout({
             <Footer />
 
             <WhatsAppChat
-              phoneNumber="+995557471414"
+              phoneNumber="+995 579 26 00 00"
               defaultMessage="Hello from SBuilding website"
             />
             <MessengerChat
