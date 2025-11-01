@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -16,8 +18,6 @@ interface ApartmentData {
 interface StatusConfig {
   color: string;
   text: string;
-  gradient: string;
-  hoverGradient: string;
 }
 
 interface ApartmentModalProps {
@@ -32,37 +32,60 @@ export function ApartmentModal({
   onClose,
 }: ApartmentModalProps) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
+
+  React.useEffect(() => {
+    setImageError(false);
+    setImageLoading(true);
+  }, [apartment?.id]);
 
   if (!apartment || !statusConfig) return null;
 
-  const imageSrc = imageError
-    ? "/images/elisium/Gegma.png"
-    : `/images/apartments/apt-${apartment.id}.jpg`;
+  const imageSrc = `${process.env.NEXT_PUBLIC_IMAGE}/${apartment.id}`;
 
   return (
     <div
-      className="fixed inset-0 z-999999999999 bg-black/40 backdrop-blur-xs flex items-center justify-center p-6 sm:p-4"
+      className="fixed inset-0 z-[99999] bg-black/40 backdrop-blur-xs flex items-center justify-center p-6 sm:p-4"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl gap-10 shadow-2xl p-5 w-full max-w-5xl flex flex-col lg:flex-row overflow-hidden max-h-dvh sm:max-h-[90vh]"
+        className="bg-white rounded-2xl gap-10 shadow-2xl p-5 w-full max-w-5xl flex flex-col lg:flex-row overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Image Section */}
-        <div className="w-full lg:w-3/4 bg-gray-100 flex items-center justify-center p-2 sm:p-4 h-56 sm:h-96 lg:h-auto">
-          <Image
-            src={imageSrc}
-            alt={`Apartment ${apartment.name}`}
-            className="w-full h-full object-contain rounded-lg"
-            onError={() => setImageError(true)}
-            width={1200}
-            height={800}
-          />
+        <div className="relative w-full bg-gray-100 flex items-center justify-center overflow-hidden rounded-lg aspect-[1280/853]">
+          {imageLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+                <p className="text-gray-500 text-sm">Loading image...</p>
+              </div>
+            </div>
+          )}
+          {imageError ? (
+            <div className="w-full h-full bg-white flex items-center justify-center">
+              <p className="text-gray-400 text-lg font-medium">
+                No Image Available
+              </p>
+            </div>
+          ) : (
+            <Image
+              src={imageSrc}
+              alt="Apartment preview"
+              width={1280}
+              height={853}
+              className={`object-cover w-full h-full transition-opacity duration-300 ${
+                imageLoading ? "opacity-0" : "opacity-100"
+              }`}
+              onLoad={() => setImageLoading(false)}
+              onError={() => {
+                setImageError(true);
+                setImageLoading(false);
+              }}
+            />
+          )}
         </div>
 
-        {/* Info Section */}
         <div className="w-full lg:w-1/4 p-1 flex flex-col overflow-y-auto">
-          {/* Header */}
           <div
             className="rounded-lg p-2 mb-3 sm:mb-4"
             style={{ backgroundColor: statusConfig.color }}
@@ -72,7 +95,6 @@ export function ApartmentModal({
             </h2>
           </div>
 
-          {/* Status Badge */}
           <div className="flex justify-center mb-3 sm:mb-4">
             <span
               className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-white font-bold text-xs"
@@ -82,13 +104,11 @@ export function ApartmentModal({
             </span>
           </div>
 
-          {/* Details */}
           <div className="space-y-2 sm:space-y-3 flex-1">
             {[
               { label: "Total Area", value: `${apartment.size} m²` },
               { label: "Balcony", value: `${apartment.balcony} m²` },
               { label: "Bedrooms", value: apartment.bedrooms },
-              { label: "Bathrooms", value: apartment.bathrooms },
               { label: "Price per m²", value: `$${apartment.sale_price}` },
             ].map((item) => (
               <div
@@ -107,7 +127,6 @@ export function ApartmentModal({
               </div>
             ))}
 
-            {/* Total Price */}
             <div className="flex justify-between items-center py-2 sm:py-3">
               <span className="text-gray-600 text-sm font-semibold">
                 Total Price
@@ -118,14 +137,12 @@ export function ApartmentModal({
               >
                 $
                 {(
-                  Number.parseFloat(apartment.size.toString()) *
-                  Number.parseFloat(apartment.sale_price.toString())
+                  Number(apartment.size) * Number(apartment.sale_price)
                 ).toLocaleString()}
               </span>
             </div>
           </div>
 
-          {/* Close Button */}
           <button
             onClick={onClose}
             className="w-full mt-3 sm:mt-4 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 rounded-lg transition-colors"

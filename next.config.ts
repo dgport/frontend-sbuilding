@@ -46,6 +46,11 @@ const nextConfig: NextConfig = {
         hostname: "api.sbuilding.ge/uploads",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "sbuilding.bo.ge", // ✅ added
+        pathname: "/**",
+      },
     ],
   },
 

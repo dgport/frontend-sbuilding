@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { FloorSelector } from "./_components/FloorSelector";
@@ -9,6 +8,7 @@ import { ApartmentModal } from "./_components/ApartmentModal";
 import { ApartmentTooltip } from "./_components/ApartmentTooltip";
 import { FloorPlanSvg } from "./_components/FloorPlansvg";
 import Image from "next/image";
+import pathsData from "@/app/[locale]/elisium/_components/paths.json";
 
 const FLOORS = Array.from({ length: 22 }, (_, i) => i + 2);
 
@@ -18,8 +18,9 @@ export default function FloorPlanPage({
   params: Promise<{ id: string }>;
 }) {
   const [apartmentData, setApartmentData] = useState<any[]>([]);
-  const [paths, setPaths] = useState<string[]>([]);
+  const [paths] = useState<string[]>(pathsData);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedApartment, setSelectedApartment] = useState<number | null>(
     null
@@ -48,38 +49,39 @@ export default function FloorPlanPage({
     const fetchApartments = async () => {
       try {
         setLoading(true);
-
-        // Get auth token from environment or your auth system
-        const authToken = process.env.NEXT_PUBLIC_API_TOKEN || "";
+        setError(null);
 
         const response = await fetch(
-          `https://sbuilding.bo.ge/api/property/${propertyId}`,
-          {
-            headers: {
-              Authorization: `authtoken ${authToken}`,
-              "Content-Type": "application/json",
-            },
-          }
+          `${process.env.NEXT_PUBLIC_API_URL}/property/${propertyId}`
         );
 
-        if (!response.ok) throw new Error("Backend offline");
+        if (!response.ok) {
+          throw new Error(`Failed to fetch property data: ${response.status}`);
+        }
 
-        const data = await response.json();
-        const apartments = data.apartments || data;
+        const result = await response.json();
 
-        apartments.sort((a: any, b: any) => {
-          const numA = Number.parseInt(a.name.replace(/[^\d]/g, ""), 10);
-          const numB = Number.parseInt(b.name.replace(/[^\d]/g, ""), 10);
-          return numA - numB;
-        });
+        if (!result.success) {
+          throw new Error(result.message || "Failed to load property data");
+        }
+
+        let apartments = result.data.apartments || [];
+
+        apartments = apartments.filter(
+          (item: any) =>
+            item &&
+            typeof item === "object" &&
+            !Array.isArray(item) &&
+            item.id &&
+            item.name
+        );
+
+        console.log("Filtered apartments:", apartments);
 
         setApartmentData(apartments);
-        setPaths(data.paths || []);
-      } catch (error) {
-        console.warn("Backend unreachable, using fetched data failed:", error);
-        // You can still keep fallback to local data if needed
-        setApartmentData([]);
-        setPaths([]);
+      } catch (err) {
+        console.error("Error fetching apartments:", err);
+        setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
         setLoading(false);
       }
@@ -135,6 +137,37 @@ export default function FloorPlanPage({
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading floor plan...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-500 mb-4">
+            <svg
+              className="w-16 h-16 mx-auto"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );
