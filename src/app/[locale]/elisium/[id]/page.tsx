@@ -51,9 +51,8 @@ export default function FloorPlanPage({
         setLoading(true);
         setError(null);
 
-        // Call YOUR backend endpoint
         const response = await fetch(
-          `http://localhost:3001/api/property/${propertyId}`
+          `${process.env.NEXT_PUBLIC_API_URL}/property/${propertyId}`
         );
 
         if (!response.ok) {
