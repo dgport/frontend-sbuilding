@@ -148,7 +148,7 @@ export default function Header() {
     );
 
   const headerClasses = `
-    fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out
+    fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out z-[8888] 
     ${headerBg}
     ${scrolled || isSpecialPage ? "h-16 md:h-20" : "h-20 md:h-24"}
   `;
@@ -156,7 +156,7 @@ export default function Header() {
   return (
     <>
       <header className={headerClasses}>
-        <div className="container mx-auto px-6 h-full">
+        <div className="container mx-auto px-6 h-full ">
           <div className="flex items-center justify-between h-full relative">
             {isMobile ? (
               <>

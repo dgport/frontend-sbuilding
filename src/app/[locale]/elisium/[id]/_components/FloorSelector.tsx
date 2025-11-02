@@ -1,6 +1,7 @@
 import type React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 interface FloorSelectorProps {
   floors: number[];
@@ -15,6 +16,7 @@ export function FloorSelector({
   onFloorChange,
   isMobile = false,
 }: FloorSelectorProps) {
+  const t = useTranslations("elysium");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -125,17 +127,17 @@ export function FloorSelector({
 
   // 🖥️ Desktop (md+) version
   return (
-    <div className="hidden z-[99999999999] xl:flex  px-20 lg:px-0 flex-col bg-linear-to-br from-white/95 via-blue-50/80 to-white/95 backdrop-blur-xl border-2 border-white/50 rounded-2xl shadow-2xl h-full max-h-[calc(100vh-8rem)] min-w-[180px] md:min-w-[200px]">
-      <h3 className="text-center font-bold text-gray-800 mb-3 md:mb-4 text-sm md:text-base uppercase tracking-wider pt-4 px-2">
-        Select Floor
+    <div className="hidden z-[99999999999] xl:flex flex-col bg-linear-to-br from-white/95 via-blue-50/80 to-white/95 backdrop-blur-xl border-2 border-white/50 rounded-2xl shadow-2xl h-full max-h-[calc(100vh-8rem)] w-[140px]">
+      <h3 className="text-center font-bold text-gray-800 mb-3 md:mb-4 text-sm uppercase tracking-wider pt-4 px-2">
+        {t("selectFloor")}
       </h3>
-      <div className="flex-1 py-2 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-transparent px-4 md:px-7 pb-4">
-        <div className="grid grid-cols-2 gap-2 md:gap-2.5">
+      <div className="flex-1 py-2 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-transparent pb-4 flex items-start justify-center">
+        <div className="grid grid-cols-2 gap-2 place-items-center">
           {floors.map((floor) => (
             <button
               key={floor}
               onClick={() => onFloorChange(floor)}
-              className={`min-w-3 cursor-pointer h-8 md:min-w-4 md:h-10 rounded-xl text-base md:text-md font-bold transition-all backdrop-blur-sm shadow-md hover:shadow-xl active:scale-95 ${
+              className={`w-14 h-10 cursor-pointer flex justify-center items-center rounded-xl text-sm font-bold transition-all backdrop-blur-sm shadow-md hover:shadow-xl active:scale-95 ${
                 currentFloor === floor
                   ? "bg-linear-to-br from-blue-600 via-blue-700 to-blue-800 text-white scale-105 shadow-blue-400/50 ring-2 ring-blue-400 ring-offset-2"
                   : "bg-linear-to-br from-white to-gray-50 text-gray-800 hover:from-blue-50 hover:to-blue-100 hover:scale-105 border-2 border-gray-300/70 hover:border-blue-400"

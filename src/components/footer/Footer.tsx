@@ -148,9 +148,9 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-gray-300 text-sm leading-relaxed group-hover:text-white transition-colors duration-300 hover:underline underline-offset-4 cursor-pointer"
                 >
-                  Grigol Lortkipanidze #3,
+                  {t("address")},
                   <br />
-                  Batumi, Georgia
+                  {t("city")}
                 </a>
               </motion.div>
 
@@ -174,7 +174,6 @@ export default function Footer() {
                 </a>
               </motion.div>
 
-              {/* Email */}
               <motion.div
                 className="flex items-start group"
                 whileHover={{ x: 4 }}

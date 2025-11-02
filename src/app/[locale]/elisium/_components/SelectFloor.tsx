@@ -53,7 +53,7 @@ export default function SelectFloor() {
   );
 
   return (
-    <section className="w-full  pt-16 md:pt-20  h-auto md:min-h-screen font-geo2 tracking-widest relative">
+    <section className="w-full  pt-16 md:pt-20   z-100 h-auto md:min-h-screen font-geo2 tracking-widest relative">
       <div className="relative z-10 md:min-h-screen ">
         <div className="relative  hidden md:block bg-white/90 shadow-xl overflow-hidden h-screen">
           {displayFloor && (

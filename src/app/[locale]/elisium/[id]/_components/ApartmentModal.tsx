@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -33,6 +34,7 @@ export function ApartmentModal({
 }: ApartmentModalProps) {
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+  const t = useTranslations("elysium");
 
   React.useEffect(() => {
     setImageError(false);
@@ -57,14 +59,14 @@ export function ApartmentModal({
             <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
               <div className="flex flex-col items-center gap-3">
                 <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-                <p className="text-gray-500 text-sm">Loading image...</p>
+                <p className="text-gray-500 text-sm">{t("loading")}</p>
               </div>
             </div>
           )}
           {imageError ? (
             <div className="w-full h-full bg-white flex items-center justify-center">
               <p className="text-gray-400 text-lg font-medium">
-                No Image Available
+                {t("noImage")}
               </p>
             </div>
           ) : (
@@ -91,7 +93,7 @@ export function ApartmentModal({
             style={{ backgroundColor: statusConfig.color }}
           >
             <h2 className="text-base sm:text-lg font-bold text-white text-center leading-tight">
-              Apt {apartment.name} / Floor {apartment.floor}
+              {t("apartment")} {apartment.name} / {t("floor")} {apartment.floor}
             </h2>
           </div>
 
@@ -106,10 +108,10 @@ export function ApartmentModal({
 
           <div className="space-y-2 sm:space-y-3 flex-1">
             {[
-              { label: "Total Area", value: `${apartment.size} m²` },
-              { label: "Balcony", value: `${apartment.balcony} m²` },
-              { label: "Bedrooms", value: apartment.bedrooms },
-              { label: "Price per m²", value: `$${apartment.sale_price}` },
+              { label: t("totalArea"), value: `${apartment.size} m²` },
+              { label: t("balcony"), value: `${apartment.balcony || 0}  m²` },
+              { label: t("bedrooms"), value: apartment.bedrooms },
+              { label: t("pricePerSqm"), value: `$${apartment.sale_price}` },
             ].map((item) => (
               <div
                 key={item.label}
@@ -129,7 +131,7 @@ export function ApartmentModal({
 
             <div className="flex justify-between items-center py-2 sm:py-3">
               <span className="text-gray-600 text-sm font-semibold">
-                Total Price
+                {t("totalPrice")}
               </span>
               <span
                 className="text-lg sm:text-xl font-bold"
@@ -147,7 +149,7 @@ export function ApartmentModal({
             onClick={onClose}
             className="w-full mt-3 sm:mt-4 cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 rounded-lg transition-colors"
           >
-            Close
+            {t("close")}
           </button>
         </div>
       </div>

@@ -41,5 +41,17 @@
   "amenity6": "Restaurant",
   "amenity7": "Supermarket",
   "amenity8": "Beauty Salon",
-  "select": "Select"
+  "select": "Select",
+  "loading": "Loading",
+  "noImage": "No Image Available",
+  "apartment": "Apt",
+  "floor": "Floor",
+  "totalArea": "Total Area",
+  "balcony": "Balcony",
+  "bedrooms": "Bedrooms",
+  "pricePerSqm": "Price per m²",
+  "totalPrice": "Total Price",
+  "close": "Close",
+  "apt": "Apt",
+  "clickDetails": "Click for details"
 }

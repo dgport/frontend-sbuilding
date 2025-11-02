@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -33,6 +34,8 @@ export function ApartmentTooltip({
 }: ApartmentTooltipProps) {
   if (!apartment || !statusConfig || !position) return null;
 
+  const t = useTranslations("elysium");
+
   const tooltip = (
     <div
       className="fixed z-[99999] pointer-events-none tooltip-desktop-only"
@@ -52,7 +55,7 @@ export function ApartmentTooltip({
             className="font-bold text-lg"
             style={{ color: statusConfig.color }}
           >
-            Apt {apartment.name}
+            {t("apt")} {apartment.name}
           </h4>
           <span
             className="px-2 py-0.5 rounded-full text-white text-xs font-bold"
@@ -63,21 +66,18 @@ export function ApartmentTooltip({
         </div>
         <div className="space-y-1 text-sm">
           <div className="flex justify-between">
-            <span className="text-gray-600">Area:</span>
+            <span className="text-gray-600">{t("totalArea")}:</span>
             <span className="font-semibold">{apartment.size} m²</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Balcony:</span>
+            <span className="text-gray-600">{t("balcony")}:</span>
             <span className="font-semibold">{apartment.balcony} m²</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Bedrooms:</span>
+            <span className="text-gray-600">{t("bedrooms")}:</span>
             <span className="font-semibold">{apartment.bedrooms}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Bathrooms:</span>
-            <span className="font-semibold">{apartment.bathrooms}</span>
-          </div>
+
           <div className="flex justify-between pt-2 border-t mt-2">
             <span className="text-gray-600">Price:</span>
             <span className="font-bold" style={{ color: statusConfig.color }}>
@@ -90,13 +90,12 @@ export function ApartmentTooltip({
           </div>
         </div>
         <p className="text-xs text-gray-500 mt-2 text-center">
-          Click for details
+          {t("clickDetails")}
         </p>
       </div>
     </div>
   );
 
-  // 👇 This makes tooltip independent from layout
   return typeof window !== "undefined"
     ? createPortal(tooltip, document.body)
     : null;
