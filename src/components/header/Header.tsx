@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher";
-import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import Logo from "@/root/public/images/SBuildingWhite.png";
@@ -15,7 +15,6 @@ export default function Header() {
   const [isMounted, setIsMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -45,27 +44,10 @@ export default function Header() {
     };
   }, [isMenuOpen, isMobile]);
 
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (
-        isProjectsOpen &&
-        !(e.target as HTMLElement).closest(".projects-dropdown")
-      ) {
-        setIsProjectsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, [isProjectsOpen]);
-
   const navItems = useMemo(
     () => [
       { name: t("main"), href: "/" },
-      {
-        name: t("projects"),
-        href: "/projects",
-        subItems: [{ name: t("elisium"), href: "/elisium" }],
-      },
+      { name: t("elisium"), href: "/elisium" },
       { name: t("contact"), href: "/contact" },
     ],
     [t]
@@ -75,28 +57,12 @@ export default function Header() {
     (href: string) =>
       pathname === `/${locale}${href}` ||
       (href === "/" && pathname === `/${locale}`) ||
-      (href === "/projects" && pathname.startsWith(`/${locale}/projects`)),
+      (href === "/elisium" && pathname.startsWith(`/${locale}/elisium`)),
     [pathname, locale]
-  );
-
-  const isSubItemActive = useCallback(
-    (href: string) => pathname === `/${locale}${href}`,
-    [pathname, locale]
-  );
-
-  const isOnProjectPage = useCallback(
-    () =>
-      pathname.startsWith(`/${locale}/projects`) ||
-      pathname.startsWith(`/${locale}/elisium`) ||
-      navItems
-        .find((item) => item.subItems)
-        ?.subItems?.some((sub) => pathname === `/${locale}${sub.href}`),
-    [pathname, locale, navItems]
   );
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
-    setIsProjectsOpen(false);
   }, []);
 
   const handleLogoClick = useCallback(() => {
@@ -111,16 +77,6 @@ export default function Header() {
     },
     [router, locale, closeMenu]
   );
-
-  const handleSubClick = useCallback(
-    (href: string) => {
-      router.push(`/${locale}${href}`);
-      closeMenu();
-    },
-    [router, locale, closeMenu]
-  );
-
-  const toggleProjects = useCallback(() => setIsProjectsOpen((v) => !v), []);
 
   const isSpecialPage = useMemo(
     () =>
@@ -190,96 +146,22 @@ export default function Header() {
                 <div className="flex items-center gap-12">
                   <nav className="flex items-center gap-6">
                     {navItems.slice(0, 2).map((item) => (
-                      <div
+                      <button
                         key={item.name}
-                        className="relative projects-dropdown"
+                        onClick={() => handleNavClick(item.href)}
+                        className={`text-white font-medium text-base tracking-wide px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${
+                          isActive(item.href)
+                            ? "bg-blue-500/30 border-blue-400/60 text-blue-50 shadow-lg shadow-blue-500/20"
+                            : "bg-white/8 border-white/15 hover:bg-white/15 hover:border-white/25"
+                        }`}
                       >
-                        {item.subItems ? (
-                          <>
-                            <button
-                              onClick={toggleProjects}
-                              className={`text-white font-medium text-base tracking-wide flex items-center px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${
-                                isActive(item.href) ||
-                                isProjectsOpen ||
-                                isOnProjectPage()
-                                  ? "bg-blue-500/30 border-blue-400/60 text-blue-50 shadow-lg shadow-blue-500/20"
-                                  : "bg-white/8 border-white/15 hover:bg-white/15 hover:border-white/25"
-                              }`}
-                            >
-                              <span className="flex items-center">
-                                {item.name}
-                                {isOnProjectPage() && (
-                                  <span className="w-2 h-2 bg-blue-400 rounded-full ml-2 shadow-sm shadow-blue-400/50 animate-pulse" />
-                                )}
-                              </span>
-                              <ChevronDown
-                                size={14}
-                                className={`ml-1.5 transition-transform duration-200 ${
-                                  isProjectsOpen ? "rotate-180" : ""
-                                }`}
-                              />
-                            </button>
-
-                            {isProjectsOpen && (
-                              <div className="absolute left-0 mt-2 w-64 bg-gradient-to-br from-blue-900/98 to-slate-900/95 backdrop-blur-2xl rounded-2xl py-3 shadow-2xl border border-white/30 ring-1 ring-blue-400/20 animate-fade-in-scale">
-                                <div className="px-3 pb-2 border-b border-white/10">
-                                  <p className="text-xs font-semibold text-blue-300 uppercase tracking-wider">
-                                    Our Projects
-                                  </p>
-                                </div>
-                                {item.subItems.map((sub) => (
-                                  <button
-                                    key={sub.name}
-                                    onClick={() => {
-                                      handleSubClick(sub.href);
-                                      setIsProjectsOpen(false);
-                                    }}
-                                    className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 cursor-pointer group relative hover:translate-x-1 ${
-                                      isSubItemActive(sub.href)
-                                        ? "text-blue-50 bg-gradient-to-r from-blue-500/40 to-cyan-500/30 shadow-md"
-                                        : "text-gray-300 hover:text-white hover:bg-white/10"
-                                    }`}
-                                  >
-                                    <div className="flex items-center">
-                                      {isSubItemActive(sub.href) && (
-                                        <span className="w-2 h-2 bg-blue-400 rounded-full mr-3 shadow-sm shadow-blue-400/50 animate-pulse" />
-                                      )}
-                                      <span className="flex-1">{sub.name}</span>
-                                      <ChevronRight
-                                        size={14}
-                                        className={`transition-all duration-200 ${
-                                          isSubItemActive(sub.href)
-                                            ? "text-blue-300 opacity-100"
-                                            : "text-gray-500 opacity-0 group-hover:opacity-100"
-                                        }`}
-                                      />
-                                    </div>
-                                    {isSubItemActive(sub.href) && (
-                                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-400 to-cyan-400 rounded-r-full" />
-                                    )}
-                                  </button>
-                                ))}
-                              </div>
-                            )}
-                          </>
-                        ) : (
-                          <button
-                            onClick={() => handleNavClick(item.href)}
-                            className={`text-white font-medium text-base tracking-wide px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${
-                              isActive(item.href)
-                                ? "bg-blue-500/30 border-blue-400/60 text-blue-50 shadow-lg shadow-blue-500/20"
-                                : "bg-white/8 border-white/15 hover:bg-white/15 hover:border-white/25"
-                            }`}
-                          >
-                            <span className="relative">
-                              {item.name}
-                              {isActive(item.href) && (
-                                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-400 rounded-full" />
-                              )}
-                            </span>
-                          </button>
-                        )}
-                      </div>
+                        <span className="relative">
+                          {item.name}
+                          {isActive(item.href) && (
+                            <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-400 rounded-full" />
+                          )}
+                        </span>
+                      </button>
                     ))}
                   </nav>
 
@@ -347,70 +229,21 @@ export default function Header() {
                   className="animate-slide-in-left"
                   style={{ animationDelay: `${idx * 100}ms` }}
                 >
-                  {item.subItems ? (
-                    <>
-                      <button
-                        onClick={() => setIsProjectsOpen((v) => !v)}
-                        className={`w-full flex items-center justify-between p-4 rounded-2xl text-white font-medium text-lg tracking-wide border transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:translate-x-1 active:scale-[0.98] ${
-                          isActive(item.href) || isOnProjectPage()
-                            ? "bg-gradient-to-r from-blue-500/30 to-cyan-500/20 border-blue-400/50 shadow-lg shadow-blue-500/20"
-                            : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
-                        }`}
-                      >
-                        <span className="flex items-center">
-                          {item.name}
-                          {(isActive(item.href) || isOnProjectPage()) && (
-                            <span className="w-2 h-2 bg-blue-400 rounded-full ml-3 animate-pulse" />
-                          )}
-                        </span>
-                        <ChevronRight
-                          size={18}
-                          className={`transition-transform duration-300 ${
-                            isProjectsOpen ? "rotate-90" : ""
-                          }`}
-                        />
-                      </button>
-
-                      {isProjectsOpen && (
-                        <div className="ml-4 mt-2 space-y-2 overflow-hidden animate-expand-down">
-                          {item.subItems.map((sub) => (
-                            <button
-                              key={sub.name}
-                              onClick={() => handleSubClick(sub.href)}
-                              className={`w-full text-left p-3 rounded-xl text-base font-medium border transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:translate-x-1 active:scale-[0.98] ${
-                                isSubItemActive(sub.href)
-                                  ? "bg-gradient-to-r from-blue-500/40 to-cyan-500/30 text-blue-50 border-blue-400/60 shadow-md"
-                                  : "text-gray-300 bg-white/5 border-white/10 hover:text-white hover:bg-white/10 hover:border-white/20"
-                              }`}
-                            >
-                              <span className="flex items-center">
-                                {sub.name}
-                                {isSubItemActive(sub.href) && (
-                                  <span className="w-1.5 h-1.5 bg-blue-400 rounded-full ml-2 animate-pulse" />
-                                )}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
+                  <button
+                    onClick={() => handleNavClick(item.href)}
+                    className={`w-full text-left p-4 rounded-2xl text-white font-medium text-lg tracking-wide border transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:translate-x-1 active:scale-[0.98] ${
+                      isActive(item.href)
+                        ? "bg-gradient-to-r from-blue-500/30 to-cyan-500/20 border-blue-400/50 shadow-lg shadow-blue-500/20"
+                        : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
+                    }`}
+                  >
+                    <span className="flex items-center">
+                      {item.name}
+                      {isActive(item.href) && (
+                        <span className="w-2 h-2 bg-blue-400 rounded-full ml-3 animate-pulse" />
                       )}
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => handleNavClick(item.href)}
-                      className={`w-full text-left p-4 rounded-2xl text-white font-medium text-lg tracking-wide border transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:translate-x-1 active:scale-[0.98] ${
-                        isActive(item.href)
-                          ? "bg-gradient-to-r from-blue-500/30 to-cyan-500/20 border-blue-400/50 shadow-lg shadow-blue-500/20"
-                          : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
-                      }`}
-                    >
-                      <span className="flex items-center">
-                        {item.name}
-                        {isActive(item.href) && (
-                          <span className="w-2 h-2 bg-blue-400 rounded-full ml-3 animate-pulse" />
-                        )}
-                      </span>
-                    </button>
-                  )}
+                    </span>
+                  </button>
                 </div>
               ))}
             </div>
@@ -431,17 +264,6 @@ export default function Header() {
           }
           to {
             opacity: 1;
-          }
-        }
-
-        @keyframes fadeInScale {
-          from {
-            opacity: 0;
-            transform: translateY(10px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
           }
         }
 
@@ -467,23 +289,8 @@ export default function Header() {
           }
         }
 
-        @keyframes expandDown {
-          from {
-            max-height: 0;
-            opacity: 0;
-          }
-          to {
-            max-height: 500px;
-            opacity: 1;
-          }
-        }
-
         .animate-fade-in {
           animation: fadeIn 0.3s ease-out;
-        }
-
-        .animate-fade-in-scale {
-          animation: fadeInScale 0.15s ease-out;
         }
 
         .animate-slide-in-top {
@@ -492,10 +299,6 @@ export default function Header() {
 
         .animate-slide-in-left {
           animation: slideInLeft 0.4s ease-out both;
-        }
-
-        .animate-expand-down {
-          animation: expandDown 0.3s ease-in-out;
         }
       `}</style>
     </>

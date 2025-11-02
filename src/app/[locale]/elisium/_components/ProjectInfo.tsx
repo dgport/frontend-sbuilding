@@ -1,26 +1,32 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 
 export default function ProjectInfo() {
   const t = useTranslations("elysium");
 
-  const amenities = [
-    t("amenity1"),
-    t("amenity2"),
-    t("amenity3"),
-    t("amenity4"),
-    t("amenity5"),
-    t("amenity6"),
-    t("amenity7"),
-    t("amenity8"),
-  ];
+  const amenities = useMemo(
+    () => [
+      t("amenity1"),
+      t("amenity2"),
+      t("amenity3"),
+      t("amenity4"),
+      t("amenity5"),
+      t("amenity6"),
+      t("amenity7"),
+      t("amenity8"),
+    ],
+    [t]
+  );
+
+  const amenityIcons = ["🚗", "🚗", "🏋️", "🏋️", "🏊", "🍽️", "🛒", "✂️"];
 
   return (
     <div className="relative w-full min-h-screen">
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
         style={{
           backgroundImage: `url('/images/elisium/Image2.avif')`,
         }}
@@ -44,7 +50,7 @@ export default function ProjectInfo() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
-            <div className="bg-linear-to-br from-green-500/25 to-green-700/25 backdrop-blur-md rounded-lg p-3 border border-green-400/20">
+            <div className="bg-linear-to-br from-green-500/25 to-green-700/25 backdrop-blur-md rounded-lg p-3 border border-green-400/20 transform-gpu">
               <div className="flex items-center mb-1">
                 <div className="h-4 w-4 text-green-300 mr-2">📊</div>
                 <span className="text-green-200 font-medium text-sm sm:text-base">
@@ -56,7 +62,7 @@ export default function ProjectInfo() {
               </p>
             </div>
 
-            <div className="bg-linear-to-br from-blue-400/25 to-blue-600/25 backdrop-blur-md rounded-lg p-3 border border-blue-400/20">
+            <div className="bg-linear-to-br from-blue-400/25 to-blue-600/25 backdrop-blur-md rounded-lg p-3 border border-blue-400/20 transform-gpu">
               <div className="flex items-center mb-1">
                 <div className="h-4 w-4 text-blue-300 mr-2">📍</div>
                 <span className="text-blue-200 font-medium text-sm sm:text-base">
@@ -71,7 +77,7 @@ export default function ProjectInfo() {
               </p>
             </div>
 
-            <div className="bg-linear-to-br from-yellow-500/25 to-yellow-700/25 backdrop-blur-md rounded-lg p-3 border border-yellow-400/20">
+            <div className="bg-linear-to-br from-yellow-500/25 to-yellow-700/25 backdrop-blur-md rounded-lg p-3 border border-yellow-400/20 transform-gpu">
               <div className="flex items-center mb-1">
                 <div className="h-4 w-4 text-yellow-300 mr-2">🏗️</div>
                 <span className="text-yellow-200 text-sm sm:text-base font-medium">
@@ -96,20 +102,10 @@ export default function ProjectInfo() {
               {amenities.map((amenity, index) => (
                 <div
                   key={index}
-                  className="bg-linear-to-br from-blue-400/20 to-blue-600/20 backdrop-blur-md rounded-lg p-2 sm:p-3 border border-blue-300/15 flex items-center hover:bg-blue-400/30 transition-all duration-300"
+                  className="bg-linear-to-br from-blue-400/20 to-blue-600/20 backdrop-blur-md rounded-lg p-2 sm:p-3 border border-blue-300/15 flex items-center hover:bg-blue-400/30 transition-colors duration-300 transform-gpu"
                 >
                   <div className="text-white/80 mr-2 text-lg sm:text-xl">
-                    {index < 2
-                      ? "🚗"
-                      : index < 4
-                      ? "🏋️"
-                      : index < 5
-                      ? "🏊"
-                      : index < 6
-                      ? "🍽️"
-                      : index < 7
-                      ? "🛒"
-                      : "✂️"}
+                    {amenityIcons[index]}
                   </div>
                   <p className="text-white/90 text-xs sm:text-sm font-medium">
                     {amenity}

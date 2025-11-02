@@ -9,6 +9,7 @@ import { ApartmentTooltip } from "./_components/ApartmentTooltip";
 import { FloorPlanSvg } from "./_components/FloorPlansvg";
 import Image from "next/image";
 import pathsData from "@/app/[locale]/elisium/_components/paths.json";
+import { useTranslations } from "next-intl";
 
 const FLOORS = Array.from({ length: 22 }, (_, i) => i + 2);
 
@@ -76,8 +77,6 @@ export default function FloorPlanPage({
             item.name
         );
 
-        console.log("Filtered apartments:", apartments);
-
         setApartmentData(apartments);
       } catch (err) {
         console.error("Error fetching apartments:", err);
@@ -126,6 +125,7 @@ export default function FloorPlanPage({
     setTooltipPosition(null);
   };
 
+  const t = useTranslations("elysium");
   const statusConfigs = useMemo(
     () => apartmentData.map((apt) => getStatusConfig(apt.property_status)),
     [apartmentData]
@@ -136,7 +136,7 @@ export default function FloorPlanPage({
       <div className="w-full h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading floor plan...</p>
+          <p className="text-gray-600">{t("loading")}</p>
         </div>
       </div>
     );
