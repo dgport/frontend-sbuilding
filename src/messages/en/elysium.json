@@ -53,5 +53,18 @@
   "totalPrice": "Total Price",
   "close": "Close",
   "apt": "Apt",
-  "clickDetails": "Click for details"
+  "clickDetails": "Click for details",
+  "leaveQuery": "Leave Query",
+  "contactFormTitle": "Contact Us",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "phoneNumber": "Phone Number",
+  "sendMessage": "Send Message",
+  "sending": "Sending...",
+  "back": "Back",
+  "interestedIn": "I'm interested in Apartment",
+  "onFloor": "on Floor",
+  "contactMeMore": "Please contact me with more information.",
+  "additionalMessage": "Additional message (optional)",
+  "additionalNotes": "Additional Notes"
 }

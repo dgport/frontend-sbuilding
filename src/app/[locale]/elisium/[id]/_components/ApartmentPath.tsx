@@ -58,12 +58,13 @@ export function ApartmentPath({
     onPathRef(el);
   };
 
-  const fillGradient =
-    isHovered && !isMobile
-      ? `url(#${statusConfig.hoverGradient})`
-      : `url(#${statusConfig.gradient})`;
+  const fillGradient = isMobile
+    ? `url(#${statusConfig.gradient})`
+    : isHovered
+    ? `url(#${statusConfig.hoverGradient})`
+    : `url(#${statusConfig.gradient})`;
 
-  const shouldShowHoverEffects = isHovered && !isMobile;
+  const shouldShowHoverEffects = !isMobile && isHovered;
 
   return (
     <g

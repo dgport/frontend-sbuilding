@@ -52,5 +52,18 @@
   "totalPrice": "სრული ფასი",
   "close": "დახურვა",
   "apt": "ბინა",
-  "clickDetails": "დააჭირეთ დეტალებისთვის"
+  "clickDetails": "დააჭირეთ დეტალებისთვის",
+  "leaveQuery": "განაცხადი",
+  "contactFormTitle": "დაგვიკავშირდით",
+  "firstName": "სახელი",
+  "lastName": "გვარი",
+  "phoneNumber": "ტელეფონის ნომერი",
+  "sendMessage": "შეტყობინების გაგზავნა",
+  "sending": "იგზავნება...",
+  "back": "უკან",
+  "interestedIn": "დაინტერესებული ვარ ბინით",
+  "onFloor": "სართულზე",
+  "contactMeMore": "გთხოვთ დამიკავშირდით დამატებითი ინფორმაციისთვის.",
+  "additionalMessage": "დამატებითი შეტყობინება (არასავალდებულო)",
+  "additionalNotes": "დამატებითი შენიშვნები"
 }

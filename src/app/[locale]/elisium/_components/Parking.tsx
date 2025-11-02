@@ -9,7 +9,7 @@ export default function Parking() {
 
   return (
     <>
-      <h1 className="text-2xl md:text-3xl pt-10 text-center font-semibold text-gray-900">
+      <h1 className="text-2xl hidden md:block md:text-3xl pt-10 text-center font-semibold text-gray-900">
         {t("parking")}
       </h1>
       <section className="px-1 mx-4 my-8 md:px-8  lg:mx-30 lg:my-10 min-h-screen font-geo2 tracking-widest relative overflow-hidden">
