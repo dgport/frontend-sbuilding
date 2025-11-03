@@ -130,7 +130,7 @@ export function ApartmentPath({
           }}
         />
 
-        {/* Apartment number circle and label */}
+         
         <g className="pointer-events-none" style={{ isolation: "isolate" }}>
           <circle
             cx={center.x}

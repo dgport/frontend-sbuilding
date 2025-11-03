@@ -32,22 +32,6 @@ export function SvgDefinitions() {
         <stop offset="100%" stopColor="#16a34a" stopOpacity="0.25" />
       </linearGradient>
 
-      {/* Reserved (orange) - hover is lighter */}
-      <linearGradient id="reservedGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.35" />
-        <stop offset="100%" stopColor="#d97706" stopOpacity="0.45" />
-      </linearGradient>
-      <linearGradient
-        id="reservedHoverGradient"
-        x1="0%"
-        y1="0%"
-        x2="0%"
-        y2="100%"
-      >
-        <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.15" />
-        <stop offset="100%" stopColor="#d97706" stopOpacity="0.25" />
-      </linearGradient>
-
       {/* Sold (red) - hover is lighter */}
       <linearGradient id="soldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
         <stop offset="0%" stopColor="#ef4444" stopOpacity="0.35" />

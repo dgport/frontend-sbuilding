@@ -26,6 +26,7 @@ export default function FloorPlanPage({
   const [selectedApartment, setSelectedApartment] = useState<number | null>(
     null
   );
+  const [isMobile, setIsMobile] = useState(false);
 
   const [propertyId, setPropertyId] = useState<string | null>(null);
   const [currentFloor, setCurrentFloor] = useState<number>(3);
@@ -35,6 +36,18 @@ export default function FloorPlanPage({
   } | null>(null);
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
   const router = useRouter();
+
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1280); // xl breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     params.then((resolvedParams) => {
@@ -94,13 +107,22 @@ export default function FloorPlanPage({
     router.push(`/elisium/${floor}`);
   };
 
-  const getStatusConfig = (status: string) => {
-    if (status === "1") {
+  const getStatusConfig = (status: string | number) => {
+    const statusStr = String(status);
+
+    if (statusStr === "1") {
       return {
         color: "#16a34a",
         text: "AVAILABLE",
         gradient: "freeGradient",
         hoverGradient: "freeHoverGradient",
+      };
+    } else if (statusStr === "2") {
+      return {
+        color: "#ef4444",
+        text: "SOLD",
+        gradient: "soldGradient",
+        hoverGradient: "soldHoverGradient",
       };
     } else {
       return {
@@ -113,21 +135,39 @@ export default function FloorPlanPage({
   };
 
   const handleMouseMove = (e: React.MouseEvent, index: number) => {
-    setTooltipPosition({
-      x: e.clientX,
-      y: e.clientY,
-    });
-    setHoveredIndex(index);
+    // Only show tooltip on desktop
+    if (!isMobile) {
+      setTooltipPosition({
+        x: e.clientX,
+        y: e.clientY,
+      });
+      setHoveredIndex(index);
+    }
   };
 
   const handleMouseLeave = () => {
-    setHoveredIndex(null);
-    setTooltipPosition(null);
+    // Only clear hover state on desktop
+    if (!isMobile) {
+      setHoveredIndex(null);
+      setTooltipPosition(null);
+    }
+  };
+
+  const handleApartmentClick = (index: number) => {
+    // On mobile, go straight to modal
+    // On desktop, also open modal (after showing tooltip)
+    setSelectedApartment(index);
+
+    // Clear hover state when modal opens
+    if (!isMobile) {
+      setHoveredIndex(null);
+      setTooltipPosition(null);
+    }
   };
 
   const t = useTranslations("elysium");
   const statusConfigs = useMemo(
-    () => apartmentData.map((apt) => getStatusConfig(apt.property_status)),
+    () => apartmentData.map((apt) => getStatusConfig(apt.is_enabled)),
     [apartmentData]
   );
 
@@ -174,7 +214,7 @@ export default function FloorPlanPage({
   }
 
   return (
-    <div className="w-full overflow-y-hidden h-screen flex flex-col xl:flex-row  xl:justify-center xl:items-center xl:gap-6 xl:px-6 pt-20 xl:pt-24 overflow-hidden">
+    <div className="w-full overflow-y-hidden h-screen flex flex-col xl:flex-row xl:justify-center xl:items-center xl:gap-6 xl:px-6 pt-20 xl:pt-24 overflow-hidden">
       <FloorSelector
         floors={FLOORS}
         currentFloor={currentFloor}
@@ -190,15 +230,18 @@ export default function FloorPlanPage({
         }
         onClose={() => setSelectedApartment(null)}
       />
-      <ApartmentTooltip
-        apartment={hoveredIndex !== null ? apartmentData[hoveredIndex] : null}
-        statusConfig={
-          hoveredIndex !== null ? statusConfigs[hoveredIndex] : null
-        }
-        position={tooltipPosition}
-      />
+      {/* Only show tooltip on desktop */}
+      {!isMobile && (
+        <ApartmentTooltip
+          apartment={hoveredIndex !== null ? apartmentData[hoveredIndex] : null}
+          statusConfig={
+            hoveredIndex !== null ? statusConfigs[hoveredIndex] : null
+          }
+          position={tooltipPosition}
+        />
+      )}
       <div className="relative flex-1 w-full h-full flex items-center justify-start xl:justify-center xl:p-0 mb-5 sm:mb-10 xl:mb-0 overflow-x-auto overflow-y-hidden xl:overflow-hidden">
-        <div className="relative w-full h-full min-w-[1100px]  xl:min-w-7xl flex items-center justify-center">
+        <div className="relative w-full h-full min-w-[1100px] xl:min-w-7xl flex items-center justify-center">
           <Image
             src="/images/elisium/Gegma.png"
             alt="Building"
@@ -213,8 +256,9 @@ export default function FloorPlanPage({
             hoveredIndex={hoveredIndex}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            onApartmentClick={setSelectedApartment}
+            onApartmentClick={handleApartmentClick}
             pathRefs={pathRefs}
+            isMobile={isMobile}
           />
         </div>
       </div>

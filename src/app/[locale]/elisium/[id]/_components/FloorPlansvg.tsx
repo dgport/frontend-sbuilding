@@ -28,6 +28,7 @@ interface FloorPlanSvgProps {
   onMouseLeave: () => void;
   onApartmentClick: (index: number) => void;
   pathRefs: React.MutableRefObject<(SVGPathElement | null)[]>;
+  isMobile: boolean; // Add this
 }
 
 export function FloorPlanSvg({
@@ -39,6 +40,7 @@ export function FloorPlanSvg({
   onMouseLeave,
   onApartmentClick,
   pathRefs,
+  isMobile, // Add this
 }: FloorPlanSvgProps) {
   return (
     <svg
@@ -66,6 +68,7 @@ export function FloorPlanSvg({
             onPathRef={(el) => {
               pathRefs.current[i] = el;
             }}
+            isMobile={isMobile}
           />
         );
       })}
