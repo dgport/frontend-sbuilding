@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 interface ApartmentData {
   name: string;
   size: string | number;
-  balcony: string | number;
+  balcony_size: string | number;
   bedrooms: string | number;
   bathrooms: string | number;
   sale_price: string | number;
@@ -71,7 +71,7 @@ export function ApartmentTooltip({
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">{t("balcony")}:</span>
-            <span className="font-semibold">{apartment.balcony} m²</span>
+            <span className="font-semibold">{apartment.balcony_size} m²</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">{t("bedrooms")}:</span>

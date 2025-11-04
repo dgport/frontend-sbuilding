@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +14,7 @@ interface ApartmentData {
   name: string;
   floor: string | number;
   size: string | number;
-  balcony: string | number;
+  balcony_size: string | number;
   bedrooms: string | number;
   bathrooms: string | number;
   sale_price: string | number;
@@ -58,7 +58,7 @@ export function ApartmentModal({
   const [result, setResult] = useState("");
   const t = useTranslations("elysium");
 
-  React.useEffect(() => {
+  useEffect(() => {
     setImageError(false);
     setImageLoading(true);
     setShowContactForm(false);
@@ -69,6 +69,7 @@ export function ApartmentModal({
   if (!apartment || !statusConfig) return null;
 
   const imageSrc = `${process.env.NEXT_PUBLIC_IMAGE}/${apartment.id}`;
+  const totalPrice = Number(apartment.size) * Number(apartment.sale_price);
 
   const handleContactSubmit = async (
     e: React.MouseEvent<HTMLButtonElement>
@@ -88,9 +89,7 @@ export function ApartmentModal({
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
       const response = await fetch(`${apiUrl}/leads`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(leadData),
       });
 
@@ -114,17 +113,11 @@ export function ApartmentModal({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePhoneChange = (value: string | undefined) => {
-    setFormData((prev) => ({
-      ...prev,
-      phone: value || "",
-    }));
+    setFormData((prev) => ({ ...prev, phone: value || "" }));
   };
 
   return (
@@ -138,6 +131,7 @@ export function ApartmentModal({
       >
         {!showContactForm ? (
           <div className="gap-10 p-5 flex flex-col lg:flex-row overflow-y-auto">
+            {/* Image */}
             <div className="relative w-full bg-gray-100 flex items-center justify-center overflow-hidden rounded-lg aspect-[1280/853]">
               {imageLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
@@ -171,6 +165,7 @@ export function ApartmentModal({
               )}
             </div>
 
+            {/* Info */}
             <div className="w-full lg:w-1/4 p-1 flex flex-col">
               <div
                 className="rounded-lg p-2 mb-3 sm:mb-4"
@@ -183,58 +178,74 @@ export function ApartmentModal({
               </div>
 
               <div className="space-y-2 sm:space-y-3 flex-1">
+                {/* Apartment details */}
                 {[
-                  { label: t("totalArea"), value: `${apartment.size} m²` },
+                  {
+                    label: t("totalArea"),
+                    value: `${apartment.size} m²`,
+                    show: apartment.size && Number(apartment.size) !== 0,
+                  },
                   {
                     label: t("balcony"),
-                    value: `${apartment.balcony || 0}  m²`,
+                    value: `${apartment.balcony_size} m²`,
+                    show:
+                      apartment.balcony_size &&
+                      Number(apartment.balcony_size) !== 0,
                   },
-                  { label: t("bedrooms"), value: apartment.bedrooms },
+                  {
+                    label: t("bedrooms"),
+                    value: apartment.bedrooms,
+                    show:
+                      apartment.bedrooms && Number(apartment.bedrooms) !== 0,
+                  },
                   {
                     label: t("pricePerSqm"),
-                    value: `$${apartment.sale_price}`,
+                    value: `${apartment.sale_price}`,
+                    show:
+                      apartment.sale_price &&
+                      Number(apartment.sale_price) !== 0,
                   },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex justify-between items-center py-1.5 sm:py-2 border-b"
-                  >
+                ]
+                  .filter((item) => item.show)
+                  .map((item) => (
+                    <div
+                      key={item.label}
+                      className="flex justify-between items-center py-1.5 sm:py-2 border-b"
+                    >
+                      <span className="text-gray-600 text-sm font-semibold">
+                        {item.label}
+                      </span>
+                      <span
+                        className="text-base sm:text-lg font-bold"
+                        style={{ color: statusConfig.color }}
+                      >
+                        {item.value}
+                      </span>
+                    </div>
+                  ))}
+
+                {/* Total price (conditionally rendered) */}
+                {totalPrice > 0 && (
+                  <div className="flex justify-between items-center py-2 sm:py-3">
                     <span className="text-gray-600 text-sm font-semibold">
-                      {item.label}
+                      {t("totalPrice")}
                     </span>
                     <span
-                      className="text-base sm:text-lg font-bold"
+                      className="text-lg sm:text-xl font-bold"
                       style={{ color: statusConfig.color }}
                     >
-                      {item.value}
+                      ${totalPrice.toLocaleString()}
                     </span>
                   </div>
-                ))}
-
-                <div className="flex justify-between items-center py-2 sm:py-3">
-                  <span className="text-gray-600 text-sm font-semibold">
-                    {t("totalPrice")}
-                  </span>
-                  <span
-                    className="text-lg sm:text-xl font-bold"
-                    style={{ color: statusConfig.color }}
-                  >
-                    $
-                    {(
-                      Number(apartment.size) * Number(apartment.sale_price)
-                    ).toLocaleString()}
-                  </span>
-                </div>
+                )}
               </div>
 
+              {/* Buttons */}
               <div className="space-y-2 mt-3">
                 <Button
                   onClick={() => setShowContactForm(true)}
                   className="w-full cursor-pointer text-white font-bold py-2 rounded-lg transition-colors"
-                  style={{
-                    backgroundColor: statusConfig.color,
-                    opacity: 1,
-                  }}
+                  style={{ backgroundColor: statusConfig.color, opacity: 1 }}
                   onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
                   onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                 >
@@ -251,6 +262,7 @@ export function ApartmentModal({
             </div>
           </div>
         ) : (
+          /* Contact Form */
           <div className="p-6 overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3
@@ -269,50 +281,44 @@ export function ApartmentModal({
             </div>
 
             <div className="space-y-4">
-              <div>
-                <Input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder={t("fullName") || "Full Name *"}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50"
-                  style={
-                    {
-                      ["--tw-ring-color" as any]: statusConfig.color,
-                    } as React.CSSProperties
-                  }
-                />
-              </div>
+              <Input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder={t("fullName") || "Full Name *"}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                style={
+                  {
+                    ["--tw-ring-color" as any]: statusConfig.color,
+                  } as React.CSSProperties
+                }
+              />
 
-              <div>
-                <PhoneInput
-                  international
-                  defaultCountry="GE"
-                  value={formData.phone}
-                  onChange={handlePhoneChange}
-                  placeholder={t("phoneNumber") || "Phone Number *"}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus-within:ring-2 focus-within:ring-opacity-50 phone-input-custom"
-                  style={
-                    {
-                      ["--PhoneInputCountryFlag-borderColor" as any]:
-                        statusConfig.color,
-                    } as React.CSSProperties
-                  }
-                />
-              </div>
+              <PhoneInput
+                international
+                defaultCountry="GE"
+                value={formData.phone}
+                onChange={handlePhoneChange}
+                placeholder={t("phoneNumber") || "Phone Number *"}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus-within:ring-2 focus-within:ring-opacity-50 phone-input-custom"
+                style={
+                  {
+                    ["--PhoneInputCountryFlag-borderColor" as any]:
+                      statusConfig.color,
+                  } as React.CSSProperties
+                }
+              />
 
-              <div>
-                <Input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder={t("email") || "Email (optional)"}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50"
-                />
-              </div>
+              <Input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder={t("email") || "Email (optional)"}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50"
+              />
 
               {result && (
                 <div

@@ -66,5 +66,7 @@
   "onFloor": "on Floor",
   "contactMeMore": "Please contact me with more information.",
   "additionalMessage": "Additional message (optional)",
-  "additionalNotes": "Additional Notes"
+  "additionalNotes": "Additional Notes",
+  "fullName": "Full Name",
+  "email": "Email (Optional)"
 }

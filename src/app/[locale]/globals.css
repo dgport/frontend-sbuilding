@@ -193,3 +193,8 @@
 .animate-fadeIn {
   animation: fadeIn 1s ease-out forwards;
 }
+
+.PhoneInputInput:focus {
+  outline: none;
+  border: none;
+}
