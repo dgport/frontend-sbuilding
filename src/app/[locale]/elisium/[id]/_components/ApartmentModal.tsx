@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 interface ApartmentData {
   id: string | number;
@@ -31,21 +33,15 @@ interface ApartmentModalProps {
 }
 
 interface ContactFormData {
-  firstName: string;
-  lastName: string;
+  name: string;
   phone: string;
   email: string;
-  message: string;
-  additionalMessage: string;
 }
 
 const INITIAL_CONTACT_FORM: ContactFormData = {
-  firstName: "",
-  lastName: "",
+  name: "",
   phone: "",
   email: "",
-  message: "",
-  additionalMessage: "",
 };
 
 export function ApartmentModal({
@@ -67,19 +63,7 @@ export function ApartmentModal({
     setImageLoading(true);
     setShowContactForm(false);
     setResult("");
-
-    // Pre-fill message with apartment details when apartment changes
-    if (apartment) {
-      const prefilledMessage = `${t("interestedIn")} ${apartment.name} ${t(
-        "onFloor"
-      )} ${apartment.floor}. ${t("contactMeMore")}`;
-
-      setFormData((prev) => ({
-        ...prev,
-        message: prefilledMessage,
-        additionalMessage: "",
-      }));
-    }
+    setFormData(INITIAL_CONTACT_FORM);
   }, [apartment?.id]);
 
   if (!apartment || !statusConfig) return null;
@@ -93,46 +77,28 @@ export function ApartmentModal({
     setLoading(true);
     setResult("Sending....");
 
-    const fullMessage = formData.additionalMessage
-      ? `${formData.message}\n\n${t("additionalNotes")}:\n${
-          formData.additionalMessage
-        }`
-      : formData.message;
-
-    const formDataToSend = new FormData();
-    formDataToSend.append("firstName", formData.firstName);
-    formDataToSend.append("lastName", formData.lastName);
-    formDataToSend.append("phone", formData.phone);
-    formDataToSend.append("message", fullMessage);
-    formDataToSend.append("subject", `Inquiry for Apartment ${apartment.name}`);
-
-    if (process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY) {
-      formDataToSend.append(
-        "access_key",
-        process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
-      );
-    } else {
-      setResult(
-        "Access key is not defined. Please check your environment variables."
-      );
-      setLoading(false);
-      return;
-    }
+    const leadData = {
+      name: formData.name,
+      email: formData.email || undefined,
+      phone: formData.phone,
+      apartment_name: apartment.name,
+    };
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+      const response = await fetch(`${apiUrl}/leads`, {
         method: "POST",
-        body: formDataToSend,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(leadData),
       });
 
       const data = await response.json();
 
       if (data.success) {
         setResult("Message sent successfully! We'll contact you soon.");
-        setFormData({
-          ...INITIAL_CONTACT_FORM,
-          message: formData.message,  
-        });
+        setFormData(INITIAL_CONTACT_FORM);
       } else {
         setResult(data.message || "Something went wrong. Please try again.");
       }
@@ -151,6 +117,13 @@ export function ApartmentModal({
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handlePhoneChange = (value: string | undefined) => {
+    setFormData((prev) => ({
+      ...prev,
+      phone: value || "",
     }));
   };
 
@@ -296,65 +269,49 @@ export function ApartmentModal({
             </div>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    placeholder={t("firstName") || "First Name *"}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50"
-                    style={
-                      {
-                        ["--tw-ring-color" as any]: statusConfig.color,
-                      } as React.CSSProperties
-                    }
-                  />
-                </div>
-                <div>
-                  <Input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    placeholder={t("lastName") || "Last Name *"}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50"
-                  />
-                </div>
+              <div>
+                <Input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder={t("fullName") || "Full Name *"}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                  style={
+                    {
+                      ["--tw-ring-color" as any]: statusConfig.color,
+                    } as React.CSSProperties
+                  }
+                />
+              </div>
+
+              <div>
+                <PhoneInput
+                  international
+                  defaultCountry="GE"
+                  value={formData.phone}
+                  onChange={handlePhoneChange}
+                  placeholder={t("phoneNumber") || "Phone Number *"}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus-within:ring-2 focus-within:ring-opacity-50 phone-input-custom"
+                  style={
+                    {
+                      ["--PhoneInputCountryFlag-borderColor" as any]:
+                        statusConfig.color,
+                    } as React.CSSProperties
+                  }
+                />
               </div>
 
               <div>
                 <Input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
+                  type="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleInputChange}
-                  placeholder={t("phoneNumber") || "Phone Number *"}
-                  required
+                  placeholder={t("email") || "Email (optional)"}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50"
                 />
-              </div>
-
-              <div>
-                <textarea
-                  name="additionalMessage"
-                  value={formData.additionalMessage}
-                  onChange={handleInputChange}
-                  placeholder={
-                    t("additionalMessage") || "Additional message (optional)"
-                  }
-                  rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 resize-none"
-                />
-              </div>
-
-              <div>
-                <div className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50">
-                  <p className="text-sm text-gray-700">{formData.message}</p>
-                </div>
               </div>
 
               {result && (
