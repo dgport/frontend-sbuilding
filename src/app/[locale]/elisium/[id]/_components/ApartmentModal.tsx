@@ -19,6 +19,7 @@ interface ApartmentData {
   bathrooms: string | number;
   sale_price: string | number;
   property_status: string;
+  is_enabled: string | number; // Added this field
 }
 
 interface StatusConfig {
@@ -67,6 +68,9 @@ export function ApartmentModal({
   }, [apartment?.id]);
 
   if (!apartment || !statusConfig) return null;
+
+  // Check if apartment is sold (status 2)
+  const isSold = String(apartment.is_enabled) === "2";
 
   const imageSrc = `${process.env.NEXT_PUBLIC_IMAGE}/${apartment.id}`;
   const totalPrice = Number(apartment.size) * Number(apartment.sale_price);
@@ -242,15 +246,20 @@ export function ApartmentModal({
 
               {/* Buttons */}
               <div className="space-y-2 mt-3">
-                <Button
-                  onClick={() => setShowContactForm(true)}
-                  className="w-full cursor-pointer text-white font-bold py-2 rounded-lg transition-colors"
-                  style={{ backgroundColor: statusConfig.color, opacity: 1 }}
-                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
-                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-                >
-                  {t("leaveQuery") || "Leave Query"}
-                </Button>
+                {/* Only show "Leave Query" button if apartment is available (not sold) */}
+                {!isSold && (
+                  <Button
+                    onClick={() => setShowContactForm(true)}
+                    className="w-full cursor-pointer text-white font-bold py-2 rounded-lg transition-colors"
+                    style={{ backgroundColor: statusConfig.color, opacity: 1 }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.opacity = "0.9")
+                    }
+                    onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                  >
+                    {t("leaveQuery") || "Leave Query"}
+                  </Button>
+                )}
 
                 <Button
                   onClick={onClose}

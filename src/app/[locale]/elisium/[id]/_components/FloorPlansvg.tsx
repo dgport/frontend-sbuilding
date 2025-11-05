@@ -29,6 +29,7 @@ interface FloorPlanSvgProps {
   onApartmentClick: (index: number) => void;
   pathRefs: React.MutableRefObject<(SVGPathElement | null)[]>;
   isMobile: boolean; // Add this
+  floorPlanImage: string;
 }
 
 export function FloorPlanSvg({
@@ -40,7 +41,8 @@ export function FloorPlanSvg({
   onMouseLeave,
   onApartmentClick,
   pathRefs,
-  isMobile, // Add this
+  isMobile,
+  floorPlanImage, // Add this prop
 }: FloorPlanSvgProps) {
   return (
     <svg
@@ -49,7 +51,7 @@ export function FloorPlanSvg({
       preserveAspectRatio="xMidYMid meet"
       style={{ contain: "layout paint" }}
     >
-      <SvgDefinitions />
+      <SvgDefinitions floorPlanImage={floorPlanImage} />
 
       {paths.map((pathData, i) => {
         const apt = apartmentData[i];

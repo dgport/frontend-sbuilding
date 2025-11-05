@@ -9,6 +9,7 @@ import { ApartmentTooltip } from "./_components/ApartmentTooltip";
 import { FloorPlanSvg } from "./_components/FloorPlansvg";
 import Image from "next/image";
 import pathsData from "@/app/[locale]/elisium/_components/paths.json";
+import pathsFloor2Data from "@/app/[locale]/elisium/_components/paths-floor2.json";
 import { useTranslations } from "next-intl";
 
 const FLOORS = Array.from({ length: 22 }, (_, i) => i + 2);
@@ -18,8 +19,8 @@ export default function FloorPlanPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const [apartmentData, setApartmentData] = useState<any[]>([]);
-  const [paths] = useState<string[]>(pathsData);
+  const [allFloorsData, setAllFloorsData] = useState<Record<number, any[]>>({});
+  const [paths, setPaths] = useState<string[]>(pathsData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -30,12 +31,36 @@ export default function FloorPlanPage({
 
   const [propertyId, setPropertyId] = useState<string | null>(null);
   const [currentFloor, setCurrentFloor] = useState<number>(3);
+
+  // Get current floor's apartment data
+  const apartmentData = useMemo(() => {
+    return allFloorsData[currentFloor] || [];
+  }, [allFloorsData, currentFloor]);
   const [tooltipPosition, setTooltipPosition] = useState<{
     x: number;
     y: number;
   } | null>(null);
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
   const router = useRouter();
+
+  // Get floor plan image and paths based on current floor
+  const floorPlanImage = useMemo(() => {
+    return currentFloor === 2
+      ? "/images/elisium/Gegma2.png"
+      : "/images/elisium/Gegma.png";
+  }, [currentFloor]);
+
+  // Update paths when floor changes with smooth transition
+  useEffect(() => {
+    const newPaths = currentFloor === 2 ? pathsFloor2Data : pathsData;
+
+    // Add a small delay for smooth transition effect
+    const timer = setTimeout(() => {
+      setPaths(newPaths);
+    }, 150);
+
+    return () => clearTimeout(timer);
+  }, [currentFloor]);
 
   // Detect mobile devices
   useEffect(() => {
@@ -52,21 +77,34 @@ export default function FloorPlanPage({
   useEffect(() => {
     params.then((resolvedParams) => {
       const floorId = Number.parseInt(resolvedParams.id);
-      setPropertyId(resolvedParams.id);
       setCurrentFloor(floorId);
+
+      // Don't set propertyId if we already have it
+      if (!propertyId) {
+        setPropertyId(resolvedParams.id);
+      }
     });
-  }, [params]);
+  }, [params, propertyId]);
 
   useEffect(() => {
     if (!propertyId) return;
 
-    const fetchApartments = async () => {
+    // Check if we already have data for the current floor
+    if (allFloorsData[currentFloor]) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchFloorData = async () => {
       try {
-        setLoading(true);
+        // Only show loading on first load
+        if (Object.keys(allFloorsData).length === 0) {
+          setLoading(true);
+        }
         setError(null);
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/property/${propertyId}`
+          `${process.env.NEXT_PUBLIC_API_URL}/property/${currentFloor}`
         );
 
         if (!response.ok) {
@@ -90,7 +128,11 @@ export default function FloorPlanPage({
             item.name
         );
 
-        setApartmentData(apartments);
+        // Update the state with new floor data
+        setAllFloorsData((prev) => ({
+          ...prev,
+          [currentFloor]: apartments,
+        }));
       } catch (err) {
         console.error("Error fetching apartments:", err);
         setError(err instanceof Error ? err.message : "An error occurred");
@@ -99,12 +141,14 @@ export default function FloorPlanPage({
       }
     };
 
-    fetchApartments();
-  }, [propertyId]);
+    fetchFloorData();
+  }, [propertyId, currentFloor]);
 
   const handleFloorChange = (floor: number) => {
+    // Just update the floor state, don't navigate
     setCurrentFloor(floor);
-    router.push(`/elisium/${floor}`);
+    // Update URL without reloading
+    window.history.pushState({}, "", `/elisium/${floor}`);
   };
 
   const getStatusConfig = (status: string | number) => {
@@ -135,8 +179,11 @@ export default function FloorPlanPage({
   };
 
   const handleMouseMove = (e: React.MouseEvent, index: number) => {
-    // Only show tooltip on desktop
-    if (!isMobile) {
+    // Only show tooltip on desktop and only for available apartments
+    const apartment = apartmentData[index];
+    const isSold = apartment && String(apartment.is_enabled) === "2";
+
+    if (!isMobile && !isSold) {
       setTooltipPosition({
         x: e.clientX,
         y: e.clientY,
@@ -154,6 +201,15 @@ export default function FloorPlanPage({
   };
 
   const handleApartmentClick = (index: number) => {
+    // Check if apartment is sold (status 2)
+    const apartment = apartmentData[index];
+    const isSold = apartment && String(apartment.is_enabled) === "2";
+
+    // If apartment is sold, don't open the modal
+    if (isSold) {
+      return;
+    }
+
     // On mobile, go straight to modal
     // On desktop, also open modal (after showing tooltip)
     setSelectedApartment(index);
@@ -242,13 +298,32 @@ export default function FloorPlanPage({
       )}
       <div className="relative flex-1 w-full h-full flex items-center justify-start xl:justify-center xl:p-0 mb-5 sm:mb-10 xl:mb-0 overflow-x-auto overflow-y-hidden xl:overflow-hidden">
         <div className="relative w-full h-full min-w-[1100px] xl:min-w-7xl flex items-center justify-center">
+          {/* Default floor plan - always visible */}
           <Image
             src="/images/elisium/Gegma.png"
             alt="Building"
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain absolute inset-0"
+            style={{
+              opacity: currentFloor === 2 ? 0 : 1,
+              transition: "opacity 0.3s ease-in-out",
+            }}
             width={1200}
             height={800}
           />
+
+          {/* Floor 2 plan - fades in/out */}
+          <Image
+            src="/images/elisium/Gegma2.png"
+            alt="Building Floor 2"
+            className="w-full h-full object-contain absolute inset-0"
+            style={{
+              opacity: currentFloor === 2 ? 1 : 0,
+              transition: "opacity 0.3s ease-in-out",
+            }}
+            width={1200}
+            height={800}
+          />
+
           <FloorPlanSvg
             paths={paths}
             apartmentData={apartmentData}
@@ -259,6 +334,7 @@ export default function FloorPlanPage({
             onApartmentClick={handleApartmentClick}
             pathRefs={pathRefs}
             isMobile={isMobile}
+            floorPlanImage={floorPlanImage}
           />
         </div>
       </div>

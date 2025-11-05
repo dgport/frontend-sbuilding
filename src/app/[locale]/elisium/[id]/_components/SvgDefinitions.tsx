@@ -1,6 +1,10 @@
 import type React from "react";
 
-export function SvgDefinitions() {
+interface SvgDefinitionsProps {
+  floorPlanImage: string;
+}
+
+export function SvgDefinitions({ floorPlanImage }: SvgDefinitionsProps) {
   return (
     <defs>
       {/* Background image pattern for clipping */}
@@ -13,7 +17,7 @@ export function SvgDefinitions() {
         patternUnits="userSpaceOnUse"
       >
         <image
-          href="/images/elisium/Gegma.png"
+          href={floorPlanImage}
           x="0"
           y="0"
           width="1280"
