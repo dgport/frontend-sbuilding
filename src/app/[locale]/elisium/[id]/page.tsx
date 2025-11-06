@@ -46,8 +46,8 @@ export default function FloorPlanPage({
   // Get floor plan image and paths based on current floor
   const floorPlanImage = useMemo(() => {
     return currentFloor === 2
-      ? "/images/elisium/Gegma2.png"
-      : "/images/elisium/Gegma.png";
+      ? "/images/elisium/Gegma2.avif"
+      : "/images/elisium/Gegma.avif";
   }, [currentFloor]);
 
   // Update paths when floor changes with smooth transition
@@ -300,7 +300,7 @@ export default function FloorPlanPage({
         <div className="relative w-full h-full min-w-[1100px] xl:min-w-7xl flex items-center justify-center">
           {/* Default floor plan - always visible */}
           <Image
-            src="/images/elisium/Gegma.png"
+            src="/images/elisium/Gegma.avif"
             alt="Building"
             className="w-full h-full object-contain absolute inset-0"
             style={{
@@ -313,7 +313,7 @@ export default function FloorPlanPage({
 
           {/* Floor 2 plan - fades in/out */}
           <Image
-            src="/images/elisium/Gegma2.png"
+            src="/images/elisium/Gegma2.avif"
             alt="Building Floor 2"
             className="w-full h-full object-contain absolute inset-0"
             style={{
