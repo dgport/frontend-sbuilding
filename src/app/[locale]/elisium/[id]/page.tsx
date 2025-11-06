@@ -19,6 +19,7 @@ export default function FloorPlanPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  // Store ALL apartments data grouped by floor
   const [allFloorsData, setAllFloorsData] = useState<Record<number, any[]>>({});
   const [paths, setPaths] = useState<string[]>(pathsData);
   const [loading, setLoading] = useState(true);
@@ -28,14 +29,25 @@ export default function FloorPlanPage({
     null
   );
   const [isMobile, setIsMobile] = useState(false);
-
-  const [propertyId, setPropertyId] = useState<string | null>(null);
   const [currentFloor, setCurrentFloor] = useState<number>(3);
 
-  // Get current floor's apartment data
+  // Get current floor's apartment data with safety check
   const apartmentData = useMemo(() => {
-    return allFloorsData[currentFloor] || [];
+    const floorData = allFloorsData[currentFloor] || [];
+
+    // Ensure we have the right number of apartments for the paths
+    const expectedCount =
+      currentFloor === 2 ? pathsFloor2Data.length : pathsData.length;
+
+    if (floorData.length !== expectedCount) {
+      console.warn(
+        `Apartment count mismatch: Expected ${expectedCount}, got ${floorData.length} for floor ${currentFloor}`
+      );
+    }
+
+    return floorData;
   }, [allFloorsData, currentFloor]);
+
   const [tooltipPosition, setTooltipPosition] = useState<{
     x: number;
     y: number;
@@ -50,61 +62,44 @@ export default function FloorPlanPage({
       : "/images/elisium/Gegma.avif";
   }, [currentFloor]);
 
-  // Update paths when floor changes with smooth transition
+  // Use image path as key to force re-render when image changes
+  const renderKey = useMemo(() => {
+    return currentFloor === 2 ? "floor2-image" : "default-image";
+  }, [currentFloor]);
+
+  // Update paths when floor changes
   useEffect(() => {
     const newPaths = currentFloor === 2 ? pathsFloor2Data : pathsData;
-
-    // Add a small delay for smooth transition effect
-    const timer = setTimeout(() => {
-      setPaths(newPaths);
-    }, 150);
-
-    return () => clearTimeout(timer);
+    setPaths(newPaths);
   }, [currentFloor]);
 
   // Detect mobile devices
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1280); // xl breakpoint
+      setIsMobile(window.innerWidth < 1280);
     };
-
     checkMobile();
     window.addEventListener("resize", checkMobile);
-
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Set initial floor from params
   useEffect(() => {
     params.then((resolvedParams) => {
       const floorId = Number.parseInt(resolvedParams.id);
       setCurrentFloor(floorId);
-
-      // Don't set propertyId if we already have it
-      if (!propertyId) {
-        setPropertyId(resolvedParams.id);
-      }
     });
-  }, [params, propertyId]);
+  }, [params]);
 
+  // Fetch ALL apartments data ONCE on mount
   useEffect(() => {
-    if (!propertyId) return;
-
-    // Check if we already have data for the current floor
-    if (allFloorsData[currentFloor]) {
-      setLoading(false);
-      return;
-    }
-
-    const fetchFloorData = async () => {
+    const fetchAllData = async () => {
       try {
-        // Only show loading on first load
-        if (Object.keys(allFloorsData).length === 0) {
-          setLoading(true);
-        }
+        setLoading(true);
         setError(null);
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/property/${currentFloor}`
+          `${process.env.NEXT_PUBLIC_API_URL}/property`
         );
 
         if (!response.ok) {
@@ -128,11 +123,48 @@ export default function FloorPlanPage({
             item.name
         );
 
-        // Update the state with new floor data
-        setAllFloorsData((prev) => ({
-          ...prev,
-          [currentFloor]: apartments,
-        }));
+        // Log the first apartment to see its structure
+        console.log("Sample apartment data:", apartments[0]);
+
+        // Group apartments by floor
+        const groupedByFloor: Record<number, any[]> = {};
+
+        apartments.forEach((apt: any) => {
+          // Try different possible floor property names
+          const floor =
+            apt.floor || apt.floor_number || apt.level || apt.floor_id;
+
+          // If floor property doesn't exist, try to extract from apartment name
+          // For example: "301" -> floor 3, "1205" -> floor 12
+          let floorNum = floor;
+          if (!floorNum && apt.name) {
+            const match = apt.name.match(/^(\d{1,2})/);
+            if (match) {
+              floorNum = parseInt(match[1]);
+            }
+          }
+
+          if (floorNum) {
+            if (!groupedByFloor[floorNum]) {
+              groupedByFloor[floorNum] = [];
+            }
+            groupedByFloor[floorNum].push(apt);
+          }
+        });
+
+        // Sort apartments within each floor
+        Object.keys(groupedByFloor).forEach((floorKey) => {
+          groupedByFloor[Number(floorKey)].sort((a: any, b: any) => {
+            const numA = parseInt(a.name?.replace(/[^\d]/g, "") || "0", 10);
+            const numB = parseInt(b.name?.replace(/[^\d]/g, "") || "0", 10);
+            return numA - numB;
+          });
+        });
+
+        console.log("Grouped apartments by floor:", groupedByFloor);
+
+        // Store ALL grouped apartments
+        setAllFloorsData(groupedByFloor);
       } catch (err) {
         console.error("Error fetching apartments:", err);
         setError(err instanceof Error ? err.message : "An error occurred");
@@ -141,14 +173,21 @@ export default function FloorPlanPage({
       }
     };
 
-    fetchFloorData();
-  }, [propertyId, currentFloor]);
+    fetchAllData();
+  }, []); // Only run once on mount
 
   const handleFloorChange = (floor: number) => {
-    // Just update the floor state, don't navigate
-    setCurrentFloor(floor);
-    // Update URL without reloading
-    window.history.pushState({}, "", `/elisium/${floor}`);
+    const currentImage = currentFloor === 2 ? "gegma2" : "gegma";
+    const newImage = floor === 2 ? "gegma2" : "gegma";
+
+    // If image is changing, reload the page
+    if (currentImage !== newImage) {
+      window.location.href = `/elisium/${floor}`;
+    } else {
+      // Same image, just update state
+      setCurrentFloor(floor);
+      window.history.pushState({}, "", `/elisium/${floor}`);
+    }
   };
 
   const getStatusConfig = (status: string | number) => {
@@ -179,7 +218,6 @@ export default function FloorPlanPage({
   };
 
   const handleMouseMove = (e: React.MouseEvent, index: number) => {
-    // Only show tooltip on desktop and only for available apartments
     const apartment = apartmentData[index];
     const isSold = apartment && String(apartment.is_enabled) === "2";
 
@@ -193,7 +231,6 @@ export default function FloorPlanPage({
   };
 
   const handleMouseLeave = () => {
-    // Only clear hover state on desktop
     if (!isMobile) {
       setHoveredIndex(null);
       setTooltipPosition(null);
@@ -201,20 +238,15 @@ export default function FloorPlanPage({
   };
 
   const handleApartmentClick = (index: number) => {
-    // Check if apartment is sold (status 2)
     const apartment = apartmentData[index];
     const isSold = apartment && String(apartment.is_enabled) === "2";
 
-    // If apartment is sold, don't open the modal
     if (isSold) {
       return;
     }
 
-    // On mobile, go straight to modal
-    // On desktop, also open modal (after showing tooltip)
     setSelectedApartment(index);
 
-    // Clear hover state when modal opens
     if (!isMobile) {
       setHoveredIndex(null);
       setTooltipPosition(null);
@@ -286,7 +318,6 @@ export default function FloorPlanPage({
         }
         onClose={() => setSelectedApartment(null)}
       />
-      {/* Only show tooltip on desktop */}
       {!isMobile && (
         <ApartmentTooltip
           apartment={hoveredIndex !== null ? apartmentData[hoveredIndex] : null}
@@ -298,7 +329,6 @@ export default function FloorPlanPage({
       )}
       <div className="relative flex-1 w-full h-full flex items-center justify-start xl:justify-center xl:p-0 mb-5 sm:mb-10 xl:mb-0 overflow-x-auto overflow-y-hidden xl:overflow-hidden">
         <div className="relative w-full h-full min-w-[1100px] xl:min-w-7xl flex items-center justify-center">
-          {/* Default floor plan - always visible */}
           <Image
             src="/images/elisium/Gegma.avif"
             alt="Building"
@@ -311,7 +341,6 @@ export default function FloorPlanPage({
             height={800}
           />
 
-          {/* Floor 2 plan - fades in/out */}
           <Image
             src="/images/elisium/Gegma2.avif"
             alt="Building Floor 2"
@@ -335,6 +364,7 @@ export default function FloorPlanPage({
             pathRefs={pathRefs}
             isMobile={isMobile}
             floorPlanImage={floorPlanImage}
+            key={renderKey}
           />
         </div>
       </div>
