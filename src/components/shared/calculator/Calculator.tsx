@@ -7,9 +7,61 @@ import { useTranslations } from "next-intl";
 export default function PaymentCalculator() {
   const t = useTranslations("calculator");
   const [propertyValue, setPropertyValue] = useState(100000);
-  const [months, setMonths] = useState(24);
+  const [months, setMonths] = useState(48);
   const [downPaymentPercent, setDownPaymentPercent] = useState(20);
   const [downPaymentAmount, setDownPaymentAmount] = useState(20000);
+  const [lastDecreaseDate, setLastDecreaseDate] = useState<Date>(() => {
+    // Try to load from localStorage on mount
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("lastDecreaseDate");
+      return stored ? new Date(stored) : new Date();
+    }
+    return new Date();
+  });
+
+  // Auto-decrease months every real-world month
+  useEffect(() => {
+    const checkAndDecrease = () => {
+      const now = new Date();
+      const lastDate = new Date(lastDecreaseDate);
+
+      // Calculate if a month has passed
+      const monthsPassed =
+        (now.getFullYear() - lastDate.getFullYear()) * 12 +
+        (now.getMonth() - lastDate.getMonth());
+
+      if (monthsPassed >= 1 && months > 1) {
+        const newMonths = Math.max(1, months - monthsPassed);
+        setMonths(newMonths);
+        const newDate = new Date();
+        setLastDecreaseDate(newDate);
+
+        // Persist to localStorage
+        if (typeof window !== "undefined") {
+          localStorage.setItem("lastDecreaseDate", newDate.toISOString());
+          localStorage.setItem("months", newMonths.toString());
+        }
+      }
+    };
+
+    // Check immediately on mount
+    checkAndDecrease();
+
+    // Then check every hour
+    const interval = setInterval(checkAndDecrease, 60 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [lastDecreaseDate, months]);
+
+  // Load months from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedMonths = localStorage.getItem("months");
+      if (storedMonths) {
+        setMonths(parseInt(storedMonths, 10));
+      }
+    }
+  }, []);
 
   const calculations = useMemo(() => {
     const loanAmount = propertyValue - downPaymentAmount;
@@ -207,7 +259,7 @@ export default function PaymentCalculator() {
                       value={months}
                       onChange={(e) =>
                         setMonths(
-                          Math.max(1, Math.min(60, Number(e.target.value)))
+                          Math.max(1, Math.min(48, Number(e.target.value)))
                         )
                       }
                       className="w-12 bg-transparent text-gray-700 font-medium text-right text-sm focus:outline-none"
@@ -222,7 +274,7 @@ export default function PaymentCalculator() {
                     type="range"
                     value={months}
                     min="1"
-                    max="60"
+                    max="48"
                     step="1"
                     onChange={(e) => setMonths(Number(e.target.value))}
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
@@ -230,7 +282,7 @@ export default function PaymentCalculator() {
                 </div>
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
                   <span>1 {t("month")}</span>
-                  <span>60 {t("months")}</span>
+                  <span>48 {t("months")}</span>
                 </div>
               </div>
             </div>

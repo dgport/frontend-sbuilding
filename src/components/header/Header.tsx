@@ -4,7 +4,7 @@ import LocaleSwitcher from "@/i18n/LocaleSwitcher";
 import { Menu, X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import Logo from "@/root/public/images/SBuildingWhite.png";
+import Logo from "@/root/public/images/Logo.png";
 import Image from "next/image";
 
 export default function Header() {
@@ -120,12 +120,16 @@ export default function Header() {
                   onClick={handleLogoClick}
                   className="flex-shrink-0 focus:outline-none cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95"
                 >
-                  <Image
-                    src={Logo || "/placeholder.svg"}
-                    alt="SBUILDING Logo"
-                    className="w-28 h-auto"
-                    priority
-                  />
+                  <div className="bg-white rounded-lg p-1 shadow-lg">
+                    <Image
+                      src={Logo || "/placeholder.svg"}
+                      alt="SBUILDING Logo"
+                      width={42}
+                      height={42}
+                      className="w-[42px] h-[42px]"
+                      priority
+                    />
+                  </div>
                 </button>
 
                 <button
@@ -169,14 +173,24 @@ export default function Header() {
                     onClick={handleLogoClick}
                     className="cursor-pointer transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
                   >
-                    <Image
-                      src={Logo || "/placeholder.svg"}
-                      alt="SBUILDING Logo"
-                      className={`transition-all duration-500 ${
-                        scrolled || isSpecialPage ? "w-36" : "w-40"
+                    <div
+                      className={`bg-white rounded-lg shadow-xl transition-all duration-500 ${
+                        scrolled || isSpecialPage ? "p-1" : "p-1.5"
                       }`}
-                      priority
-                    />
+                    >
+                      <Image
+                        src={Logo || "/placeholder.svg"}
+                        alt="SBUILDING Logo"
+                        width={scrolled || isSpecialPage ? 48 : 60}
+                        height={scrolled || isSpecialPage ? 48 : 60}
+                        className={`transition-all duration-500 ${
+                          scrolled || isSpecialPage
+                            ? "w-12 h-12"
+                            : "w-[60px] h-[60px]"
+                        }`}
+                        priority
+                      />
+                    </div>
                   </button>
 
                   <nav className="flex items-center gap-6">
