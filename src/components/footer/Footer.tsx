@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Facebook, Instagram } from "../svg";
 import Image from "next/image";
-import Logo from "@/root/public/images/SBuildingWhite.png";
+import Logo from "@/root/public/images/Logo.png";
 import { usePathname } from "next/navigation"; // ✅ import this
 
 export default function Footer() {
@@ -55,11 +55,13 @@ export default function Footer() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                <Image
-                  src={Logo || "/placeholder.svg"}
-                  alt="SBUILDING Logo"
-                  className="w-40 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
-                />
+                <div className="bg-white rounded-lg p-1 shadow-lg">
+                  <Image
+                    src={Logo || "/placeholder.svg"}
+                    alt="SBUILDING Logo"
+                    className="w-20 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
+                  />
+                </div>
               </motion.div>
             </Link>
             <div className="flex space-x-3">
